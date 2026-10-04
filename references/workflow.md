@@ -1,6 +1,7 @@
 # Workflow: When & How to Record (folder form)
 
-This skill enforces a **fully traceable, append-only** revision history for any plan.
+This standard framework enforces a **fully traceable, append-only** revision history for
+any project that adopts it. (Not a CodeBuddy skill — it is an optional project standard.)
 
 ## 0. Locate or create the plan history
 
@@ -111,3 +112,33 @@ When the user asks a question during plan work:
 
 The verbatim Q&A lives in `questions/`; the history event provides the audit trail.
 **双录是强制的**：写 `questions/{n}.md` 与追加 `qna_recorded` 事件二者缺一不可——缺一不可视为漏记（会触发 Stop hook 强检）。
+
+## 8. Recording improvements (architecture 004 — `improvements/`)
+
+When an improvement idea is not yet actionable, file it instead of forcing it into the
+current plan:
+
+1. Write the proposal as `improvements/{zeroed_id}.md`.
+2. Append it:
+   ```bash
+   python scripts/append_history.py append --plan <plan_folder> --kind improvement \
+     --body i.md --title "<short title>" --priority 3 --status 1
+   ```
+   This writes the file, updates `improvement_index.json`, and regenerates
+   `improvement_TOC.md`.
+3. Rules:
+   - **Append-only**: never delete an improvement file.
+   - **Editable while `status < 3`** (Drafting / Recorded In Architect): edits must be
+     traced via a `plan_modified` history event pointing at the improvement file.
+   - **Frozen at `status = 3`** (Implemented): only a correction note may be appended
+     (also traced in history).
+   - `improvement_index.json` `brief` fields: `id`, `title`, `status`, `priority`,
+     `in_architecture` (which architecture doc absorbed it), `implemented_in` (which
+     standard version implemented it).
+
+## 9. Process rule — follow-ups are NEW questions (architecture 004 §6.2)
+
+A follow-up to an existing question **opens a NEW question** (e.g. `Q24`), it does NOT
+append a "补充追问" section under the original. This rule took effect at `v0.4`; prior
+appended follow-ups (e.g. in `questions/021.md`) are retained as historical records and
+not retro-edited.

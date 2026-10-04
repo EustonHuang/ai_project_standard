@@ -1,0 +1,48 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "执行 architecture/004.md（v0.4 项目规范框架化）步骤 3/4/5：SKILL.md→README.md 并同步内部引用；新增 improvements 栏目（improvements/ + improvement_index.json + improvement_TOC.md）并扩展 append_history.py（--kind improvement、gen-toc --kind improvement、audit/rebuild-index 一致性校验）；为 architecture/004.md 补 version: v0.4 / breaking: true 头部与 §10 执行记录；更新 architecture_index.json（implemented_version=4）与 architecture_TOC.md。"
+  },
+  "source": {
+    "user_prompt": "请了解 plan-history-recorder 架构并执行 architecture/004.md 计划",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "afb5edb0ab534de0bf67b0e264383509"
+  },
+  "operation": {
+    "target_files": [
+      "README.md",
+      "references/workflow.md",
+      "references/history_schema.md",
+      "scripts/append_history.py",
+      "improvements/improvement_index.json",
+      "improvements/improvement_TOC.md",
+      "architecture/004.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ],
+    "change_summary": "执行 004 v0.4：README 改名+引用同步；improvements 栏目与脚本扩展；004 版本头与根索引 implemented=4。",
+    "sections_affected": [
+      "readme",
+      "references",
+      "scripts",
+      "improvements",
+      "architecture"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件覆盖 v0.4 执行步骤 3/4/5；步骤 2/6 由后续事件覆盖。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 40,
+  "recorded_at": "2026-10-04T22:46:57.379250+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "8243f9c7cc514bd6c06d8c940a4ac31176b199601e8799eaedc0ad17b1cab698",
+    "plan_md_line_count": 213,
+    "source_doc": "architecture/004.md"
+  }
+}

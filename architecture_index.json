@@ -1,11 +1,11 @@
 {
-  "implemented_version": 3,
+  "implemented_version": 4,
   "latest_version": 4,
-  "revision": 4,
-  "plan_id": "history_record_skill_plan",
-  "plan_title": "Plan History Recorder Skill",
+  "revision": 5,
+  "plan_id": "ai_project_standard",
+  "plan_title": "AI Project Standard Framework",
   "created_at": "2026-10-03T00:00:00+08:00",
-  "notes": "latest=4（architecture/004.md = 项目规范框架化 v0.4，defined 未执行）；v3 = Q11–Q14 改进目标（删 *_meta.json、删 plan_001/002、TOC 扩展四类 + gen-toc + show 尾部窗口）；v4 = Q21–Q23 讨论汇总（skill→项目规范框架、独立 git/GitHub 仓库、install/update/check skills、improvements 栏目、README 改名、双版本轴）。",
+  "notes": "v4 = architecture/004.md（项目规范框架化 v0.4，已于 2026-10-04 执行，implemented_version=4）。v4 相对 v3 为 breaking：存储位置迁至独立仓库 ai_project_standard、SKILL.md→README.md、新增 improvements 栏目与 install/update/check 内置 skills、turn_gate 增加 PLAN_HISTORY_ROOT、双版本轴分离。v3 = Q11–Q14 改进目标（删 *_meta.json、删 plan_001/002、TOC 扩展四类 + gen-toc + show 尾部窗口）。框架自身 standard_version=v0.4（dogfooding）。",
   "versions": [
     {
       "version": 1,

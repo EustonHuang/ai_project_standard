@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/turn_gate.py\" begin",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "write_to_file|replace_in_file|delete_file|Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/turn_gate.py\" record",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/turn_gate.py\" end",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

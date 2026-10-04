@@ -1,0 +1,44 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "执行 architecture/004.md（v0.4）步骤 2/6：实现内置 skills install/update/check（scripts/standard_ops.py + skills/{install,update,check}-standard/SKILL.md）；turn_gate.py 增加 PLAN_HISTORY_ROOT 环境变量支持（adopter 模式受管根=项目根）；框架仓库自举（dogfooding）：写 standard_version=v0.4 锁文件与 .codebuddy/settings.json hook（指向自身 scripts/turn_gate.py，PLAN_HISTORY_ROOT=仓库根）。"
+  },
+  "source": {
+    "user_prompt": "请了解 plan-history-recorder 架构并执行 architecture/004.md 计划",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "afb5edb0ab534de0bf67b0e264383509"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/turn_gate.py",
+      "scripts/standard_ops.py",
+      "skills/install-standard/SKILL.md",
+      "skills/update-standard/SKILL.md",
+      "skills/check-standard/SKILL.md",
+      "standard_version",
+      ".codebuddy/settings.json"
+    ],
+    "change_summary": "执行 004 v0.4：实现 install/update/check 内置 skills；turn_gate 增 PLAN_HISTORY_ROOT；仓库自举（standard_version + hook）。",
+    "sections_affected": [
+      "scripts",
+      "skills",
+      "dogfooding"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件覆盖 v0.4 执行步骤 2/6；与事件 #40 共同覆盖本轮全部 plan 文件改动。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 41,
+  "recorded_at": "2026-10-04T22:46:57.497928+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "8243f9c7cc514bd6c06d8c940a4ac31176b199601e8799eaedc0ad17b1cab698",
+    "plan_md_line_count": 213,
+    "source_doc": "architecture/004.md"
+  }
+}

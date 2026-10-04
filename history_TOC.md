@@ -43,3 +43,5 @@
 - [037 · qna_recorded · 2026-10-04T17:42:41](history/037.json) — 新建 Q22，记录框架仓库/技能/breaking-change 三项决策确认与 improvements 栏目、README 重命名、追问新建 question 三点新提议，并给出 architecture 004 落地细化。
 - [038 · qna_recorded · 2026-10-04T17:49:28](history/038.json) — 新建 Q23，记录用户对 Q22 三确认点的答复：版本号 v<major>.<minor>；improvements priority(1-5)/status(Drafting/Recorded In Architect/Implemented)；hook 模型=每采用方项目一份
 - [039 · plan_created · 2026-10-04T17:53:56](history/039.json) — 创建 architecture/004.md（项目规范框架化 v0.4），汇总 Q21–Q23：skill→元规范、独立 git/GitHub 仓库、install/update/check skills、breaking-change 类 semver、improvements
+- [040 · plan_modified · 2026-10-04T22:46:57](history/040.json) — 执行 004 v0.4：README 改名+引用同步；improvements 栏目与脚本扩展；004 版本头与根索引 implemented=4。
+- [041 · plan_modified · 2026-10-04T22:46:57](history/041.json) — 执行 004 v0.4：实现 install/update/check 内置 skills；turn_gate 增 PLAN_HISTORY_ROOT；仓库自举（standard_version + hook）。

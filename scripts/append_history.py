@@ -64,6 +64,7 @@ CATEGORY_DIR = {
     "questions": "questions",
     "issues": "issues",
     "architecture": "architecture",
+    "improvement": "improvements",
 }
 
 
@@ -267,6 +268,28 @@ def _regen_toc(plan, kind, max_entries=TOC_MAX_ENTRIES):
             lines.append("> 仅显示最近 %d 条；更早故障见 `issues/%s/description.json` 或 `issues_index.json`。"
                          % (max_entries, zeroed(idx.get("max_id", 0))))
         out = os.path.join(plan, "issues_TOC.md")
+    elif kind == "improvement":
+        idx = load_json(index_path(plan, "improvement")) or {}
+        lines = ["<!-- 自动生成，请勿手改；改动会被脚本覆盖 -->", "",
+                 "# Improvements — TOC", "",
+                 "> 由 `append_history.py gen-toc` 自动生成；每条改进正文见 `improvements/{id}.md`。", ""]
+        status_map = {1: "Drafting", 2: "Recorded In Architect", 3: "Implemented"}
+        briefs = sorted(idx.get("briefs", []), key=lambda x: x.get("id", 0), reverse=True)
+        truncated = len(briefs) > max_entries
+        briefs = briefs[:max_entries]
+        for b in reversed(briefs):
+            st = status_map.get(int(b.get("status", 1)), "Drafting")
+            pr = b.get("priority", 3)
+            arch = b.get("in_architecture")
+            flag = (" → %s" % arch) if arch else ""
+            lines.append("- [%s · P%d · %s](%s) — %s%s"
+                         % (zeroed(b.get("id", 0), 3), pr, st, b.get("file", ""),
+                            (b.get("title") or "")[:120], flag))
+        if truncated:
+            lines.append("")
+            lines.append("> 仅显示最近 %d 条；更早改进见 `improvements/%s.md` 或 `improvement_index.json`。"
+                         % (max_entries, zeroed(idx.get("max_id", 0))))
+        out = os.path.join(plan, "improvement_TOC.md")
     else:
         return
     with open(out, "w", encoding="utf-8") as f:
@@ -424,7 +447,7 @@ def raise_issue(plan, issue_type, description, intended=None, intended_name=None
 def cmd_init(args):
     plan = os.path.abspath(args.plan)
     os.makedirs(plan, exist_ok=True)
-    for kind in ("history", "questions", "issues", "architecture"):
+    for kind in ("history", "questions", "issues", "architecture", "improvement"):
         os.makedirs(cat_dir(plan, kind), exist_ok=True)
         ip = index_path(plan, kind)
         if not os.path.exists(ip):
@@ -435,6 +458,7 @@ def cmd_init(args):
         a_idx["plan_title"] = args.meta[1] if len(args.meta) > 1 else ""
         a_idx["created_at"] = now_iso()
         write_json(index_path(plan, "architecture"), a_idx)
+    _regen_toc(plan, "improvement")
     print("Initialized folder-form plan history at %s" % plan)
 
 
@@ -536,6 +560,38 @@ def cmd_append_questions(args, plan):
     print("Appended questions/%s.md (%s)" % (zeroed(next_id), args.question_ref or next_id))
 
 
+def cmd_append_improvement(args, plan):
+    idx_file = index_path(plan, "improvement")
+    idx = load_json(idx_file) or empty_index("improvement")
+    next_id = int(idx.get("max_id", 0)) + 1
+    target = os.path.join(cat_dir(plan, "improvement"), "%s.md" % zeroed(next_id))
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    with open(args.body, "r", encoding="utf-8") as f:
+        body = f.read()
+    if os.path.exists(target):
+        raise_issue(plan, "collision", "改进目标文件已存在。", intended=body,
+                    intended_name="intended_%s.md" % zeroed(next_id),
+                    existing=open(target).read(), existing_name="existing_%s.md" % zeroed(next_id))
+        sys.exit(1)
+    with open(target, "w", encoding="utf-8") as f:
+        f.write(body)
+    idx["briefs"] = [b for b in idx.get("briefs", []) if b.get("id") != next_id]
+    idx["briefs"].append({
+        "id": next_id,
+        "title": args.title or "(无标题)",
+        "status": int(args.status) if args.status is not None else 1,
+        "priority": int(args.priority) if args.priority is not None else 3,
+        "in_architecture": None,
+        "implemented_in": None,
+        "file": "improvements/%s.md" % zeroed(next_id),
+    })
+    idx["max_id"] = next_id
+    idx["revision"] = int(idx.get("revision", 0)) + 1
+    write_json(idx_file, idx)
+    _regen_toc(plan, "improvement")
+    print("Appended improvements/%s.md (%s)" % (zeroed(next_id), args.title or next_id))
+
+
 def cmd_append_issue(args, plan):
     desc = json.load(open(args.description, "r", encoding="utf-8"))
     issue_dir, num = allocate_issue_dir(plan)
@@ -568,6 +624,8 @@ def cmd_append(args):
         cmd_append_questions(args, plan)
     elif kind == "issue":
         cmd_append_issue(args, plan)
+    elif kind == "improvement":
+        cmd_append_improvement(args, plan)
     else:
         sys.exit("ERROR: unknown --kind %s" % kind)
 
@@ -665,6 +723,15 @@ def cmd_audit(args):
         if ids and max(ids) != int(iidx.get("max_id", 0)):
             problems.append("issues 索引 max_id 与实际不一致")
 
+    # improvement
+    impidx = load_json(index_path(plan, "improvement"))
+    if impidx is None:
+        problems.append("improvement_index.json 缺失")
+    else:
+        ids = _fs_ids(cat_dir(plan, "improvement"), r"^(\d+)\.md$")
+        if ids and max(ids) != int(impidx.get("max_id", 0)):
+            problems.append("improvement 索引 max_id 与实际不一致")
+
     # architecture
     aidx = load_json(index_path(plan, "architecture"))
     if aidx is None:
@@ -692,7 +759,7 @@ def cmd_audit(args):
         if os.path.exists(os.path.join(plan, legacy)):
             problems.append("遗留 %s（architecture 003 已删除，不应存在）" % legacy)
     # TOCs must exist
-    for kind in ("history", "questions", "issues", "architecture"):
+    for kind in ("history", "questions", "issues", "architecture", "improvement"):
         if not os.path.exists(os.path.join(plan, "%s_TOC.md" % kind)):
             problems.append("%s_TOC.md 缺失（应由 gen-toc 生成）" % kind)
 
@@ -743,12 +810,30 @@ def cmd_rebuild_index(args):
         write_json(index_path(plan, "issues"),
                    {"max_id": max(ids) if ids else 0, "revision": len(ids), "briefs": []})
         print("Rebuilt issues_index.json (%d issues)" % len(ids))
+    elif kind == "improvement":
+        idx = load_json(index_path(plan, "improvement")) or empty_index("improvement")
+        ids = _fs_ids(cat_dir(plan, "improvement"), r"^(\d+)\.md$")
+        briefs = []
+        for i in ids:
+            md = os.path.join(cat_dir(plan, "improvement"), "%s.md" % zeroed(i))
+            title = ""
+            try:
+                with open(md, "r", encoding="utf-8") as f:
+                    title = f.readline().strip().lstrip("#").strip()
+            except Exception:
+                pass
+            briefs.append({"id": i, "title": title, "status": 1, "priority": 3,
+                           "in_architecture": None, "implemented_in": None,
+                           "file": "improvements/%s.md" % zeroed(i)})
+        write_json(index_path(plan, "improvement"),
+                   {"max_id": max(ids) if ids else 0, "revision": len(ids), "briefs": briefs})
+        print("Rebuilt improvement_index.json (%d improvements)" % len(ids))
     _regen_toc(plan, kind)
 
 
 def cmd_gen_toc(args):
     plan = os.path.abspath(args.plan)
-    kinds = (["history", "questions", "issues", "architecture"]
+    kinds = (["history", "questions", "issues", "architecture", "improvement"]
              if args.kind == "all" else [args.kind])
     for k in kinds:
         _regen_toc(plan, k)
@@ -860,12 +945,16 @@ def main():
 
     pa = sub.add_parser("append")
     pa.add_argument("--plan", required=True)
-    pa.add_argument("--kind", default="history", choices=["history", "questions", "issue"])
+    pa.add_argument("--kind", default="history",
+                    choices=["history", "questions", "issue", "improvement"])
     pa.add_argument("--event", help="event JSON path, or '-' for stdin (kind=history)")
-    pa.add_argument("--body", help="markdown body (kind=questions)")
+    pa.add_argument("--body", help="markdown body (kind=questions|improvement)")
     pa.add_argument("--question-ref")
     pa.add_argument("--question")
     pa.add_argument("--answer-summary")
+    pa.add_argument("--title", help="improvement title (kind=improvement)")
+    pa.add_argument("--priority", type=int, default=3, help="improvement priority 1-5 (kind=improvement)")
+    pa.add_argument("--status", type=int, default=1, help="improvement status 1-3 (kind=improvement)")
     pa.add_argument("--description", help="description.json (kind=issue)")
     pa.add_argument("--assets-dir")
     pa.add_argument("--model", help="platform-provided model (overrides env fallback)")
@@ -883,12 +972,12 @@ def main():
 
     pr = sub.add_parser("rebuild-index")
     pr.add_argument("--plan", required=True)
-    pr.add_argument("--kind", default="history", choices=["history", "questions", "issues"])
+    pr.add_argument("--kind", default="history", choices=["history", "questions", "issues", "improvement"])
 
     pg = sub.add_parser("gen-toc")
     pg.add_argument("--plan", required=True)
     pg.add_argument("--kind", default="all",
-                    choices=["all", "history", "questions", "issues", "architecture"])
+                    choices=["all", "history", "questions", "issues", "architecture", "improvement"])
 
     pm = sub.add_parser("migrate")
     pm.add_argument("--plan", required=True)

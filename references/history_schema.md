@@ -21,16 +21,22 @@ event (see §4).
 ## 1. Layout
 
 ```
-<plan>/
+<plan or adopted project>/
   history/001.json, 002.json …        one file per event
   questions/001.md, 002.md …          one file per Q&A
   issues/001/{description.json, assets/} …
-  architecture/001.md, 002.md …       one file per architecture version
+  improvements/001.md, 002.md …       one file per improvement proposal (architecture 004)
+  architecture/001.md, 002.md …       one file per architecture / standard version
+  skills/                             built-in skills: install-standard / update-standard / check-standard
+  scripts/  references/  assets/
   # indexes live at the PLAN ROOT (siblings of the category folders)
-  history_index.json  questions_index.json  issues_index.json  architecture_index.json
+  history_index.json  questions_index.json  issues_index.json
+  improvement_index.json  architecture_index.json
   #   architecture_index.json 还承载 plan 级字段 plan_id/plan_title/created_at 与 notes
-  # TOCs (4 类，均由脚本自动生成，请勿手改)
-  architecture_TOC.md  history_TOC.md  questions_TOC.md  issues_TOC.md
+  # TOCs (5 类，均由脚本自动生成，请勿手改)
+  architecture_TOC.md  history_TOC.md  questions_TOC.md  issues_TOC.md  improvement_TOC.md
+  standard_version                     lock file: standard_version=vX.Y, pinned=... (architecture 004)
+  .codebuddy/settings.json            hooks point to scripts/turn_gate.py (per adopter)
   .lock                               commit lock (runtime only)
 ```
 
@@ -40,7 +46,11 @@ event (see §4).
   they stay findable when a category folder grows large.
 - **`*_meta.json` 已取消（architecture 003）**：四个 `*_meta.json` 已删除；plan 级字段并入
   `architecture_index.json` 顶部，非结构化说明并入各 `*_index.json` 的 `notes`。
-- The four `*_TOC.md` are auto-generated from the indexes; never hand-edit them.
+- `improvements/` (architecture 004) is a parallel, append-only category: each file is an
+  improvement proposal; `improvement_index.json` records `max_id`/`revision`/`briefs`
+  (`id`, `title`, `status`, `priority`, `in_architecture`, `implemented_in`); `improvement_TOC.md`
+  is auto-generated. Status: `1 Drafting` / `2 Recorded In Architect` / `3 Implemented` (frozen).
+- The five `*_TOC.md` are auto-generated from the indexes; never hand-edit them.
 
 ---
 

@@ -22,7 +22,10 @@ import os
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PLAN_ROOT = os.path.dirname(SCRIPT_DIR)
+# PLAN_ROOT defaults to the folder that owns this script's `scripts/` dir. Adopting
+# projects install the engine under `<project>/.plan-standard/scripts/` and set
+# PLAN_HISTORY_ROOT to the project root so the gate watches the project, not `.plan-standard`.
+PLAN_ROOT = os.environ.get("PLAN_HISTORY_ROOT") or os.path.dirname(SCRIPT_DIR)
 TURN_DIR = os.path.join(PLAN_ROOT, ".codebuddy", "hooks", ".turn")
 HISTORY_INDEX = os.path.join(PLAN_ROOT, "history_index.json")
 EDIT_MATCHERS = ("write_to_file", "replace_in_file", "delete_file", "Write", "Edit")

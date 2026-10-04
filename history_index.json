@@ -1,6 +1,6 @@
 {
-  "max_id": 39,
-  "revision": 39,
+  "max_id": 41,
+  "revision": 41,
   "briefs": [
     {
       "event_id": 1,
@@ -391,6 +391,26 @@
       "is_correction": false,
       "corrects_event_id": null,
       "file": "history/039.json"
+    },
+    {
+      "event_id": 40,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T22:46:57.379250+08:00",
+      "actor_type": "ai",
+      "change_summary": "执行 004 v0.4：README 改名+引用同步；improvements 栏目与脚本扩展；004 版本头与根索引 implemented=4。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/040.json"
+    },
+    {
+      "event_id": 41,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T22:46:57.497928+08:00",
+      "actor_type": "ai",
+      "change_summary": "执行 004 v0.4：实现 install/update/check 内置 skills；turn_gate 增 PLAN_HISTORY_ROOT；仓库自举（standard_version + hook）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/041.json"
     }
   ]
 }
