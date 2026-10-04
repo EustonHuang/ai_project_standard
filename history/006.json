@@ -1,0 +1,42 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's question about schema_version evolution vs append-only (how to signal a new schema like 1.1 without restructuring history.json into [{},{}]), and the discussion of options A/B/C. No implementation performed."
+  },
+  "source": {
+    "user_prompt": "① 接受「写入时间≈发生时间」则只留 recorded_at 即可删 timestamp；打算修改 skill 去掉 timestamp、保留 recorded_at，且接下来的 event 不含有 timestamp（旧 event 含 timestamp 不管）。但发现新问题：history.json 顶层写死了 schema_version=1.0 / plan_id / plan_title / created_at；若修改 schema 则 schema_version 必变，改变后如何实现只增不改？似乎要加另一个 {} 表示 1.1，JSON 从 {} 变 [{},{}]，破坏只增不改。你的建议是什么、怎么改？（这是个问题，不要直接写解决方案）",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions.md"
+    ],
+    "change_summary": "记录问答 Q3：schema_version 变更与只增不改的冲突及建议（per-event version / 可选字段 / 容器版本 三方案）。",
+    "sections_affected": [
+      "Q3"
+    ],
+    "diff_reference": "questions.md Q3"
+  },
+  "qna": {
+    "question_ref": "Q3",
+    "question": "去掉 timestamp 会改变 schema、schema_version 必变；变更后如何保持只增不改？是否必须重构 JSON 为 [{},{}]？",
+    "answer_summary": "无需 {}→[{},{}] 重构（版本化对象是 event 而非文件容器）。真正冲突是顶层 schema_version 不可编辑；建议 A per-event schema_version、B 可选字段不 bump、C 顶层=容器版本。落地去掉 timestamp 用 B 或 A，旧事件不动、新事件不写即可。",
+    "answer_location": "questions.md#Q3"
+  },
+  "correction": null,
+  "comments": "本事件按用户①方向（未来 event 不含 timestamp）故意省略 timestamp 字段；旧 event 保留。recorded_at 由脚本写入真实时钟，作为可查看的时间戳。未对 schema/skill 文档做任何决策性改动。",
+  "recorded_by": "ai",
+  "event_id": 6,
+  "recorded_at": "2026-10-03T17:16:31.598467+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "88b08cc83362d3eb16f169ddf58ef060c592d5561122e0469e69ac7e979e2aa5",
+    "plan_md_line_count": 97
+  },
+  "schema_version": "1.0"
+}

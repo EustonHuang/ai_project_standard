@@ -1,0 +1,42 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's new design idea: split history.json into history/{event_id}_{event_type}.json files and questions.md into questions/{question_num}.md files. Assessed in questions.md (Q7); no execution or plan changes per user instruction."
+  },
+  "source": {
+    "user_prompt": "接下来我有一个新的想法：将history.json和questions.md拆成文件夹+文件的形式，比如 history.json变成history/{event_id}_{event_type}.json (e.g history/1_history_initialized.json)，questions.md变成 questions/{question_num}.md (e.g questions/1.md)。你觉得如何？先不要执行或者修改plan，先回答问题，你觉得如何？然后加到questions.md中和修改history.json",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions.md"
+    ],
+    "change_summary": "记录问答 Q7：将 history.json → history/{id}_{type}.json、questions.md → questions/{n}.md 的文件夹+文件拆分设计评估。",
+    "sections_affected": [
+      "Q7"
+    ],
+    "diff_reference": "questions.md Q7"
+  },
+  "qna": {
+    "question_ref": "Q7",
+    "question": "将 history.json 拆成 history/{id}_{type}.json、questions.md 拆成 questions/{n}.md，你觉得如何？",
+    "answer_summary": "方向很好，比 Q5 的「数组+索引」更彻底根治上下文成本：append 只需列目录取最大 id 写新文件、不读旧内容（成本恒定）；append-only 变文件系统原生、原子性更好、并发/Git/diff 友好。落地须定：零填充命名（%03d 防 1_/10_ 排序错乱）、目录取最大前缀拿下一 id、总览改列目录、索引变可选、questions 建议保留 index.md TOC、脚本重写+一次性迁移、event_type 进文件名仅可读性、correction 引用对应文件。属 schema/工具演进，应作为新 event 落 plan.md（用户先不执行）。",
+    "answer_location": "questions.md#Q7"
+  },
+  "correction": null,
+  "comments": "本事件按 ① 方向不含 timestamp（沿用 Q3 决议），时间以 recorded_at 为准（脚本真实时钟）。plan.md 未改动（用户明确要求先不执行），plan_state_snapshot 由脚本按当前 plan.md 自动生成。本次仅记录问答，未对 skill/脚本/plan 做决策性改动。",
+  "recorded_by": "ai",
+  "event_id": 11,
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-03T19:56:29.592867+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "533eb1097619cce5d61d6dda924ffd908c0ca1ff77e33920f6ad51021666453a",
+    "plan_md_line_count": 130
+  }
+}

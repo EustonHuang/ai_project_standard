@@ -1,0 +1,43 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's doubt about questions_TOC.md being redundant, whether 'index + content' really beats a single questions.json, and how to keep the index from growing into the original problem. Answered in questions/013.md (Q13)."
+  },
+  "source": {
+    "user_prompt": "OK很不错，但是我发现几个问题\n1. 所有的meta.json文件（包括architecture_meta，issues_meta,history_meta,questions_meta）是不是都无关紧要？反而一些notes什么的都可以加入到index.json下面。假如真的是无关紧要，能不能计划删了？计划删的时候，同时要保证相应的文档up to date\n2. plan_001.md和plan_002.md没有删，留着干嘛过年吗？\n3. questions_TOC.md的设计是不是多余？因为questions_index.json里面有相应的内容了，唯一questions_index.json美中不足的是不能给链接，用户直接点链接跳转这是需要的？总而言之，我想要的是索引+具体文件，这种设计相当于你有一个新的问题出现，你需要修改三个地方。这样真的比只有一个questions.json更有优势吗？我存疑。所以有没有一种办法，尽量拆成两部分，索引+具体内容，索引又不能太长，因为索引本质上还是json append，我们这么做的初心是什么，是为了解决json文件越加越长，假如索引太长不好维护，那我们又回到了当初的坑。\n请将问题记录到questions中",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/013.md"
+    ],
+    "change_summary": "记录问答 Q13：questions_TOC.md 是否多余、索引+内容两部分是否真优于单个 questions.json、如何避免索引膨胀回到旧坑。",
+    "sections_affected": [
+      "Q13"
+    ],
+    "diff_reference": "questions/013.md"
+  },
+  "qna": {
+    "question_ref": "Q13",
+    "question": "questions_TOC.md 是否多余？“索引+内容”两部分是否真比单个 questions.json 更有优势？如何避免索引太长不好维护、回到当初 json 越加越长的坑？",
+    "answer_summary": "TOC 作为“需维护的第三处”多余，应降级为按需生成（保留可点击链接的唯一价值）；脚本已做到人/agent 只写内容、索引自动更新，故实际维护仅一两处。优于单文件的真正理由是 append 成本恒定（写新文件，不读不重写全量）与原子写；索引不会回到旧坑，因为 append 时模型根本不读索引（脚本在磁盘完成），且索引是从内容文件派生的可重建缓存，可配尾部窗口/分片。根本区别：内容文件才是真相源，索引只是缓存。",
+    "answer_location": "questions/013.md"
+  },
+  "correction": null,
+  "comments": "本事件按 ① 方向不含 timestamp，时间以 recorded_at 为准。plan_state_snapshot 由脚本按最新 architecture/002.md 自动生成。本轮仅记录问答，未删除 TOC、未改动脚本。",
+  "recorded_by": "ai",
+  "schema_version": "1.0",
+  "event_id": 20,
+  "recorded_at": "2026-10-04T00:01:20.021339+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "96a926753b6f5283b115c84c5e0214f9dbd4258b3b541cd5dee498dd3c4b9c73",
+    "plan_md_line_count": 144,
+    "source_doc": "architecture/002.md"
+  }
+}

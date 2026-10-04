@@ -1,0 +1,42 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's new consideration: replace plan.md with an architecture/ folder (versioned 001.md/002.md + architecture_index.json tracking implemented vs latest version), where each version doc also includes the delta/migration steps from the previous version. Recorded in questions.md (Q10); no execution or plan.md changes."
+  },
+  "source": {
+    "user_prompt": "Q7-Q9现在已经完整了，接下来还有一点需要提：\n查看现在的plan.md，发现是第一版的plan，而且我从中也没法得知这个plan是不是已经execute了（当前的形态是不是plan.md的execute的形态？所以我们需要对其进行重新规划，我的想法是\n1. 建立architecture文件夹，为什么叫architecture文件夹而不是plan，因为plan本质上就是对architecture的描述。\n2. architecture文件夹下需要和history, questions, issues类似的结构，也就是说001.md, 002.md （每一个markdown对应的是architecture的版本） 然后用architecture_index.json 进行索引，索引中可以记录architecture的状态（目前实现的是哪个版本）\n3. architecture不仅要写期望的架构是怎么样的，还需要写从现在的架构演变到期望的架构需要做什么（也就是delta），比如现在架构是001.md，然后经过了Q7-Q9我们需要一个002.md的架构，那么002.md中不仅要包括002架构的最终形态，还要包括从001.md到002.md我们需要做些什么\n请把这个考虑记录到questions.md中，并更新history.json",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions.md"
+    ],
+    "change_summary": "记录问答 Q10：以 architecture 文件夹替代 plan.md（版本化 md + architecture_index.json 记实现状态 + 每版本含 delta 迁移步骤）。",
+    "sections_affected": [
+      "Q10"
+    ],
+    "diff_reference": "questions.md Q10"
+  },
+  "qna": {
+    "question_ref": "Q10",
+    "question": "用 architecture 文件夹（版本化 + delta + 索引记实现状态）替代 plan.md，如何？",
+    "answer_summary": "整体同意，补上“plan 是否 execute”缺口。命名合理（现 plan.md 转 architecture/001.md）；索引建议含 implemented_version 与 latest_version（一致=已执行），属需要确认的点；delta 为核心价值（002.md=最终形态+001→002 迁移步骤），与 history 只增不改不冲突；architecture 亦可配 meta（非必需）；Q8 的工具重写即 001→002 的 delta。",
+    "answer_location": "questions.md#Q10"
+  },
+  "correction": null,
+  "comments": "本事件按 ① 方向不含 timestamp（沿用 Q3 决议），时间以 recorded_at 为准（脚本真实时钟）。plan.md 未改动（用户要求先不执行），plan_state_snapshot 由脚本按当前 plan.md 自动生成。本次仅记录问答，未对 skill/脚本/plan 做决策性改动。",
+  "recorded_by": "ai",
+  "event_id": 14,
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-03T23:17:02.890510+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "533eb1097619cce5d61d6dda924ffd908c0ca1ff77e33920f6ad51021666453a",
+    "plan_md_line_count": 130
+  }
+}

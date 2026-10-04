@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "记录用户提出的需求：给一个防止漏记 history 的强制方案（回答最后强制检查 + SKILL.md 高亮双重保险）。"
+  },
+  "source": {
+    "user_prompt": "我希望给个方案，以后不许漏掉。有没有一个方案使得在回答最后强制性检查\n假如这次回答涉及到这个plan的文件更新，那么检查其history有没有更新，如果没有那就强制要求history更新\n然后在SKILL上面也对其highlight双重保险？\n请加到questions中",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "questions/016.md"
+    ],
+    "change_summary": "记录问答 Q16：提出防止漏记 history 的强制方案 —— Turn-end history gate 三层（①SKILL.md 高亮规则+收尾必跑 gate；②新增 gate 子命令机械兜底，受管文件 mtime 新于 last_event_time 即判未记录并 exit 1；③workflow.md checklist + audit NOTE）。明确禁止以'只是登记索引/待执行再补/只是生成物'为由豁免。",
+    "sections_affected": [
+      "questions/016.md（全新增）"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q16",
+    "question": "希望给个方案以后不许漏记 history：回答最后强制检查本回合是否改了 plan 文件、history 是否随之更新，未更新则强制补记；并在 SKILL.md 高亮作双重保险。请加到 questions。",
+    "answer_summary": "方案=Turn-end history gate 三层：①SKILL.md 高亮规则+收尾必跑 gate；②新增 gate 子命令机械兜底（受管文件 mtime 新于 last_event_time 即判未记录，exit 1）；③workflow.md checklist + audit NOTE。禁止以'登记索引/待执行再补/生成物'为由豁免。待执行：实现 gate 子命令 + 改 SKILL.md/workflow.md（该执行本身也需追加 history 事件）。",
+    "answer_location": "questions/016.md"
+  },
+  "correction": null,
+  "comments": "本事件与 questions/016.md 配套；questions/016.md 由 append --kind questions 写入（questions_index + questions_TOC 同步）。方案本身尚未实现（gate 子命令未加入脚本，SKILL.md/workflow.md 未改），实现时须按本方案第 1 层再追加 history 事件。",
+  "recorded_by": "ai",
+  "event_id": 24,
+  "recorded_at": "2026-10-04T09:59:12.396404+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "69b61fee1fa75b6c426a125f669e411b25db64ca7bbd1bf04f74d5c9f5aa2c0e",
+    "plan_md_line_count": 161,
+    "source_doc": "architecture/003.md"
+  }
+}

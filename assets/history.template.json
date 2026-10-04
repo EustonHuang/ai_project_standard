@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "AI agent changed the plan in response to the user prompt below."
+  },
+  "source": {
+    "user_prompt": "<full verbatim user prompt that triggered this change>",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "optional"
+  },
+  "operation": {
+    "target_files": ["architecture/002.md"],
+    "change_summary": "<what changed, concisely>",
+    "sections_affected": ["1", "3"],
+    "diff_reference": "optional pointer to the diff"
+  },
+  "correction": null,
+  "comments": "<uncertainties; write unknown and explain here>",
+  "recorded_by": "ai"
+}

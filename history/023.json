@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "记录用户追问：SKILL.md 何处规定任何改动要进 history，以及为何漏记 architecture/003.md 的创建与索引更新。"
+  },
+  "source": {
+    "user_prompt": "请告诉我，SKILL.md中哪里记录了任何改动都要进history的话？如果有，你告诉我你为什么忘记？请记到questions中",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "questions/015.md"
+    ],
+    "change_summary": "记录问答 Q15：SKILL.md 何处规定任何改动要进 history（Purpose 总原则 + When to use 触发项），并复盘漏记 architecture/003.md 创建与索引更新的原因（误把登记索引当记录历史、错误套用 plan_002 规划/执行分期）。",
+    "sections_affected": [
+      "questions/015.md（全新增）"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q15",
+    "question": "SKILL.md 哪里写了任何改动都要进 history？为什么你新建 architecture/003.md 和更新索引时忘了记 history？请记到 questions。",
+    "answer_summary": "SKILL.md 无字面原话，但 Purpose 总原则(every operation is logged)+When to use 把新建/改写 architecture doc 列为触发项；遗忘因误把登记索引当记录历史、且错误套用 plan_002 的规划/执行分期延后记录。已补记 history/022。",
+    "answer_location": "questions/015.md"
+  },
+  "correction": null,
+  "comments": "本事件与 questions/015.md 配套；questions/015.md 由 append --kind questions 写入（questions_index + questions_TOC 同步）。",
+  "recorded_by": "ai",
+  "event_id": 23,
+  "recorded_at": "2026-10-04T00:17:11.281300+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "69b61fee1fa75b6c426a125f669e411b25db64ca7bbd1bf04f74d5c9f5aa2c0e",
+    "plan_md_line_count": 161,
+    "source_doc": "architecture/003.md"
+  }
+}

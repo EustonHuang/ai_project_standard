@@ -1,0 +1,396 @@
+{
+  "max_id": 39,
+  "revision": 39,
+  "briefs": [
+    {
+      "event_id": 1,
+      "event_type": "history_initialized",
+      "recorded_at": "2026-10-03T14:56:00.585966+08:00",
+      "actor_type": "ai",
+      "change_summary": "初始化 history.json（空 events 数组），为 plan 修订历史建立只增不改的日志。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/001.json"
+    },
+    {
+      "event_id": 2,
+      "event_type": "plan_created",
+      "recorded_at": "2026-10-03T14:56:00.624632+08:00",
+      "actor_type": "ai",
+      "change_summary": "创建 plan-history-recorder skill：定义 history.json 的只增不改事件日志模型、人机分离溯源字段、纠正协议，并提供确定性 append 脚本。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/002.json"
+    },
+    {
+      "event_id": 3,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-03T16:51:16.890345+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 skill 规则：用户提问时，将问题与答案写入 questions.md 并在 history.json 记录 qna_recorded 事件；在 record_types.md 增加 qna_recorded 枚举、workflow.md 增加第7节问答流程、history_schema.md 增加 qna 可选字段、SKILL.md/plan.md 同步说明。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/003.json"
+    },
+    {
+      "event_id": 4,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T16:51:16.931125+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q1：history.json 中 event #2 的位置与查看方式。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/004.json"
+    },
+    {
+      "event_id": 5,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T16:59:35.967372+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q2：timestamp 为何不精确、timestamp 与 recorded_at 的区别、能否删 timestamp。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/005.json"
+    },
+    {
+      "event_id": 6,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T17:16:31.598467+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q3：schema_version 变更与只增不改的冲突及建议（per-event version / 可选字段 / 容器版本 三方案）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/006.json"
+    },
+    {
+      "event_id": 7,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T17:28:15.157920+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q4：用户否定 A/B/C，给出正确设计（history.json 纯数组、per-event schema_version、去顶层 meta）；并在 plan.md 写入修订版计划。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/007.json"
+    },
+    {
+      "event_id": 8,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-03T17:41:23.722466+08:00",
+      "actor_type": "ai",
+      "change_summary": "执行修订版计划：history.json 改为纯数组 + per-event schema_version；脚本重写为数组操作并新增 migrate；references/SKILL/template 同步；创建 history_meta.json；安装 skill 到 .codebuddy/skills/plan-history-recorder/。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/008.json"
+    },
+    {
+      "event_id": 9,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T19:32:35.503569+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q5：append-only history.json 对 AI coding 是否不友好（每次需扫描全文件再 append、append 增长是否变慢）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/009.json"
+    },
+    {
+      "event_id": 10,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T19:39:19.953656+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q6：AI coding 执行 append 的真实流程，以及是否真的读全 history.json / questions.md。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/010.json"
+    },
+    {
+      "event_id": 11,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T19:56:29.592867+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q7：将 history.json → history/{id}_{type}.json、questions.md → questions/{n}.md 的文件夹+文件拆分设计评估。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/011.json"
+    },
+    {
+      "event_id": 12,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T21:41:05.022982+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q8：审阅用户对 Q7 的答复（零填充命名、history_index.json + issues 兜底、per-plan 索引、简要索引、correction 即文件、乐观锁并发），并给出改进 A–I 与新修改计划。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/012.json"
+    },
+    {
+      "event_id": 13,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T22:26:58.102674+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q9：用户回应 Q8 的 A–I（重分类确认/改进）、扩展 issues 索引与 meta、锁撤销通知兜底、乐观锁解释、issue 资产具体化、元反馈。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/013.json"
+    },
+    {
+      "event_id": 14,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-03T23:17:02.890510+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q10：以 architecture 文件夹替代 plan.md（版本化 md + architecture_index.json 记实现状态 + 每版本含 delta 迁移步骤）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/014.json"
+    },
+    {
+      "event_id": 15,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-03T23:25:13.461016+08:00",
+      "actor_type": "ai",
+      "change_summary": "重命名 plan.md→plan_001.md（初版设计存档）；创建 plan_002.md（整合 Q7–Q10 的执行计划：文件夹化布局、per-category 索引、锁+版本守卫提交、issues 兜底、显式迁移映射 plan_001.md→architecture/001.md 等）；未执行实际迁移（待审核）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/015.json"
+    },
+    {
+      "event_id": 16,
+      "event_type": "correction",
+      "recorded_at": "2026-10-03T23:29:48.390156+08:00",
+      "actor_type": "ai",
+      "change_summary": "纠正 plan_002.md：将 *_index.json / *_meta.json 从类目文件夹内移到 <plan>/ 根（用户硬性要求），并同步修正 §1/§5/§6 的所有引用；问答 TOC 移至根 questions_TOC.md。",
+      "is_correction": true,
+      "corrects_event_id": 15,
+      "file": "history/016.json"
+    },
+    {
+      "event_id": 17,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-03T23:47:24.521885+08:00",
+      "actor_type": "ai",
+      "change_summary": "执行 plan_002.md：迁移到文件夹形态（history/ questions/ issues/ architecture/ + plan 根索引与 meta）；脚本重写为 init/append/show/audit/rebuild-index/migrate/recover/set-implemented，append 采用互斥锁+索引版本守卫，异常走 issues/ 留档；修复 plan.md 硬编码快照（改指最新 architecture doc）；旧 history.json 与 questions.md 已删除。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/017.json"
+    },
+    {
+      "event_id": 18,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T00:01:19.862621+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q11：四个 meta.json 是否无关紧要、能否计划删除并保证文档同步更新。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/018.json"
+    },
+    {
+      "event_id": 19,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T00:01:19.946311+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q12：plan_001.md 与 plan_002.md 是否应删除。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/019.json"
+    },
+    {
+      "event_id": 20,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T00:01:20.021339+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q13：questions_TOC.md 是否多余、索引+内容两部分是否真优于单个 questions.json、如何避免索引膨胀回到旧坑。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/020.json"
+    },
+    {
+      "event_id": 21,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T00:07:06.524543+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q14：保留 TOC 并扩展到 architecture/history/issues，给出具体写法方案。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/021.json"
+    },
+    {
+      "event_id": 22,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T00:14:44.767422+08:00",
+      "actor_type": "ai",
+      "change_summary": "新建 architecture/003.md（聚合 Q11–Q14 的改进计划：删四个 *_meta.json、删 plan_001/002、TOC 扩展四类 + gen-toc + show 尾部窗口），并将 v3 登记进 architecture_index.json（latest_version 2→3，implemented_version 保持 2，预合并 plan 级字段 plan_id/plan_title/created_at 到索引顶部）。本事件为该操作的补记（当时未追加历史）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/022.json"
+    },
+    {
+      "event_id": 23,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T00:17:11.281300+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q15：SKILL.md 何处规定任何改动要进 history（Purpose 总原则 + When to use 触发项），并复盘漏记 architecture/003.md 创建与索引更新的原因（误把登记索引当记录历史、错误套用 plan_002 规划/执行分期）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/023.json"
+    },
+    {
+      "event_id": 24,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T09:59:12.396404+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q16：提出防止漏记 history 的强制方案 —— Turn-end history gate 三层（①SKILL.md 高亮规则+收尾必跑 gate；②新增 gate 子命令机械兜底，受管文件 mtime 新于 last_event_time 即判未记录并 exit 1；③workflow.md checklist + audit NOTE）。明确禁止以'只是登记索引/待执行再补/只是生成物'为由豁免。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/024.json"
+    },
+    {
+      "event_id": 25,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T10:24:51.318308+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q17（修订 Q16）：①第 1 层文案补齐'包含但不仅限于…等'与'仅为举例、非穷举'，堵住穷举漏洞；②作废 Q16 的全目录 mtime 扫描，改为 CodeBuddy Hooks 驱动的本轮作用域强检——UserPromptSubmit 开轮记 baseline_max_id、PostToolUse 记账本轮改动文件、Stop 校验新事件 target_files 是否覆盖并 exit 2 强制回头；成本 O(本轮改动) 不扫全盘，按 session_id 隔离使并发正确；③audit 保持纯结构校验，另留声明式手动 check。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/025.json"
+    },
+    {
+      "event_id": 26,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T11:06:37.910036+08:00",
+      "actor_type": "ai",
+      "change_summary": "修改 architecture/003.md，把 Q15–Q17 的『防漏记 history』强制门方案整合为第四块工作：①§0/关联/Q14 后新增 Q15–Q17 改进来源，范围扩到 Q11–Q17；②新增 §10 History Update 强制门——第1层 SKILL.md 高亮规则（措辞含『包含但不仅限于…等』、事件类型『仅为举例非穷举』）、第2层 CodeBuddy Hooks 驱动的本轮作用域强检（UserPromptSubmit begin/PostToolUse record/Stop end，不扫全盘、并发隔离）、新增 scripts/turn_gate.py、§10.4 hook 配置；③明确 Q16 全目录 mtime 扫描变体作废；④§6 补 turn_gate.py 与 hook 配置文档、§8 delta 增步骤 9–12（含 timeout 20/20/30）、§9 增强制门验证项、原执行记录顺延为 §11。timeout 按用户要求由原 Q17 的 10/10/15 全部翻倍为 20/20/30。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/026.json"
+    },
+    {
+      "event_id": 27,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T11:18:26.312136+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q18：history 两条数据质量问题（model 自报失真、schema_version 删除 timestamp 后未 bump）的根因分析与解决方案，并核查 skill 已多处明写『不得就地改、用纠正 note』。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/027.json"
+    },
+    {
+      "event_id": 28,
+      "event_type": "comment_added",
+      "recorded_at": "2026-10-04T11:18:26.432124+08:00",
+      "actor_type": "ai",
+      "change_summary": "标注 history 数据质量 lineage：①source.model 全部为 agent 自报『Hy3』，凡用户切换模型的轮次（如疑似 #024 的 Hy4 preview）可能失真，字段不可信；②schema_version 在删 timestamp（形态变更）时未 bump，事件 #1–#14 含 timestamp（形态 1.0），#15 起无 timestamp 却仍标 1.0（本应 2.0）。两者均不回改旧文件，演进由本注释说明。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/028.json"
+    },
+    {
+      "event_id": 29,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T11:44:05.176020+08:00",
+      "actor_type": "ai",
+      "change_summary": "修改 architecture/003.md 纳入 Q18：①开头范围 Q11–Q17→Q11–Q18，关联行加 Q18 说明；②§0 改进来源 5→6，新增 Q18 来源（model 自报失真 + schema_version 删 timestamp 未 bump）；③新增 §11 数据质量修正——11.1 model 改从平台可信信号取（未知即 unknown、禁 agent 自报 Hy3）、11.2 schema_version bump 策略（删/重命名→MAJOR、新增可选→MINOR）且 EVENT_SCHEMA_VERSION 升 2.0、11.3 脚本/文档变更清单；④§6 补 SKILL.md/history_schema.md 的 model 来源与 bump 策略文档更新；⑤§8 delta 增步骤 13–14（model 平台信号、常量升 2.0）；⑥§9 增强制门 + Q18 落地验证项；⑦原执行记录顺延为 §12。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/029.json"
+    },
+    {
+      "event_id": 30,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T12:00:34.373989+08:00",
+      "actor_type": "ai",
+      "change_summary": "重写 §8 delta：原分散的 1–14 步（按 Q11–Q14 / Q15–Q17 / Q18 分堆）合并为融合全部改动的 7 步单次连贯执行流（①预备备份 ②索引合并+删冗余 ③重写脚本+新增 turn_gate：含 gen-toc/_regen_toc/show 尾部窗口/model 平台信号/schema_version 2.0 ④配置 hooks ⑤同步文档：SKILL 高亮+model 来源、history_schema bump 策略、workflow hook、002 校正注记 ⑥生成 TOC 并校验 ⑦收尾 set-implemented+plan_modified）；并修正 §11.3 中过时的『§8 delta 13–14』引用为『§8 步骤 3/5』。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/030.json"
+    },
+    {
+      "event_id": 31,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T12:00:34.539817+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q19：delta 不应按问题分堆追加 10-12/13-14，应融为单次连贯执行流（已重写 §8 为 7 步）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/031.json"
+    },
+    {
+      "event_id": 32,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T12:19:12.729156+08:00",
+      "actor_type": "ai",
+      "change_summary": "重构 003.md 章节：删独立的 §10（强制门）与 §11（数据质量修正），其实现细节并入 §5（turn_gate.py 子命令/hook 配置/model 平台信号/EVENT_SCHEMA_VERSION 2.0）与 §6（SKILL 高亮块、workflow hook 改写、history_schema bump 策略、settings.json hooks）；原 §12 执行记录重命名为 §10；同步修正 §0 关联/背景、§8 步骤 3/4/7 对 §10/§11 的失效引用。最终章节为 §0–§9 + §10（执行记录）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/032.json"
+    },
+    {
+      "event_id": 33,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T12:19:12.890609+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录问答 Q20：重构计划时不能只压 delta 步骤、仍把每个问题单列成章；应把实现细节并入 §5/§6 等主体章节，章节号随归并重排（原 §12 执行记录→§10）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/033.json"
+    },
+    {
+      "event_id": 34,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-04T12:28:45.945215+08:00",
+      "actor_type": "ai",
+      "change_summary": "执行 architecture/003.md（v3）：① 删除四个 *_meta.json 与 plan_001/002.md，plan 级字段(plan_id/plan_title/created_at)并入 architecture_index.json 顶部，非结构化说明(issues_meta.note / questions_meta.answer_summaries)并入对应 *_index.json.notes（Q11/Q12）；② 重写 scripts/append_history.py：去 meta、新增 gen-toc 子命令与通用 _regen_toc（四类 TOC、截断最近 200 条）、append/rebuild-index/set-implemented 自动刷新对应 TOC、show 加尾部窗口(--last N 默认 50, 0=全量)（Q13/Q14）；EVENT_SCHEMA_VERSION 升 2.0、append 解析 source.model 优先取平台可信信号(env CODEBUDDY_MODEL)，取不到置 unknown 且禁止 agent 自报 Hy3（Q18）；③ 新增 scripts/turn_gate.py（begin/record/end/check，本轮作用域强检、不扫全盘、按 session_id 并发隔离）（Q15–Q17）；④ 在 workspace .codebuddy/settings.json 写入三个 hooks(UserPromptSubmit/PostToolUse/Stop, timeout 20/20/30)（Q15–Q17）；⑤ 同步 SKILL.md（删 meta 行、MANDATORY 高亮块、model 平台信号）、history_schema.md（§1 删 meta+加四类 TOC、§3 plan 级字段与 notes、顶部 schema_version bump 策略与 1.0/2.0 lineage）、workflow.md（init 写 architecture_index、TOC 自动生成+show --last、§6 Stop hook 强检、§7 Q&A 双录）、architecture/002.md（加「已于 003 删除」校正注记）；⑥ gen-toc --kind all 生成四类 TOC，audit 通过。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/034.json"
+    },
+    {
+      "event_id": 35,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T13:34:28.898955+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q21：将本 recorder 重新定位为「全局项目规范（metastandard）」而非 skill；提出全局位置 + 全局 hook 以消除项目层 hook 引用 skill 层文件的别扭；并提出 standard_version（所用规范版本，如003）与项目自身版本轴（如 wiki schema 迭代）两条轴分离。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/035.json"
+    },
+    {
+      "event_id": 36,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T14:18:39.954462+08:00",
+      "actor_type": "ai",
+      "change_summary": "在 Q21 追加用户补充追问（框架不应再叫 skills、应独立可选采用；git 强制版本控制从 004 起；独立 GitHub 仓库 + 内置 install/update/check skills）及我的补充回应。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/036.json"
+    },
+    {
+      "event_id": 37,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T17:42:41.273346+08:00",
+      "actor_type": "ai",
+      "change_summary": "新建 Q22，记录框架仓库/技能/breaking-change 三项决策确认与 improvements 栏目、README 重命名、追问新建 question 三点新提议，并给出 architecture 004 落地细化。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/037.json"
+    },
+    {
+      "event_id": 38,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-04T17:49:28.948280+08:00",
+      "actor_type": "ai",
+      "change_summary": "新建 Q23，记录用户对 Q22 三确认点的答复：版本号 v<major>.<minor>；improvements priority(1-5)/status(Drafting/Recorded In Architect/Implemented)；hook 模型=每采用方项目一份（install 写入项目 settings）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/038.json"
+    },
+    {
+      "event_id": 39,
+      "event_type": "plan_created",
+      "recorded_at": "2026-10-04T17:53:56.233719+08:00",
+      "actor_type": "ai",
+      "change_summary": "创建 architecture/004.md（项目规范框架化 v0.4），汇总 Q21–Q23：skill→元规范、独立 git/GitHub 仓库、install/update/check skills、breaking-change 类 semver、improvements 栏目、SKILL.md→README.md、双版本轴分离、追问新建 question。更新 architecture_index.json 追加 v4、latest_version=4。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/039.json"
+    }
+  ]
+}

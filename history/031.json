@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "记录用户批评 delta 分堆追加的问题，并认错修正（§8 重写为 7 步单次连贯执行流）。"
+  },
+  "source": {
+    "user_prompt": "你是怎么修改003.md的？你往后加10-12?你不觉得很可笑吗？你的意思是1-9执行一遍，然后10-12再执行一遍？你为什么就不能把10-12融入到1-9之中呢？非得要添堵？",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "questions/019.md"
+    ],
+    "change_summary": "记录问答 Q19：delta 不应按问题分堆追加 10-12/13-14，应融为单次连贯执行流（已重写 §8 为 7 步）。",
+    "sections_affected": [
+      "questions/019.md（全新增）"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q19",
+    "question": "为什么 §8 delta 往后加 10-12/13-14 而不是融进原有 1-9 步？要分多遍执行吗？",
+    "answer_summary": "认错：之前按问题分堆续步，割裂且暗示多遍执行。已重写 §8 为融合 Q11–Q18 的 7 步单次连贯执行流（同类工作归并一步）。教训：delta 应融入既有步骤、勿随问题线性膨胀。",
+    "answer_location": "questions/019.md"
+  },
+  "correction": null,
+  "comments": "本事件与 questions/019.md 配套；对应 plan 文件改动（architecture/003.md 重写 §8）另见 history/030.json（plan_modified）。",
+  "recorded_by": "ai",
+  "event_id": 31,
+  "recorded_at": "2026-10-04T12:00:34.539817+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "0ee2253f11e8441a2d6afc598d13d4ebcd9903d297cfb76c44a5c516c92f5581",
+    "plan_md_line_count": 260,
+    "source_doc": "architecture/003.md"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "按用户指令把 Q15–Q17 的『防漏记 history』强制门方案整合进 architecture 003，并落实 timeout 翻倍。"
+  },
+  "source": {
+    "user_prompt": "请根据Q15-Q17，修改architecture中的003方案，使得history update的方案也加进去，同时加的时候注意，你给的hooks中的方案timeout都太短了，很容易正常情况下都timeout，所有的timeout提升至现在的2倍",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/003.md"
+    ],
+    "change_summary": "修改 architecture/003.md，把 Q15–Q17 的『防漏记 history』强制门方案整合为第四块工作：①§0/关联/Q14 后新增 Q15–Q17 改进来源，范围扩到 Q11–Q17；②新增 §10 History Update 强制门——第1层 SKILL.md 高亮规则（措辞含『包含但不仅限于…等』、事件类型『仅为举例非穷举』）、第2层 CodeBuddy Hooks 驱动的本轮作用域强检（UserPromptSubmit begin/PostToolUse record/Stop end，不扫全盘、并发隔离）、新增 scripts/turn_gate.py、§10.4 hook 配置；③明确 Q16 全目录 mtime 扫描变体作废；④§6 补 turn_gate.py 与 hook 配置文档、§8 delta 增步骤 9–12（含 timeout 20/20/30）、§9 增强制门验证项、原执行记录顺延为 §11。timeout 按用户要求由原 Q17 的 10/10/15 全部翻倍为 20/20/30。",
+    "sections_affected": [
+      "architecture/003.md §0/§1/§6/§8/§9/§10/§11"
+    ]
+  },
+  "qna": null,
+  "correction": null,
+  "comments": "本事件即为对 architecture/003.md 的改动留痕（落实 Q15 教训：任何 plan 文件改动都要进 history）。未改动 architecture_index.json 的版本号（v3 仍 pending）。turn_gate.py 与 hook 配置尚未实现，待按 §8 delta 9–12 执行。",
+  "recorded_by": "ai",
+  "event_id": 26,
+  "recorded_at": "2026-10-04T11:06:37.910036+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4e314d6221afabd7980bcc2d25d1c459219121e727b9148aa7d532ed29a730f3",
+    "plan_md_line_count": 230,
+    "source_doc": "architecture/003.md"
+  }
+}

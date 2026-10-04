@@ -1,0 +1,31 @@
+{
+  "implemented_version": 3,
+  "latest_version": 4,
+  "revision": 4,
+  "plan_id": "history_record_skill_plan",
+  "plan_title": "Plan History Recorder Skill",
+  "created_at": "2026-10-03T00:00:00+08:00",
+  "notes": "latest=4（architecture/004.md = 项目规范框架化 v0.4，defined 未执行）；v3 = Q11–Q14 改进目标（删 *_meta.json、删 plan_001/002、TOC 扩展四类 + gen-toc + show 尾部窗口）；v4 = Q21–Q23 讨论汇总（skill→项目规范框架、独立 git/GitHub 仓库、install/update/check skills、improvements 栏目、README 改名、双版本轴）。",
+  "versions": [
+    {
+      "version": 1,
+      "file": "architecture/001.md",
+      "title": "初版设计：history.json 纯数组 + per-event schema_version"
+    },
+    {
+      "version": 2,
+      "file": "architecture/002.md",
+      "title": "文件夹形态：history/ questions/ issues/ architecture/ + 根索引与 meta + 锁与 issues 兜底"
+    },
+    {
+      "version": 3,
+      "file": "architecture/003.md",
+      "title": "改进：删 *_meta.json（plan 级字段并入 architecture_index）、删 plan_001/002、TOC 扩展四类 + gen-toc + show 尾部窗口"
+    },
+    {
+      "version": 4,
+      "file": "architecture/004.md",
+      "title": "项目规范框架化：skill→元规范、独立 git/GitHub 仓库、install/update/check skills、improvements 栏目、README 改名、双版本轴分离"
+    }
+  ]
+}

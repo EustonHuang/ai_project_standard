@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "按用户要求补记：本会话早先创建了 architecture/003.md 并更新 architecture_index.json，但当时未追加历史事件；现按 skill 规则补录该操作。"
+  },
+  "source": {
+    "user_prompt": "在architecture里面还有一点你忘记了？任何操作都要记录到history中，包括你新建的一个architecture markdown file和index",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/003.md",
+      "architecture_index.json"
+    ],
+    "change_summary": "新建 architecture/003.md（聚合 Q11–Q14 的改进计划：删四个 *_meta.json、删 plan_001/002、TOC 扩展四类 + gen-toc + show 尾部窗口），并将 v3 登记进 architecture_index.json（latest_version 2→3，implemented_version 保持 2，预合并 plan 级字段 plan_id/plan_title/created_at 到索引顶部）。本事件为该操作的补记（当时未追加历史）。",
+    "sections_affected": [
+      "architecture/003.md（全新增）",
+      "architecture_index.json（versions 增 v3、latest_version=3、顶部 plan 级字段）"
+    ]
+  },
+  "correction": null,
+  "comments": "补记事件：architecture/003.md 与 architecture_index.json 的创建/更新发生于本会话早先步骤，当时按用户首条指令仅撰写计划并登记索引、未追加 history 事件；依据用户第二条指令（任何操作都要记录到 history）补录。不影响既有的只增不改原则——本事件为新增文件 history/022.json，未改动任何已有事件。",
+  "recorded_by": "ai",
+  "event_id": 22,
+  "recorded_at": "2026-10-04T00:14:44.767422+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "69b61fee1fa75b6c426a125f669e411b25db64ca7bbd1bf04f74d5c9f5aa2c0e",
+    "plan_md_line_count": 161,
+    "source_doc": "architecture/003.md"
+  }
+}

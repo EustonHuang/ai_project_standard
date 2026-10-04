@@ -1,0 +1,57 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按 architecture/003.md §8 delta 执行 v3 改进计划（用户指令驱动）。"
+  },
+  "source": {
+    "user_prompt": "请了解 @/Users/euston/personal/euston_wiki/.codebuddy/skills/plan-history-recorder 的架构框架，并执行 @/Users/euston/personal/euston_wiki/.codebuddy/skills/plan-history-recorder/architecture/003.md",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/append_history.py",
+      "scripts/turn_gate.py",
+      "SKILL.md",
+      "references/history_schema.md",
+      "references/workflow.md",
+      "architecture/002.md",
+      "architecture/003.md",
+      "issues_index.json",
+      "questions_index.json",
+      "history_meta.json",
+      "questions_meta.json",
+      "issues_meta.json",
+      "architecture_meta.json",
+      "plan_001.md",
+      "plan_002.md",
+      "/Users/euston/personal/euston_wiki/.codebuddy/settings.json"
+    ],
+    "change_summary": "执行 architecture/003.md（v3）：① 删除四个 *_meta.json 与 plan_001/002.md，plan 级字段(plan_id/plan_title/created_at)并入 architecture_index.json 顶部，非结构化说明(issues_meta.note / questions_meta.answer_summaries)并入对应 *_index.json.notes（Q11/Q12）；② 重写 scripts/append_history.py：去 meta、新增 gen-toc 子命令与通用 _regen_toc（四类 TOC、截断最近 200 条）、append/rebuild-index/set-implemented 自动刷新对应 TOC、show 加尾部窗口(--last N 默认 50, 0=全量)（Q13/Q14）；EVENT_SCHEMA_VERSION 升 2.0、append 解析 source.model 优先取平台可信信号(env CODEBUDDY_MODEL)，取不到置 unknown 且禁止 agent 自报 Hy3（Q18）；③ 新增 scripts/turn_gate.py（begin/record/end/check，本轮作用域强检、不扫全盘、按 session_id 并发隔离）（Q15–Q17）；④ 在 workspace .codebuddy/settings.json 写入三个 hooks(UserPromptSubmit/PostToolUse/Stop, timeout 20/20/30)（Q15–Q17）；⑤ 同步 SKILL.md（删 meta 行、MANDATORY 高亮块、model 平台信号）、history_schema.md（§1 删 meta+加四类 TOC、§3 plan 级字段与 notes、顶部 schema_version bump 策略与 1.0/2.0 lineage）、workflow.md（init 写 architecture_index、TOC 自动生成+show --last、§6 Stop hook 强检、§7 Q&A 双录）、architecture/002.md（加「已于 003 删除」校正注记）；⑥ gen-toc --kind all 生成四类 TOC，audit 通过。",
+    "sections_affected": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "8"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为 architecture 003 的执行记录（融合 Q11–Q18）。删除 plan_001/002.md 与 *_meta.json 不丢信息：architecture/001.md=原 plan_001.md、architecture/002.md=原 plan_002.md，均已含全部内容；plan 级字段已在先前并入 architecture_index.json 顶部。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 34,
+  "recorded_at": "2026-10-04T12:28:45.945215+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "5ff7559af965c28490be764920760f80a9207917fcfdafe7e07196fb53288338",
+    "plan_md_line_count": 205,
+    "source_doc": "architecture/003.md"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "记录用户批评『只压步骤不并章节』的问题，并认错修正（§10/§11 并入 §5/§6，§12 重命名为 §10）。"
+  },
+  "source": {
+    "user_prompt": "你确定你改干净了吗？我要的是1-9，把后续的改动融合到1-9中，我为什么还是看到10-12？你的12执行记录可以保留没问题，你把他命名成10 但是你为什么还要保留10，11？这些东西不应该被融入到前面吗？",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "questions/020.md"
+    ],
+    "change_summary": "记录问答 Q20：重构计划时不能只压 delta 步骤、仍把每个问题单列成章；应把实现细节并入 §5/§6 等主体章节，章节号随归并重排（原 §12 执行记录→§10）。",
+    "sections_affected": [
+      "questions/020.md（全新增）"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q20",
+    "question": "为什么还看到 10-12？执行记录保留为 §10 即可，但 §10/§11 问题专章为何不并入前面？",
+    "answer_summary": "认错：上次只压步骤、未并章节。已删 §10/§11，强制门并入 §5.2/§6、数据质量修正并入 §5.1/§6，§12 重命名 §10；文档现 §0–§9+§10。教训：每个问题须并进既有章节，勿开问题专章。",
+    "answer_location": "questions/020.md"
+  },
+  "correction": null,
+  "comments": "本事件与 questions/020.md 配套；对应 plan 文件改动（architecture/003.md 章节重构）另见 history/032.json（plan_modified）。",
+  "recorded_by": "ai",
+  "event_id": 33,
+  "recorded_at": "2026-10-04T12:19:12.890609+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "5ff7559af965c28490be764920760f80a9207917fcfdafe7e07196fb53288338",
+    "plan_md_line_count": 205,
+    "source_doc": "architecture/003.md"
+  }
+}

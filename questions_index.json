@@ -1,0 +1,168 @@
+{
+  "max_id": 23,
+  "revision": 23,
+  "notes": "见 questions/*.md",
+  "briefs": [
+    {
+      "num": 1,
+      "question_ref": "Q1",
+      "question": "`history.json` 里 event #1 的 `user_prompt` 只是个索引：「（见 event #2 的 user_prompt；本 history.json 的初始化是创建该 skill 流程的一部分）」。请问 event #2 在哪？我怎么查看？",
+      "answer_summary": "",
+      "file": "questions/001.md"
+    },
+    {
+      "num": 2,
+      "question_ref": "Q2",
+      "question": "为什么到目前为止每个 event 都含有「timestamp 精确时刻未知（仅日期确定）」之类的评论？① 为什么 timestamp 拿不到精确时刻？② `recorded_at` 字段已经有时间戳了（这正是我要看的），它和 `timestamp` 字段的区别在哪？有了 `recorded_at` 之后能不能删掉 `timestamp` 字段？",
+      "answer_summary": "",
+      "file": "questions/002.md"
+    },
+    {
+      "num": 3,
+      "question_ref": "Q3",
+      "question": "去掉 `timestamp` 会改变 schema → `schema_version` 必然要变。若改变后，怎么实现 history.json 的只增不改？因为似乎要再加一个 `{}` 表示 `schema_version=1.1`，JSON 会从 `{}` 变成 `[{},{}]`，这就破坏了只增不改。建议是什么、怎么改？",
+      "answer_summary": "",
+      "file": "questions/003.md"
+    },
+    {
+      "num": 4,
+      "question_ref": "Q4",
+      "question": "- `{}` 包裹结构是本 skill 的设计缺陷；原本的 `schema_version` 是「整个文件的 schema_version」，但用户要的是 **event 的 schema_version**，不是文件的。",
+      "answer_summary": "",
+      "file": "questions/004.md"
+    },
+    {
+      "num": 5,
+      "question_ref": "Q5",
+      "question": "目前采用的 append-only `history.json` 方式，会不会对 AI coding 不太友好？因为 AI coding 每次都要先扫描一遍文件，然后 append？这样的话当 append 越来越多的时候，会减慢速度？",
+      "answer_summary": "",
+      "file": "questions/005.md"
+    },
+    {
+      "num": 6,
+      "question_ref": "Q6",
+      "question": "所以，AI coding 在执行 append 的时候，是怎样的流程？他们真的是读了 `history.json` 以及 `questions.md` 的所有的内容吗？",
+      "answer_summary": "",
+      "file": "questions/006.md"
+    },
+    {
+      "num": 7,
+      "question_ref": "Q7",
+      "question": "将 `history.json` 和 `questions.md` 拆成「文件夹 + 文件」的形式：",
+      "answer_summary": "",
+      "file": "questions/007.md"
+    },
+    {
+      "num": 8,
+      "question_ref": "Q8",
+      "question": "用户逐条回应了 Q7 的 8 点并补充并发设计，要求：① 审阅；② 在 questions.md 加入审阅结果 + 新计划；③ 更新 history.json（先不执行/不改 plan）。要点：",
+      "answer_summary": "",
+      "file": "questions/008.md"
+    },
+    {
+      "num": 9,
+      "question_ref": "Q9",
+      "question": "用户对 A–I 逐条反驳/澄清，指出 B、I 本就是其原意而非\"改进\"；A 中\"文件按顺序排\"是助手提出的、用户已用零填充解决；要求把\"确认项\"改称\"需要确认的点\"而非\"可改进的地方\"；并给一条元反馈：提建议要抓主要因素，区分必须做/次要，不要在无关紧要处反复 battle。另要求解释\"用户的锁逻辑\"与\"乐观锁\"的区别。补充：E 中 issues 也要 issues_index + issues_meta；F 锁需兜底（进程可能本身就要 30s+，锁退出须通知进程防误写）；H 资产结构要更具体。",
+      "answer_summary": "",
+      "file": "questions/009.md"
+    },
+    {
+      "num": 10,
+      "question_ref": "Q10",
+      "question": "现 plan.md 是第一版，且无法得知该 plan 是否已 execute（当前形态是否即 plan.md 的 execute 形态）。提议：",
+      "answer_summary": "",
+      "file": "questions/010.md"
+    },
+    {
+      "num": 11,
+      "question_ref": "Q11",
+      "question": "meta.json 是否无关紧要？能否计划删除并保证文档同步更新？",
+      "answer_summary": "基本同意删除四个 meta：内容重复或为空；plan 级字段并入 architecture_index.json，notes 并入各 index 的 notes 字段；须同步更新脚本 init、history_schema/workflow/SKILL.md 与 architecture/002.md。待批准执行。",
+      "file": "questions/011.md"
+    },
+    {
+      "num": 12,
+      "question_ref": "Q12",
+      "question": "plan_001.md 与 plan_002.md 是否应删除？",
+      "answer_summary": "同意删除：architecture/001.md 与 002.md（已同步 §6 勾选与 §8 执行记录）才是规范副本，保留 plan_00X 只造成权威歧义。待批准执行。",
+      "file": "questions/012.md"
+    },
+    {
+      "num": 13,
+      "question_ref": "Q13",
+      "question": "questions_TOC.md 是否多余？索引+内容两部分是否真优于单个 questions.json？如何避免索引膨胀回到旧坑？",
+      "answer_summary": "TOC 作为第三处维护点多余，应降级为按需生成；脚本已做到人只写内容、索引自动更新。优于单文件的真正理由是 append 成本恒定与原子写；索引不会回到旧坑，因为 append 时模型不读索引，且索引是从内容文件派生的可重建缓存，可尾部窗口/分片。待批准执行。",
+      "file": "questions/013.md"
+    },
+    {
+      "num": 14,
+      "question_ref": "Q14",
+      "question": "保留并扩展 TOC 到 architecture/history/issues，但如何写 TOC 需给方案？",
+      "answer_summary": "四类各一个 <kind>_TOC.md（plan 根、相对链接、顶部注自动生成勿手改）；内容=索引 brief 的 md 渲染；新增 gen-toc 子命令、append 时自动刷新；只对最近 N 条出链防膨胀；TOC 与 index 同源不会分叉。属设计补充，待纳入 architecture 下一版本 delta。",
+      "file": "questions/014.md"
+    },
+    {
+      "num": 15,
+      "question_ref": "Q15",
+      "question": "SKILL.md 哪里写了任何改动都要进 history？为什么你新建 architecture/003.md 和更新索引时忘了记 history？请记到 questions。",
+      "answer_summary": "SKILL.md 无字面原话，但 Purpose 总原则(every operation is logged)+When to use 把新建/改写 architecture doc 列为触发项；遗忘因误把登记索引当记录历史、且错误套用 plan_002 的规划/执行分期延后记录。已补记 history/022。",
+      "file": "questions/015.md"
+    },
+    {
+      "num": 16,
+      "question_ref": "Q16",
+      "question": "希望给个方案以后不许漏记 history：回答最后强制检查本回是否改了 plan 文件、history 是否更新，未更新则强制补；并在 SKILL.md 高亮作双重保险。请加到 questions。",
+      "answer_summary": "方案=Turn-end history gate 三层：①SKILL.md 高亮规则+收尾必跑 gate；②新增 gate 子命令机械兜底（受管文件 mtime 新于 last_event_time 即判未记录，exit 1）；③workflow.md checklist + audit NOTE。禁止以'登记索引/待执行再补/生成物'为由豁免。待执行：实现 gate + 改 SKILL.md/workflow.md。",
+      "file": "questions/016.md"
+    },
+    {
+      "num": 17,
+      "question_ref": "Q17",
+      "question": "对 Q16 方案的质疑：①第1层举例未加'等'、事件映射未标'举例'，留了钻漏洞空间；②第2层全目录 mtime 扫描既不可扩展又并发误报，应只监测本 agent 本轮改了什么；claude code 有 hook，你有没有这功能？有就用上，没有说怎么实现。请重新梳理三点。",
+      "answer_summary": "①文案改为'包含但不仅限于…等'、事件映射明确'仅为举例非穷举'。②作废全盘扫描，改用 CodeBuddy Hooks（官方7事件，Stop=Agent完成响应、exit2 强制回头）：UserPromptSubmit 开轮记 baseline、PostToolUse 记账本轮改动、Stop 校验覆盖，成本 O(本轮改动) 不扫全盘，按 session_id 隔离并发正确。③audit 保持纯结构校验，另留声明式手动 check。待执行。 ",
+      "file": "questions/017.md"
+    },
+    {
+      "num": 18,
+      "question_ref": "Q18",
+      "question": "history 中 model 永远 Hy3（疑似 #024 实为 Hy4 preview）、schema_version 删 timestamp 后仍 1.0 为何不改？给出根因与方案，记录到 questions；并核查 skill 是否提及『不得就地改、用纠正 note』。",
+      "answer_summary": "model 在 agent 层自报 hard_code（脚本 0 命中、平台无每轮模型信号）；schema_version 为冻结常量且删 timestamp 未立 bump 规则。方案：脚本从平台信号取 model（否则 unknown）、立 bump 策略并升 2.0。skill 已多处明写 append-only/correction。",
+      "file": "questions/018.md"
+    },
+    {
+      "num": 19,
+      "question_ref": "Q19",
+      "question": "为什么 §8 delta 往后加 10-12/13-14 而不是融进原有 1-9 步？要分多遍执行吗？",
+      "answer_summary": "认错：之前按问题分堆续步，割裂且暗示多遍执行。已重写 §8 为融合 Q11–Q18 的 7 步单次连贯执行流。教训：delta 应融入既有步骤、勿随问题线性膨胀。",
+      "file": "questions/019.md"
+    },
+    {
+      "num": 20,
+      "question_ref": "Q20",
+      "question": "为什么还看到 10-12？执行记录保留为 §10 即可，但 §10/§11 问题专章为何不并入前面？",
+      "answer_summary": "认错：上次只压步骤、未并章节。已删 §10/§11，强制门并入 §5.2/§6、数据质量修正并入 §5.1/§6，§12 重命名 §10；文档现 §0–§9+§10。",
+      "file": "questions/020.md"
+    },
+    {
+      "num": 21,
+      "question_ref": "Q21",
+      "question": "这东西越来越像项目规范而非 skill：每项目都须遵从 history/folder/questions/issues 记录方式，且规范自身也须符合自己并迭代（architecture 001/002/003 即规范版本）；项目层 hook 却引用 skill 层文件很别扭、应放全局一处；且每项目应声明所用规范版本，并与项目自身版本区分。",
+      "answer_summary": "同意这是 skill→元规范的演化。① 改名定位为全局项目规范；② 移到全局位置 + 全局 hook，消除项目层 hook 引用 skill 层文件的别扭；③ 两条版本轴分离：standard_version（所用规范版本，如003）单列，项目自身 architecture/ 的 v-N 为领域版本轴。待确认全局位置选型与 CodeBuddy 是否支持用户级 hooks。",
+      "file": "questions/021.md"
+    },
+    {
+      "num": 22,
+      "question_ref": "Q22",
+      "question": "确认三决策：框架仓库 git@github.com:EustonHuang/ai_project_standard.git + 本地 ~/personal/ai_project_standard 迁入；首批 skills=install/update/check 放项目下且详写；breaking-change 用类 semver major=breaking 须人工 review。新三点：SKILL.md 改名 README.md；新增 improvements 栏目（含 index/TOC，只增不改、implemented 冻结、未实施可改）；追问应新建 question 而非补充。",
+      "answer_summary": "同意。004 落地：仓库迁移并打 tag 推 remote；skills 实现 install/update/check（install 写 hook+锁文件+脚手架，update 跨 major 须 review，check 报告版本）；breaking 用 v<major>.<minor> + architecture 头部标 breaking；SKILL.md→README.md；improvements 平行 history/questions（index 记 status/in_architecture/priority/implemented_in，TOC 派生，implemented 冻结）；追问改新建 question。待确认版本号格式/priority 标度/hook 引用方式。",
+      "file": "questions/022.md"
+    },
+    {
+      "num": 23,
+      "question_ref": "Q23",
+      "question": "答复 Q22 三确认点：① 框架版本号接受 v<major>.<minor>；② improvements priority=1 Very Low..5 Very High、status=1 Drafting/2 Recorded In Architect/3 Implemented；③ 采用方 hook 为每个项目安装一份（install-standard 写进项目 settings），问是否先写到 question。",
+      "answer_summary": "同意并落 004：版本号 v<major>.<minor> 配 tag；improvements 三态对应「队列→进计划→完成」流程、index 记 status+priority+in_architecture+implemented_in；hook 模型=每采用方项目一份（install 写入项目 settings），指向本地已安装框架路径使项目自包含。三项确认齐，004 输入完备。",
+      "file": "questions/023.md"
+    }
+  ]
+}

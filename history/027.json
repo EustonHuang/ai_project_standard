@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "回答 Q18：model 自报 hard_code（agent 层，非脚本层）+ schema_version 删除 timestamp 后未 bump（常量冻结/缺策略）；给出解决方案；核查 skill 已多处明写『不得就地改、用纠正 note』。"
+  },
+  "source": {
+    "user_prompt": "在执行之前，我发现了你的history记录中的几个问题，1. model永远是Hy3，实际上我之前的一个问题我是用Hy4 preview的，但你为什么还是写Hy3（可能是024.json但是具体的你给我去检查），我有理由怀疑你的model是hard_coded并没有记录真实的model。2. 关于schema_version，之前我们讨论过timestamp的问题，去掉timestamp之前schema_version是1.0我能理解，但是为什么去掉之后schema_version还是1.0？你难道不改吗？为什么不改？请回答我以上问题，为什么会发生这样的问题，以及针对这两个问题的解决方案，记录到questions中。注意设计解决方案的时候不要改history下的任何的xxx.json 文件，如果要改，采用新建+纠正note的方式，而不是直接修改，请检查这一点有没有在skill中mention，一并记录到questions中",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "questions/018.md"
+    ],
+    "change_summary": "记录问答 Q18：history 两条数据质量问题（model 自报失真、schema_version 删除 timestamp 后未 bump）的根因分析与解决方案，并核查 skill 已多处明写『不得就地改、用纠正 note』。",
+    "sections_affected": [
+      "questions/018.md（全新增）"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q18",
+    "question": "history 中 model 永远 Hy3（疑似 #024 实为 Hy4 preview）、schema_version 删 timestamp 后仍 1.0 为何不改？给出根因与方案，记录到 questions；并核查 skill 是否提及『不得就地改、用纠正 note』。",
+    "answer_summary": "model 值在 agent 层被自报 hard_code（脚本 0 命中 Hy3，平台无每轮模型信号）；schema_version 是脚本冻结常量且删 timestamp 时未立 bump 规则。方案：脚本改从平台信号取 model（否则 unknown）、立 schema_version bump 策略并将常量升 2.0。skill 已多处明写 append-only/correction 规则。",
+    "answer_location": "questions/018.md"
+  },
+  "correction": null,
+  "comments": "本事件与 questions/018.md 配套；本次响应模型按系统提示为 Hy3（responder 身份），model_confidence=confirmed。Q18 讨论的 bug 是 agent 无法侦测『用户切换模型』，而非 responder 自身身份；新策略要求平台信号优先、未知即 unknown。",
+  "recorded_by": "ai",
+  "event_id": 27,
+  "recorded_at": "2026-10-04T11:18:26.312136+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4e314d6221afabd7980bcc2d25d1c459219121e727b9148aa7d532ed29a730f3",
+    "plan_md_line_count": 230,
+    "source_doc": "architecture/003.md"
+  }
+}

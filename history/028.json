@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "event_type": "comment_added",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "按 Q18 结论，以新建文件方式标注 history 两条已知数据质量问题（不回改任何旧事件）。"
+  },
+  "source": {
+    "user_prompt": "（源自 Q18 的数据质量审计；无新提示词）",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [],
+    "change_summary": "标注 history 数据质量 lineage：①source.model 全部为 agent 自报『Hy3』，凡用户切换模型的轮次（如疑似 #024 的 Hy4 preview）可能失真，字段不可信；②schema_version 在删 timestamp（形态变更）时未 bump，事件 #1–#14 含 timestamp（形态 1.0），#15 起无 timestamp 却仍标 1.0（本应 2.0）。两者均不回改旧文件，演进由本注释说明。",
+    "sections_affected": []
+  },
+  "qna": null,
+  "correction": null,
+  "comments": "本事件为 standalone annotation（comment_added，无 plan 变更），用于在不违反 append-only 前提下诚实标注既有记录的不确定性；对应完整分析与解决方案见 questions/018.md。修复动作（脚本从平台信号取 model、EVENT_SCHEMA_VERSION 升 2.0）待补进 architecture/003.md §8 delta 于 v3 执行。",
+  "recorded_by": "ai",
+  "event_id": 28,
+  "recorded_at": "2026-10-04T11:18:26.432124+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4e314d6221afabd7980bcc2d25d1c459219121e727b9148aa7d532ed29a730f3",
+    "plan_md_line_count": 230,
+    "source_doc": "architecture/003.md"
+  }
+}

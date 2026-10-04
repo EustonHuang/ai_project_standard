@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "按用户指令把 Q18 数据质量修正方案纳入 architecture 003。"
+  },
+  "source": {
+    "user_prompt": "请更改003.md architecture，将Q18考虑进去",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/003.md"
+    ],
+    "change_summary": "修改 architecture/003.md 纳入 Q18：①开头范围 Q11–Q17→Q11–Q18，关联行加 Q18 说明；②§0 改进来源 5→6，新增 Q18 来源（model 自报失真 + schema_version 删 timestamp 未 bump）；③新增 §11 数据质量修正——11.1 model 改从平台可信信号取（未知即 unknown、禁 agent 自报 Hy3）、11.2 schema_version bump 策略（删/重命名→MAJOR、新增可选→MINOR）且 EVENT_SCHEMA_VERSION 升 2.0、11.3 脚本/文档变更清单；④§6 补 SKILL.md/history_schema.md 的 model 来源与 bump 策略文档更新；⑤§8 delta 增步骤 13–14（model 平台信号、常量升 2.0）；⑥§9 增强制门 + Q18 落地验证项；⑦原执行记录顺延为 §12。",
+    "sections_affected": [
+      "architecture/003.md §0/§6/§8/§9/§11/§12"
+    ]
+  },
+  "qna": null,
+  "correction": null,
+  "comments": "本事件即为对 architecture/003.md 的改动留痕（落实 Q15 教训 + 本计划 §10.1）。未改动 architecture_index.json 版本号（v3 仍 pending）；未回改任何旧 history 文件。Q18 的实际脚本/文档修复待按 §8 delta 13–14 于 v3 执行。注：本次 source.model 按系统提示记 Hy3（responder 身份），与新 §11.1 『平台信号优先、未知即 unknown』策略不冲突——该策略针对侦测用户切换模型。",
+  "recorded_by": "ai",
+  "event_id": 29,
+  "recorded_at": "2026-10-04T11:44:05.176020+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "db019c98d1ce21933d99466a2be1fb764164948f2e9d8a75dc40dd03c30d411f",
+    "plan_md_line_count": 255,
+    "source_doc": "architecture/003.md"
+  }
+}

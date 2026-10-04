@@ -1,0 +1,38 @@
+{
+  "event_type": "correction",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Corrected plan_002.md: its section 1/5/6 had wrongly placed *_index.json and *_meta.json INSIDE their category folders (history/, questions/, issues/, architecture/). Per the user's established requirement (Q7-2 / Q8-4), these files must live at the <plan>/ root (sibling of category folders) for findability when categories grow. Rewrote plan_002.md so all indexes/metas sit at <plan>/ root; also moved the questions TOC to questions_TOC.md at root for consistency."
+  },
+  "source": {
+    "user_prompt": "plan_002.md 里的布局：architecture/、history/、questions/、issues/ 里都嵌套了 index.json 和 meta.json。等等，我说了index.json和meta.json要跳出对应的folder直接写到<plan>/ folder下面把？方便好找，你忘了？请修改",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "plan_002.md"
+    ],
+    "change_summary": "纠正 plan_002.md：将 *_index.json / *_meta.json 从类目文件夹内移到 <plan>/ 根（用户硬性要求），并同步修正 §1/§5/§6 的所有引用；问答 TOC 移至根 questions_TOC.md。",
+    "sections_affected": [
+      "plan_002.md:1",
+      "plan_002.md:5",
+      "plan_002.md:6"
+    ],
+    "diff_reference": "plan_002.md rewrite (indexes/metas at <plan>/ root)"
+  },
+  "correction": {
+    "corrects_event_id": 15,
+    "reason": "plan_002.md 初版错误地把 *_index.json / *_meta.json 放在了对应类目文件夹内部，违背了用户早已明确的『索引/元信息置于 <plan>/ 根』要求。",
+    "detail": "event #15（plan_modified：创建 plan_002.md）所生成的 plan_002.md §1 布局在 architecture/ history/ questions/ issues/ 内各嵌了 index.json/meta.json。现整体重写为索引/元信息均在 <plan>/ 根。原 event #15 内容不动，以本纠正事件为权威。"
+  },
+  "comments": "本事件按 ① 方向不含 timestamp（沿用 Q3 决议），时间以 recorded_at 为准（脚本真实时钟）。因 plan.md 已重命名，脚本 plan_state_snapshot 自动跳过（无 plan.md），故本事件无 plan_state_snapshot，属预期。correction 事件本身不改动被纠正的 event #15，符合只增不改。",
+  "recorded_by": "ai",
+  "event_id": 16,
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-03T23:29:48.390156+08:00"
+}

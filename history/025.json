@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "记录用户对 Q16 方案的两点质疑及重构后的三层方案（hook 驱动、本轮作用域强检）。"
+  },
+  "source": {
+    "user_prompt": "我对你的回答很不满意！有以下质疑，请认真对待，不要和稀泥！\n关于 第 1 层 — agent 行为规则（写进 SKILL.md 并高亮）\n1. 规则：若本回合在 plan 文件夹内创建/修改/删除了任何 plan 文件。你在开头强调了任何plan文件，但是在后面解释的时候，你给人的感觉就是似乎只有这些文件修改才触发history update，对吗？比如说你举例（architecture/*.md、*_index.json、*_TOC.md、questions/*、issues/*、SKILL.md、references/*）你的例子中为什么不加个等字？让人误以为这就是全部的改动，你应该这么写：若本回合在 plan 文件夹内创建/修改/删除了任何 plan 文件（包含但不仅限于 architecture/*.md、*_index.json、*_TOC.md、questions/*、issues/*、SKILL.md、references/*等），...\n你心里没数吗？\n再者，你后面提到的三点也是例子，那你为什么不标明这些是例子呢？你不标明那不就是给你钻漏洞的空间？\n2. 第 2 层 — 脚本机械兜底（新增 gate 子命令）\n你的脚本看上去扫描了所有的文件，但是请问这有必要吗？当项目容量越来越大的时候，你的questions/ 这些文件夹暴增，你扫描的时间将会越来越长，以后你就在检查这一步卡死了。况且你的扫描并不能处理并发的情况，假如有2个agent在同时编写，你的agent没有新增文件，但是别的agent新增了文件，你还是触发了兜底机制。这对吗？请仔细思考这个问题，你的脚本应该监测的是你agent这一轮修改了什么文件，而不是所有的文件都要扫一遍，那样既愚蠢又会容易出现错误！在claude code有一个功能叫做hook，你要设计的是类似于这样的功能！就是等Agent跑完所有的东西之后，再执行检查，你自己想想你有没有这个功能，有的话用上，没有的话告诉我怎么实现\n\n请重新梳理这三点，并把新的答案写到questions中",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "plan-history-recorder-003-followup"
+  },
+  "operation": {
+    "target_files": [
+      "questions/017.md"
+    ],
+    "change_summary": "记录问答 Q17（修订 Q16）：①第 1 层文案补齐'包含但不仅限于…等'与'仅为举例、非穷举'，堵住穷举漏洞；②作废 Q16 的全目录 mtime 扫描，改为 CodeBuddy Hooks 驱动的本轮作用域强检——UserPromptSubmit 开轮记 baseline_max_id、PostToolUse 记账本轮改动文件、Stop 校验新事件 target_files 是否覆盖并 exit 2 强制回头；成本 O(本轮改动) 不扫全盘，按 session_id 隔离使并发正确；③audit 保持纯结构校验，另留声明式手动 check。",
+    "sections_affected": [
+      "questions/017.md（全新增）"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q17",
+    "question": "对 Q16 方案的质疑：①第1层举例未加'等'、事件映射未标'举例'，留了钻漏洞空间；②第2层全目录 mtime 扫描既不可扩展又并发误报，应只监测本 agent 本轮改了什么；claude code 有 hook，你有没有这功能？有就用上，没有说怎么实现。请重新梳理三点。",
+    "answer_summary": "①文案改为'包含但不仅限于…等'、事件映射明确'仅为举例非穷举'。②作废全盘扫描，改用 CodeBuddy Hooks（官方 7 事件，Stop=Agent 完成响应、exit 2 强制回头）：UserPromptSubmit 开轮记 baseline、PostToolUse 记账本轮改动、Stop 校验覆盖；成本 O(本轮改动) 不扫全盘，按 session_id 隔离并发正确。③audit 保持纯结构校验，另留声明式手动 check。已查证 CodeBuddy 确有 Hooks（兼容 Claude Code 规范）。待执行。",
+    "answer_location": "questions/017.md"
+  },
+  "correction": null,
+  "comments": "本条修订 Q16 的第 1、2、3 层；按只增不改原则，Q16 原文不作改动，以本条为最新方案。方案实现（turn_gate.py、.codebuddy/settings.json hook 配置、SKILL.md/workflow.md 更新）尚未执行；执行时须按第 1 层规则先追加 history 事件。",
+  "recorded_by": "ai",
+  "event_id": 25,
+  "recorded_at": "2026-10-04T10:24:51.318308+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "69b61fee1fa75b6c426a125f669e411b25db64ca7bbd1bf04f74d5c9f5aa2c0e",
+    "plan_md_line_count": 161,
+    "source_doc": "architecture/003.md"
+  }
+}

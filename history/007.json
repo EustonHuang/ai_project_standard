@@ -1,0 +1,44 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's rejection of suggestions A/B/C and their corrected design: history.json should be a pure array [{},{}] of events; schema_version belongs per-event; drop the top-level wrapper and its 4 meta fields (use a separate meta file if needed). Agreed and recorded the revised plan in plan.md."
+  },
+  "source": {
+    "user_prompt": "三个建议都不接受。history.json 就该变成 [{},{}] 形式；原本的 schema_version 是文件的，但我要的是 event 的 schema_version，既然是 event 的就该放进 event 里。A 仍保留 {} 结构冒出两个 schema_version 令人 confusing；B 在逃避（加/减字段的问题永远会遇到，碰到了就得做）；C 同 A 搅浑水。顶层那四个字段（schema_version/plan_id/plan_title/created_at）统统不要，需要元信息就另建一个 json 文件。请在 questions.md 回应并重新给我一个计划，同时 update history.json。在执行前，一律按照旧的 history.json 更新方式更新。",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions.md",
+      "plan.md"
+    ],
+    "change_summary": "记录问答 Q4：用户否定 A/B/C，给出正确设计（history.json 纯数组、per-event schema_version、去顶层 meta）；并在 plan.md 写入修订版计划。",
+    "sections_affected": [
+      "Q4",
+      "plan.md:0/1/2/3/4/5/6/7/8"
+    ],
+    "diff_reference": "questions.md Q4 + plan.md revised"
+  },
+  "qna": {
+    "question_ref": "Q4",
+    "question": "为何 A/B/C 都不行？正确的 history.json 与 schema_version 设计是什么？",
+    "answer_summary": "A/B/C 都未解决要害：{} 包裹结构是缺陷，schema_version 应是 event 级、放进 event 内；history.json 应为纯数组 [{},{}]；顶层四元字段去掉（需元信息则另建 history_meta.json）。修订计划见 plan.md。",
+    "answer_location": "questions.md#Q4"
+  },
+  "correction": null,
+  "comments": "本事件按用户要求「执行前按旧方式更新」，仍以旧结构（object+events[]）追加，未做数组化迁移；per-event schema_version 与数组化将在执行阶段落地。无 timestamp（沿用①）。",
+  "recorded_by": "ai",
+  "event_id": 7,
+  "recorded_at": "2026-10-03T17:28:15.157920+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "51e6628fcba4d8e9508e0ef1cd74a3e3783350ba499328402081492ed0251cc8",
+    "plan_md_line_count": 128
+  },
+  "schema_version": "1.0"
+}

@@ -1,0 +1,34 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Per user instruction: renamed plan.md to plan_001.md (preserving the first-version design) and created plan_002.md, the consolidated execution plan that incorporates Q7-Q10 decisions (folder-based history/ questions/ issues/ architecture/, per-category indexes, optimistic-lock-style commit with lock+version guard, issues fallback, and explicit migration mapping plan_001.md -> architecture/001.md etc.). Did not yet execute the migration itself (pending user review)."
+  },
+  "source": {
+    "user_prompt": "OK我希望把Q7-Q10的内容写到执行计划中，考虑到执行计划里面含有plan->architecture folder的调整，为了不陷入死循环，我们先执行以下操作：\n将现有的plan.md命名为plan_001.md\n然后创建新的plan_002.md，将执行计划写入plan_002.md中，最后需要考虑到\n1. plan_002.md是我们即将要执行的计划（如果我审核无误的情况下）\n2. plan_002.md中在建architecture的文件夹的时候，需要讲清楚迁移逻辑（比如plan_001.md -> architecture/001.md...）",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "plan_001.md",
+      "plan_002.md"
+    ],
+    "change_summary": "重命名 plan.md→plan_001.md（初版设计存档）；创建 plan_002.md（整合 Q7–Q10 的执行计划：文件夹化布局、per-category 索引、锁+版本守卫提交、issues 兜底、显式迁移映射 plan_001.md→architecture/001.md 等）；未执行实际迁移（待审核）。",
+    "sections_affected": [
+      "plan_001.md (原 plan.md)",
+      "plan_002.md (新执行计划)"
+    ],
+    "diff_reference": "rename plan.md -> plan_001.md; create plan_002.md"
+  },
+  "correction": null,
+  "comments": "本事件按 ① 方向不含 timestamp（沿用 Q3 决议），时间以 recorded_at 为准（脚本真实时钟）。因 plan.md 已重命名为 plan_001.md，脚本的 plan_state_snapshot 自动跳过（无 plan.md 可快照），故本事件无 plan_state_snapshot 字段，属预期。本操作为 plan 结构重组的预备步，实际迁移（history.json→history/ 等）留待审核后按 plan_002.md §6 执行。",
+  "recorded_by": "ai",
+  "event_id": 15,
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-03T23:25:13.461016+08:00"
+}

@@ -1,0 +1,43 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's question about whether all *_meta.json files are superfluous and can be planned for deletion (with docs kept up to date). Answered in questions/011.md (Q11)."
+  },
+  "source": {
+    "user_prompt": "OK很不错，但是我发现几个问题\n1. 所有的meta.json文件（包括architecture_meta，issues_meta,history_meta,questions_meta）是不是都无关紧要？反而一些notes什么的都可以加入到index.json下面。假如真的是无关紧要，能不能计划删了？计划删的时候，同时要保证相应的文档up to date\n2. plan_001.md和plan_002.md没有删，留着干嘛过年吗？\n3. questions_TOC.md的设计是不是多余？因为questions_index.json里面有相应的内容了，唯一questions_index.json美中不足的是不能给链接，用户直接点链接跳转这是需要的？总而言之，我想要的是索引+具体文件，这种设计相当于你有一个新的问题出现，你需要修改三个地方。这样真的比只有一个questions.json更有优势吗？我存疑。所以有没有一种办法，尽量拆成两部分，索引+具体内容，索引又不能太长，因为索引本质上还是json append，我们这么做的初心是什么，是为了解决json文件越加越长，假如索引太长不好维护，那我们又回到了当初的坑。\n请将问题记录到questions中",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/011.md"
+    ],
+    "change_summary": "记录问答 Q11：四个 meta.json 是否无关紧要、能否计划删除并保证文档同步更新。",
+    "sections_affected": [
+      "Q11"
+    ],
+    "diff_reference": "questions/011.md"
+  },
+  "qna": {
+    "question_ref": "Q11",
+    "question": "所有 meta.json 是否都无关紧要？能否计划删了（并保证文档 up to date）？",
+    "answer_summary": "基本同意删除：四个 meta 内容重复或为空（history_meta 与 architecture_meta 同为 plan 级三字段；questions/issues meta 无实质内容）。建议 plan 级字段并入 architecture_index.json、notes 并入各 index 的 notes 字段；删除须同步更新脚本 init、history_schema.md、workflow.md、SKILL.md 与 architecture/002.md。待批准后执行。",
+    "answer_location": "questions/011.md"
+  },
+  "correction": null,
+  "comments": "本事件按 ① 方向不含 timestamp，时间以 recorded_at 为准（脚本真实时钟）。plan_state_snapshot 由脚本按最新 architecture/002.md 自动生成。本轮仅记录问答，未删除任何文件、未改动脚本。",
+  "recorded_by": "ai",
+  "schema_version": "1.0",
+  "event_id": 18,
+  "recorded_at": "2026-10-04T00:01:19.862621+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "96a926753b6f5283b115c84c5e0214f9dbd4258b3b541cd5dee498dd3c4b9c73",
+    "plan_md_line_count": 144,
+    "source_doc": "architecture/002.md"
+  }
+}

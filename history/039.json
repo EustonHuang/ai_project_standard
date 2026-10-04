@@ -1,0 +1,38 @@
+{
+  "event_type": "plan_created",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "首次创建 architecture/004.md（项目规范框架化 v0.4），聚合 Q21–Q23 讨论；同步更新 architecture_index.json（latest_version=4、追加 v4 条目）。状态：defined, not executed。"
+  },
+  "source": {
+    "user_prompt": "请将Q21-Q23中的讨论的内容，写进architecture 004.md中",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/004.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ],
+    "change_summary": "创建 architecture/004.md（项目规范框架化 v0.4），汇总 Q21–Q23：skill→元规范、独立 git/GitHub 仓库、install/update/check skills、breaking-change 类 semver、improvements 栏目、SKILL.md→README.md、双版本轴分离、追问新建 question。更新 architecture_index.json 追加 v4、latest_version=4。",
+    "sections_affected": [
+      "architecture"
+    ]
+  },
+  "correction": null,
+  "comments": "本计划 defined 未执行；执行待用户审核通过后按 §8 步骤进行，执行后再置 implemented_version=4 并填 §10。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 39,
+  "recorded_at": "2026-10-04T17:53:56.233719+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "bd5c517d0370d5b652f9c41741d7b99affc91a60e4cc532285737cb4a1bb68fe",
+    "plan_md_line_count": 185,
+    "source_doc": "architecture/004.md"
+  }
+}

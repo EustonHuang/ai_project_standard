@@ -1,0 +1,43 @@
+{
+  "event_type": "qna_recorded",
+  "timestamp": "2026-10-03T00:00:00+08:00",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's question about why timestamp is imprecise, the difference between timestamp and recorded_at, and whether timestamp can be removed. Answered in questions.md (Q2); no schema changes made per user instruction."
+  },
+  "source": {
+    "user_prompt": "我发现你到目前为止的event都含有「timestamp 精确时刻未知」类似的评论，我想知道的是：1. 为什么 timestamp 不可拿？2. recorded_at 字段已经有了时间戳，这正是我要看的，所以这个字段和 timestamp 字段的区别在哪里，我有了 recorded_at 之后可以删了 timestamp 字段吗？请先回答我这个问题，不要做任何决策上的改动（除了改动 questions.md 和 history.json）。",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions.md"
+    ],
+    "change_summary": "记录问答 Q2：timestamp 为何不精确、timestamp 与 recorded_at 的区别、能否删 timestamp。",
+    "sections_affected": [
+      "Q2"
+    ],
+    "diff_reference": "questions.md Q2"
+  },
+  "qna": {
+    "question_ref": "Q2",
+    "question": "为什么 event 的 timestamp 拿不到精确时刻？recorded_at 与 timestamp 区别为何？有了 recorded_at 能否删 timestamp？",
+    "answer_summary": "timestamp 由 AI 作者填写，环境仅给日期无时分秒故只能占位；recorded_at 由脚本写文件时读真实时钟故准确。两者语义不同（发生时间 vs 写入时间），当前实现中 timestamp 失真、recorded_at 为真。是否删 timestamp 是 schema 决策，未改；建议删或让脚本自动填真实时间。",
+    "answer_location": "questions.md#Q2"
+  },
+  "correction": null,
+  "comments": "timestamp 为占位日期（00:00:00），精确时刻以 recorded_at 为准（脚本写入时的真实时钟）。本事件未做任何 schema/文档决策性改动。",
+  "recorded_by": "ai",
+  "event_id": 5,
+  "recorded_at": "2026-10-03T16:59:35.967372+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "88b08cc83362d3eb16f169ddf58ef060c592d5561122e0469e69ac7e979e2aa5",
+    "plan_md_line_count": 97
+  },
+  "schema_version": "1.0"
+}

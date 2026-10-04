@@ -1,0 +1,43 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's follow-up on TOC: since index/TOC are script-derived (human/agent only writes content), keep TOC and extend it to architecture/history/issues too. Asked for a concrete TOC-writing proposal. Answered in questions/014.md (Q14)."
+  },
+  "source": {
+    "user_prompt": "也就是说人或 agent 只写内容，索引与 TOC 由脚本派生。假如是这样，那么生成TOC可以考虑，因为链接的价值还是很大的，而且TOC对人的阅读是非常友好的，那这样，考虑保留TOC，同时对于别的板块，architecture,history,issues也引入TOC方便人查找。但如何写TOC需要你给个方案，请记入到questions中",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/014.md"
+    ],
+    "change_summary": "记录问答 Q14：保留 TOC 并扩展到 architecture/history/issues，给出具体写法方案。",
+    "sections_affected": [
+      "Q14"
+    ],
+    "diff_reference": "questions/014.md"
+  },
+  "qna": {
+    "question_ref": "Q14",
+    "question": "既然 TOC 由脚本派生、不手改，那保留并扩展 TOC 到 architecture/history/issues 都引入，但如何写 TOC 需给方案？",
+    "answer_summary": "四类各一个 <kind>_TOC.md（plan 根、相对链接、顶部注“自动生成勿手改”）；内容 = 索引 brief 的 md 渲染（每项是 [label](相对路径) — 摘要）；新增 gen-toc 子命令渲染，append 时自动刷新对应 TOC；长度上只对最近 N 条出链、末尾指引见 index；TOC 与 index 同源（均来自 *_index.json）不会分叉。属设计补充，应作为 architecture 下一版本 delta。",
+    "answer_location": "questions/014.md"
+  },
+  "correction": null,
+  "comments": "本事件按既有约定不含 timestamp，时间以 recorded_at 为准（脚本真实时钟）。plan_state_snapshot 由脚本按最新 architecture/002.md 自动生成。本轮仅记录问答，未改脚本/计划/文件。此补充应作为 architecture 下一版本（002→003 或 002 增补）的 delta 记录，待批准后执行。",
+  "recorded_by": "ai",
+  "schema_version": "1.0",
+  "event_id": 21,
+  "recorded_at": "2026-10-04T00:07:06.524543+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "96a926753b6f5283b115c84c5e0214f9dbd4258b3b541cd5dee498dd3c4b9c73",
+    "plan_md_line_count": 144,
+    "source_doc": "architecture/002.md"
+  }
+}

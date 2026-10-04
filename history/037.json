@@ -1,0 +1,38 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "记录 Q22：用户对 Q21 三决策的确认（框架仓库 git@github.com:EustonHuang/ai_project_standard.git + 本地 ~/personal/ai_project_standard 迁入；skills=install/update/check 放项目下详写；breaking-change 类 semver major=breaking 须人工 review）+ 新三点（SKILL.md→README.md；新增 improvements 栏目含 index/TOC；追问应新建 question）。"
+  },
+  "source": {
+    "user_prompt": "关于需要确认的点：1) 框架仓库 GitHub 位置 git@github.com:EustonHuang/ai_project_standard.git，本地放 ~/personal/ai_project_standard（把 plan-history-recorder 下内容迁过去）；2) 首批 skill=install/update/check，写详细实施方案且放 ai_project_standard 项目下；3) breaking-change：update-standard 遇非向后兼容=类 semver，major=breaking 须人工 review，请详写计划。新点：1) SKILL.md 更像 README.md 可重命名；2) 新增 improvements 栏目（含 improvements folder + md + improvement_TOC.md + improvement_index.json，设计不能拉下），与 history/questions 一样只增不减、可改但每次留痕(history)、implement 后不可改、未实施可改、status/in_architecture/priority/implemented_in 全进 index 并同步 TOC，目的为改进进队列；3) 不在 question 下写补充追问，应新建 question，纳入新计划。首先新建一个 question 记录下来。",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/022.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新建 Q22，记录框架仓库/技能/breaking-change 三项决策确认与 improvements 栏目、README 重命名、追问新建 question 三点新提议，并给出 architecture 004 落地细化。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为 Q22 的问答双录。讨论中，未执行迁移/重构；若推进应定为 architecture 004：项目规范框架化。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 37,
+  "recorded_at": "2026-10-04T17:42:41.273346+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4bb1011fa19f58d6eba904b14384242e5fcd1fbd3e192875b5006fa0ab74d88a",
+    "plan_md_line_count": 210,
+    "source_doc": "architecture/003.md"
+  }
+}

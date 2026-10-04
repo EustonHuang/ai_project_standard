@@ -1,0 +1,42 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's question about whether append-only history.json is unfriendly to AI coding (agent must scan the whole file each turn before appending; growing appends slow things down). Answered in questions.md (Q5); no skill/script changes made."
+  },
+  "source": {
+    "user_prompt": "关于 @/Users/euston/personal/euston_wiki/.codebuddy/skills/plan-history-recorder 这个 skill 的设计，我有一个问题，目前采用的 append history.json 的方式，会不会对 AI coding 不太友好？因为 AI coding 每次都要先扫描一遍文件，然后 append？这样的话当 append 越来越多的时候，会减慢速度？请加在 questions.md 中，并更新 history.json。",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions.md"
+    ],
+    "change_summary": "记录问答 Q5：append-only history.json 对 AI coding 是否不友好（每次需扫描全文件再 append、append 增长是否变慢）。",
+    "sections_affected": [
+      "Q5"
+    ],
+    "diff_reference": "questions.md Q5"
+  },
+  "qna": {
+    "question_ref": "Q5",
+    "question": "append-only history.json 会不会对 AI coding 不友好？因为 AI coding 每次都要先扫描一遍文件再 append，append 越来越多时会减慢速度？",
+    "answer_summary": "机械 append 不会变慢（纯磁盘 I/O，脚本完成、不占上下文）；真正会变贵的是 AI 读历史的上下文/token 成本（随历史线性增长）。已有 show 摘要与 companion 文件缓解；更彻底方案是把 history.json 当只增不改的 canonical log，再加一个可重建的轻量索引（_index.json）供 AI 高频读取，从而解耦可信性与读取效率。本次未改动 skill/脚本。",
+    "answer_location": "questions.md#Q5"
+  },
+  "correction": null,
+  "comments": "本事件按 ① 方向不含 timestamp（沿用 Q3 决议），时间以 recorded_at 为准（脚本真实时钟）。plan.md 在本次问答中未改动，故 plan_state_snapshot 由脚本按当前 plan.md 自动生成（应与 event #8 一致）。本次仅记录问答，未对 skill/脚本做决策性改动；若采纳「可重建轻量索引层」将作为新 event 演进。",
+  "recorded_by": "ai",
+  "event_id": 9,
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-03T19:32:35.503569+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "533eb1097619cce5d61d6dda924ffd908c0ca1ff77e33920f6ad51021666453a",
+    "plan_md_line_count": 130
+  }
+}

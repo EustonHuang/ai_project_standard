@@ -1,0 +1,61 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Executed plan_002.md (architecture/002.md): rewrote append_history.py to folder form with lock + version guard + issues fallback, migrated history.json(16 events)->history/*.json and questions.md(Q1-Q10)->questions/*.md, created architecture/ and issues/ with root-level indexes/metas, updated SKILL.md/references/assets, validated via audit/show + end-to-end tests, then set implemented_version=2."
+  },
+  "source": {
+    "user_prompt": "OK请执行plan_002.md",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/append_history.py",
+      "SKILL.md",
+      "references/history_schema.md",
+      "references/record_types.md",
+      "references/workflow.md",
+      "assets/history.template.json",
+      "history/",
+      "questions/",
+      "issues/",
+      "architecture/",
+      "history_index.json",
+      "questions_index.json",
+      "questions_TOC.md",
+      "issues_index.json",
+      "architecture_index.json",
+      "history_meta.json",
+      "questions_meta.json",
+      "issues_meta.json",
+      "architecture_meta.json",
+      "history.json",
+      "questions.md"
+    ],
+    "change_summary": "执行 plan_002.md：迁移到文件夹形态（history/ questions/ issues/ architecture/ + plan 根索引与 meta）；脚本重写为 init/append/show/audit/rebuild-index/migrate/recover/set-implemented，append 采用互斥锁+索引版本守卫，异常走 issues/ 留档；修复 plan.md 硬编码快照（改指最新 architecture doc）；旧 history.json 与 questions.md 已删除。",
+    "sections_affected": [
+      "plan_002.md:1",
+      "plan_002.md:2",
+      "plan_002.md:3",
+      "plan_002.md:5",
+      "plan_002.md:6"
+    ],
+    "diff_reference": "plan_002.md §6 delta 清单 1-10"
+  },
+  "correction": null,
+  "comments": "执行过程中发现并修复两处实现缺陷：① audit 误把『目标版本已定义但未落地』当作数据不一致，改为 NOTE（进行中状态非 desync）；② raise_issue 在已持锁时无法再次获锁导致 issues_index 不更新，改为锁对持锁 PID 可重入。端到端验证：正常 append 成功；碰撞与锁超时均正确中止并完整留档 issues/{n}/（含 intended/existing/index_snapshot），排除故障后 append 恢复成功；rebuild-index 可修复滞后索引。migrate 为一次性容器变更，旧 event 内容原样保留（含旧 timestamp），符合只增不改。",
+  "recorded_by": "ai",
+  "schema_version": "1.0",
+  "event_id": 17,
+  "recorded_at": "2026-10-03T23:47:24.521885+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "127e272df1a471b9867b45901dcc77cad9a8d665ef5213ddbdd60a1e6870f252",
+    "plan_md_line_count": 135,
+    "source_doc": "architecture/002.md"
+  }
+}

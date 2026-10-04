@@ -1,0 +1,42 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "Recorded the user's follow-up question about the actual AI-coding append workflow: do agents really read all of history.json and questions.md? Answered in questions.md (Q6); no skill/script changes made."
+  },
+  "source": {
+    "user_prompt": "所以，AI coding在执行append的时候，是怎样的流程，他们真的是读了history.json 以及questions.md的所有的内容吗？",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions.md"
+    ],
+    "change_summary": "记录问答 Q6：AI coding 执行 append 的真实流程，以及是否真的读全 history.json / questions.md。",
+    "sections_affected": [
+      "Q6"
+    ],
+    "diff_reference": "questions.md Q6"
+  },
+  "qna": {
+    "question_ref": "Q6",
+    "question": "AI coding 执行 append 时流程是怎样的？他们真的读了 history.json 与 questions.md 的所有内容吗？",
+    "answer_summary": "并不必然全读。history.json 的 append 由脚本在磁盘完成（读→解析→压入→写回并自动补 event_id/recorded_at 等），模型只需产出小 event 对象、不把主日志装进上下文；模型读的是 SKILL.md/references 等指令而非历史数据。questions.md 因追加通常全读一次（markdown、较小、频率低）。瓶颈在“模型是否主动全读主日志”，本 skill 的脚本 append + show 摘要 + companion 分流已将成本压到最低；彻底解法是 Q5 的可重建轻量索引。",
+    "answer_location": "questions.md#Q6"
+  },
+  "correction": null,
+  "comments": "本事件按 ① 方向不含 timestamp（沿用 Q3 决议），时间以 recorded_at 为准（脚本真实时钟）。plan.md 在本次问答中未改动，plan_state_snapshot 由脚本按当前 plan.md 自动生成。本次仅记录问答，未对 skill/脚本做决策性改动。",
+  "recorded_by": "ai",
+  "event_id": 10,
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-03T19:39:19.953656+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "533eb1097619cce5d61d6dda924ffd908c0ca1ff77e33920f6ad51021666453a",
+    "plan_md_line_count": 130
+  }
+}

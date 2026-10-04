@@ -1,0 +1,38 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "记录 Q23：用户对 Q22 三确认点的答复（版本号 v<major>.<minor>；improvements priority/status 标度；hook 每采用方项目一份）。"
+  },
+  "source": {
+    "user_prompt": "回答需要确认的点：框架版本号格式接受建议（v<major>.<minor>）；improvements priority=1 Very Low/2 Low/3 Median/4 High/5 Very High，status=1 Drafting/2 Recorded In Architect/3 Implemented；采用方 hook 指向：一个项目安装规范后 hook 安装到项目设定中，所以每个项目一个 hook。还是先写到 question 中。",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/023.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新建 Q23，记录用户对 Q22 三确认点的答复：版本号 v<major>.<minor>；improvements priority(1-5)/status(Drafting/Recorded In Architect/Implemented)；hook 模型=每采用方项目一份（install 写入项目 settings）。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为 Q23 的问答双录。讨论中，未执行；architecture 004 输入已完备，可随时写执行计划。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 38,
+  "recorded_at": "2026-10-04T17:49:28.948280+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4bb1011fa19f58d6eba904b14384242e5fcd1fbd3e192875b5006fa0ab74d88a",
+    "plan_md_line_count": 210,
+    "source_doc": "architecture/003.md"
+  }
+}

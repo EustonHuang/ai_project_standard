@@ -1,0 +1,38 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "记录用户关于 skill→全局项目规范 / 全局 hook / 双版本轴分离的提问与讨论（Q21）。"
+  },
+  "source": {
+    "user_prompt": "接下来我想问一个问题：我们的这个 skills 发展到现在，越看越不像一个 skills，而更像是一套项目规范（每个项目都需要遵从 history update、folder structure、questions、issues 等记录方式），而这套规范本身也得符合这个规范，规范也在不断迭代，因此 architecture 里的 001/002/003 都是这套规范的版本。并且你在写 hook 的时候，这个 hook 是整个项目层的，但是你引用的文件是 skill 层的，这一点很别扭。但是假如你不把它当成 skill，你就把它当成所有项目都需要符合的项目规范，那就不别扭，那么这个东西就该存在能被所有项目引用的地方（不是 <workspace>/.codebuddy/... 而是一个全局的地方）。同时，每个项目（包括他自己）都应该声明当前使用的项目规范的版本，同时每个项目拥有自己的项目的版本，这一点和项目规范的版本应当区分开来。比如你写一个 euston_wiki 这个项目，这个项目可能会有他自己的更新迭代（比如 wiki schema 的更新迭代等等），但是这和这个项目所用的项目规范版本是不一样的（项目规范版本可能用的最新的，目前是003），这要区分开来。请把以上考虑写到 questions 中，告诉我你的想法。",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/021.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q21：将本 recorder 重新定位为「全局项目规范（metastandard）」而非 skill；提出全局位置 + 全局 hook 以消除项目层 hook 引用 skill 层文件的别扭；并提出 standard_version（所用规范版本，如003）与项目自身版本轴（如 wiki schema 迭代）两条轴分离。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为 Q21 的问答双录（questions/021.md 正文 + 本事件审计轨迹）。讨论中，未执行重构；若推进应定为 architecture 004。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 35,
+  "recorded_at": "2026-10-04T13:34:28.898955+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4bb1011fa19f58d6eba904b14384242e5fcd1fbd3e192875b5006fa0ab74d88a",
+    "plan_md_line_count": 210,
+    "source_doc": "architecture/003.md"
+  }
+}

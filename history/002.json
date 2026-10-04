@@ -1,0 +1,50 @@
+{
+  "event_type": "plan_created",
+  "timestamp": "2026-10-03T00:00:00+08:00",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent (Hy3)",
+    "detail": "AI agent authored the plan-history-recorder skill (SKILL.md, plan.md, references/, scripts/, assets/) in response to the user prompt below."
+  },
+  "source": {
+    "user_prompt": "用户要求：写一个 skill 记录每个 plan 的全过程，做到数据来源有迹可循。要求包括：1) 每个 plan 都带 history.json；2) 创建/修改/接受等每个操作都记入 history.json；3) 记录要具体（用户提示词、所用模型、时间戳等），不确定就在 comments 备注；4) 人机分离，区分「用户用提示词让 AI 改」与「用户手动改」；5) history.json 只增不改，记录有误就追加纠正记录而非回改。skill 写到 draft_plan/history_record_skill_plan/，包含 assets、references 等，plan.md 可精简并引用相应路径。",
+    "prompt_language": "zh",
+    "model": "Hy3",
+    "model_confidence": "confirmed",
+    "tool": "CodeBuddy",
+    "session_id": "unknown",
+    "attachments": "本 skill 作为示范，其自身历史也按本规则记录（即此 history.json）。"
+  },
+  "operation": {
+    "target_files": [
+      "SKILL.md",
+      "plan.md",
+      "references/history_schema.md",
+      "references/record_types.md",
+      "references/workflow.md",
+      "assets/history.template.json",
+      "scripts/append_history.py"
+    ],
+    "change_summary": "创建 plan-history-recorder skill：定义 history.json 的只增不改事件日志模型、人机分离溯源字段、纠正协议，并提供确定性 append 脚本。",
+    "sections_affected": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "diff_reference": "initial creation of all skill files"
+  },
+  "correction": null,
+  "comments": "环境仅提供日期 2026-10-03，未提供具体时分秒；timestamp 日期准确，精确时刻未知。完整逐字提示词见本次对话消息。",
+  "recorded_by": "ai",
+  "event_id": 2,
+  "recorded_at": "2026-10-03T14:56:00.624632+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "9ce27cab5e6cc349b4c3f78d17b43c982479145ecf3b874555c5663c8f65d719",
+    "plan_md_line_count": 95
+  },
+  "schema_version": "1.0"
+}

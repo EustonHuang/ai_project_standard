@@ -1,0 +1,36 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "记录用户对 Q21 回答的 3 点 comments 与补充回应（框架仓库化 / git 强制版本控制 / 内置 install·update·check skills）。"
+  },
+  "source": {
+    "user_prompt": "关于你的回答，我有几点 comments：② 你提的全局位置本质还是 skills 下面，但已定它不是 skill 而是一套项目规范框架，可选采用（至少自己的项目遵循，别人的项目可不采用）；采用后需知所用版本、最新版本、并被提醒升级。另两点：1) version control：当前规范只套用 latest，002 已被覆盖，追溯代价大；git 必不可少，从下一版本起每次更新必须推 git。2) 代码仓库：应单独开一个项目（自带版本控制 + GitHub 远程），并自带 skill（安装某版本规范到某项目、更新某项目规范到最新等），这些 skill 也放进该项目。请把以上想法再分享意见到 questions。",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/021.md"
+    ],
+    "change_summary": "在 Q21 追加用户补充追问（框架不应再叫 skills、应独立可选采用；git 强制版本控制从 004 起；独立 GitHub 仓库 + 内置 install/update/check skills）及我的补充回应。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为 Q21 追问的问答双录。讨论中，未执行重构；若推进应定为 architecture 004：项目规范框架化。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 36,
+  "recorded_at": "2026-10-04T14:18:39.954462+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4bb1011fa19f58d6eba904b14384242e5fcd1fbd3e192875b5006fa0ab74d88a",
+    "plan_md_line_count": 210,
+    "source_doc": "architecture/003.md"
+  }
+}
