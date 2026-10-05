@@ -36,6 +36,7 @@ from datetime import datetime, timezone
 
 FRAMEWORK_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENGINE_DIRS = ("scripts", "references", "assets")
+ENGINE_FILES = ("README.md",)  # copied so the always-apply rule's README reference resolves
 HOOK_TIMEOUTS = {"UserPromptSubmit": 20, "PostToolUse": 20, "Stop": 30}
 RULE_DIR_NAME = "ai-project-standard"  # namespace for the always-apply rule under .codebuddy/rules/
 
@@ -126,8 +127,9 @@ def copy_engine(framework_repo, dest, version):
     tag = tag_by_int(framework_repo, _int_of_version(version)) or version
     archived = False
     try:
-        p1 = subprocess.run(["git", "-C", framework_repo, "archive", tag] + list(ENGINE_DIRS),
-                            capture_output=True)
+        p1 = subprocess.run(
+            ["git", "-C", framework_repo, "archive", tag] + list(ENGINE_DIRS) + list(ENGINE_FILES),
+            capture_output=True)
         if p1.returncode == 0 and p1.stdout:
             subprocess.run(["tar", "-x", "-C", dest], input=p1.stdout)
             archived = True
@@ -138,6 +140,10 @@ def copy_engine(framework_repo, dest, version):
             src = os.path.join(framework_repo, d)
             if os.path.isdir(src):
                 shutil.copytree(src, os.path.join(dest, d), dirs_exist_ok=True)
+        for f in ENGINE_FILES:
+            src = os.path.join(framework_repo, f)
+            if os.path.isfile(src):
+                shutil.copy(src, os.path.join(dest, f))
 
 
 def _int_of_version(version):

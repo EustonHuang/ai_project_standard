@@ -1,6 +1,6 @@
 {
-  "max_id": 46,
-  "revision": 46,
+  "max_id": 47,
+  "revision": 47,
   "briefs": [
     {
       "event_id": 1,
@@ -461,6 +461,16 @@
       "is_correction": false,
       "corrects_event_id": null,
       "file": "history/046.json"
+    },
+    {
+      "event_id": 47,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T11:36:39.650767+08:00",
+      "actor_type": "ai",
+      "change_summary": "v0.5 实现补丁：① standard_ops.py 新增 ENGINE_FILES=('README.md',)，copy_engine 在 git archive 路径与 fallback 中均拷贝 README.md；② append_history.py cmd_init 循环 regen history/questions/issues/architecture/improvement 五类 TOC；③ append_history.py audit 对全新项目（lat==0 且无架构文档）不再报 architecture/ 为空；④ install-standard SKILL.md copy 步骤注明 README.md 一并拷贝。均不改 architecture/005.md 的架构版本（v0.5 设计本就要求 README 可读）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/047.json"
     }
   ]
 }

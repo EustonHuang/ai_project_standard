@@ -50,3 +50,4 @@
 - [044 · qna_recorded · 2026-10-05T10:47:47](history/044.json) — 新建 Q26，调查 CodeBuddy 上下文加载架构：CODEBUDDY.md/AGENTS.md 默认全文注入（类 CLAUDE.md）；.codebuddy/rules 须文件夹+RULE.mdc+frontmatter 三类（总是/请求/手动）；skills 元数据常驻+
 - [045 · plan_created · 2026-10-05T11:20:34](history/045.json) — 创建 architecture/005.md（v0.5 计划：install 写入 .codebuddy/rules/ai-project-standard/RULE.mdc 总是类规则实现上下文自动加载 + 重名强制替代）；architecture_index.json 追加 
 - [046 · plan_modified · 2026-10-05T11:26:10](history/046.json) — 执行 v0.5（architecture/005.md）：① scripts/standard_ops.py 新增 _rule_content/write_rules，cmd_install 与 cmd_update 调用之（install 写 .codebuddy/rules/
+- [047 · plan_modified · 2026-10-05T11:36:39](history/047.json) — v0.5 实现补丁：① standard_ops.py 新增 ENGINE_FILES=('README.md',)，copy_engine 在 git archive 路径与 fallback 中均拷贝 README.md；② append_history.py cmd_ini

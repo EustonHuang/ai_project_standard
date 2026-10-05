@@ -458,7 +458,8 @@ def cmd_init(args):
         a_idx["plan_title"] = args.meta[1] if len(args.meta) > 1 else ""
         a_idx["created_at"] = now_iso()
         write_json(index_path(plan, "architecture"), a_idx)
-    _regen_toc(plan, "improvement")
+    for k in ("history", "questions", "issues", "architecture", "improvement"):
+        _regen_toc(plan, k)
     print("Initialized folder-form plan history at %s" % plan)
 
 
@@ -739,8 +740,8 @@ def cmd_audit(args):
     else:
         vers = _fs_ids(cat_dir(plan, "architecture"), r"^(\d+)\.md$")
         imp, lat = aidx.get("implemented_version"), aidx.get("latest_version")
-        if not vers:
-            problems.append("architecture/ 为空")
+        if not vers and lat:
+            problems.append("architecture/ 为空（索引声明了版本但缺文档）")
         else:
             if lat != max(vers):
                 problems.append("architecture latest_version=%s 与实际最大版本=%s 不一致" % (lat, max(vers)))

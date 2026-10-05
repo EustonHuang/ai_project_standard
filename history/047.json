@@ -1,0 +1,39 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "v0.5 实现补丁（不改变架构版本）：修复 install 落地后规范上下文引用失效与全新项目 audit 必挂两类缺陷。① standard_ops.py copy_engine 额外拷贝 README.md（规则在 copy 模式指向 .plan-standard/README.md，此前未拷贝导致引用失效）；② append_history.py cmd_init 改为重新生成全部五类 TOC（此前只 regen improvement，导致新装项目 TOC 缺失、architecture/ 为空等 audit 失败）；③ append_history.py audit 放宽：仅在索引声明了架构版本却缺文档时才报 architecture/ 为空，全新项目（latest_version=0）放行；④ install-standard SKILL.md 注明 README.md 一并拷贝。"
+  },
+  "source": {
+    "user_prompt": "好的，接下来我想在项目euston_wiki里面安装005版本的项目规范，请帮我安装。安装完之后我会在euston_wiki这个项目中进行具体的测试",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/standard_ops.py",
+      "scripts/append_history.py",
+      "skills/install-standard/SKILL.md"
+    ],
+    "change_summary": "v0.5 实现补丁：① standard_ops.py 新增 ENGINE_FILES=('README.md',)，copy_engine 在 git archive 路径与 fallback 中均拷贝 README.md；② append_history.py cmd_init 循环 regen history/questions/issues/architecture/improvement 五类 TOC；③ append_history.py audit 对全新项目（lat==0 且无架构文档）不再报 architecture/ 为空；④ install-standard SKILL.md copy 步骤注明 README.md 一并拷贝。均不改 architecture/005.md 的架构版本（v0.5 设计本就要求 README 可读）。",
+    "sections_affected": [
+      "scripts",
+      "skills"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为框架自身代码补丁（plan_modified），源于在 euston_wiki 装 v0.5 时发现的两类缺陷：规则引用文件缺失、init 不完整导致 audit 必挂。source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 47,
+  "recorded_at": "2026-10-05T11:36:39.650767+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1391177601a0264815356ef5dfee096fc9ef207cc64a247bd37a0d001a0c4da9",
+    "plan_md_line_count": 122,
+    "source_doc": "architecture/005.md"
+  }
+}

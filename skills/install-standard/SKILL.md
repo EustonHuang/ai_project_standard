@@ -29,8 +29,9 @@ python3 scripts/standard_ops.py install --self --project .
 - `--pinned latest | <ver>` — whether to auto-follow latest (default `latest`).
 
 ## What it does
-1. **copy mode**: copies `scripts/ references/ assets/` into `<project>/.plan-standard/`,
-   pinned to the requested tag via `git archive`.
+1. **copy mode**: copies `scripts/ references/ assets/` **and `README.md`** into
+   `<project>/.plan-standard/`, pinned to the requested tag via `git archive` (README.md
+   is included so the always-apply rule's "read `.plan-standard/README.md`" reference resolves).
 2. writes `<project>/standard_version` lock file (`standard_version`, `pinned`,
    `framework_repo`, `install_mode`).
 3. writes `<project>/.codebuddy/settings.json` hooks — `UserPromptSubmit`→`begin`,
