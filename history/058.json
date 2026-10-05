@@ -1,0 +1,33 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "执行 architecture/006：将 IMP-001/002/003 在 improvement_index.json 冻结为 status=3 / implemented_in=v0.6"
+  },
+  "source": {
+    "user_prompt": "请理解本项目的架构并执行 @/Users/euston/personal/ai_project_standard/architecture/006.md",
+    "tool": "CodeBuddy",
+    "model": "unknown",
+    "model_confidence": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "improvement_index.json"
+    ],
+    "change_summary": "三 improvement（001/002/003）随 v0.6 落地，置 status=3（Implemented，冻结）且 implemented_in=v0.6；in_architecture 维持 architecture/006.md。",
+    "sections_affected": []
+  },
+  "correction": null,
+  "comments": "执行 architecture/006 步骤 5 的吸收收尾；与发布链同批提交。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 58,
+  "recorded_at": "2026-10-05T18:27:16.862711+08:00",
+  "standard_version": "v0.6",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "860222cd61f9c9b31d74b2072d5a811b0c1d48a5ee5f155553fc8acb4fe38c45",
+    "plan_md_line_count": 138,
+    "source_doc": "architecture/006.md"
+  }
+}

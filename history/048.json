@@ -1,0 +1,38 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "在 ai_project_standard 自身（dogfooding）的 improvements/ 新增 IMP-001：提案下个框架版本增加『编辑受管架构文档的结构一致性 / 反冗余守卫』，源自 agent 在采纳方项目 euston_wiki 编辑 architecture/002.md 时的两次结构失误。"
+  },
+  "source": {
+    "user_prompt": "我没让你写进这个项目中！我让你写进ai_project_standard项目中……把你写的东西移过去！！！！",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "improvements/001.md",
+      "improvement_index.json",
+      "improvement_TOC.md"
+    ],
+    "change_summary": "新增 improvements/001.md（IMP-001）：建议下一版本 ai_project_standard 增加编辑受管架构文档的结构守卫（编号连贯、禁自指元注释、意图翻译、编辑后结构自检、可选轻量 lint）。同步更新 improvement_index.json（max_id=1）与 improvement_TOC.md。该提案由 euston_wiki 项目误放后，按用户指令从 euston_wiki 移入本框架仓库（见 euston_wiki history/013 correction）。",
+    "sections_affected": [
+      "improvements"
+    ]
+  },
+  "correction": null,
+  "comments": "本改进项最初被 agent 误写入采纳方项目 euston_wiki，经用户指出后移入本框架仓库（正确的『定义下一版本规范』位置）。source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 'unknown'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 48,
+  "recorded_at": "2026-10-05T17:32:34.534129+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1391177601a0264815356ef5dfee096fc9ef207cc64a247bd37a0d001a0c4da9",
+    "plan_md_line_count": 122,
+    "source_doc": "architecture/005.md"
+  }
+}

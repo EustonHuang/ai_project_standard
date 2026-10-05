@@ -51,3 +51,14 @@
 - [045 · plan_created · 2026-10-05T11:20:34](history/045.json) — 创建 architecture/005.md（v0.5 计划：install 写入 .codebuddy/rules/ai-project-standard/RULE.mdc 总是类规则实现上下文自动加载 + 重名强制替代）；architecture_index.json 追加 
 - [046 · plan_modified · 2026-10-05T11:26:10](history/046.json) — 执行 v0.5（architecture/005.md）：① scripts/standard_ops.py 新增 _rule_content/write_rules，cmd_install 与 cmd_update 调用之（install 写 .codebuddy/rules/
 - [047 · plan_modified · 2026-10-05T11:36:39](history/047.json) — v0.5 实现补丁：① standard_ops.py 新增 ENGINE_FILES=('README.md',)，copy_engine 在 git archive 路径与 fallback 中均拷贝 README.md；② append_history.py cmd_ini
+- [048 · plan_modified · 2026-10-05T17:32:34](history/048.json) — 新增 improvements/001.md（IMP-001）：建议下一版本 ai_project_standard 增加编辑受管架构文档的结构守卫（编号连贯、禁自指元注释、意图翻译、编辑后结构自检、可选轻量 lint）。同步更新 improvement_index.json（m
+- [049 · plan_modified · 2026-10-05T17:50:25](history/049.json) — 新增 improvements/002.md（IMP-002）：建议下一版本 ai_project_standard 在 architecture plan 被执行（产生工程文件改动或 set-implemented 翻转 implemented_version）后必须 git 
+- [050 · correction · 2026-10-05T18:09:52](history/050.json) — 修订 improvements/002.md（IMP-002）：将发布动作从『commit 必须、push/tag 可选/交用户触发』改为『commit→push→tag 强制连做、不可拆分不可延迟』；tag 版本号严格等于被 set-implemented 翻转的 archit
+- [051 · plan_modified · 2026-10-05T18:12:20](history/051.json) — 新增 architecture/006.md：目标 v0.6，统一落地 IMP-001（编辑受管架构文档结构一致性/反冗余守卫，含 workflow.md 守卫节 + 可选 structure_lint.py）、IMP-002（set-implemented 发布链 commit
+- [052 · plan_modified · 2026-10-05T18:26:16](history/052.json) — 新增 §10「编辑受管文件守卫」（IMP-001 四条规则：结构连贯/禁自指元注释/意图翻译/编辑后自检），并于 §3 追加 standard_version 自动注入说明（IMP-003 §3.2）。
+- [053 · plan_modified · 2026-10-05T18:26:16](history/053.json) — 字段参考表新增 standard_version（string，快照语义，脚本自动注入，禁止手填，镜像入 history_index brief）。
+- [054 · plan_modified · 2026-10-05T18:26:16](history/054.json) — cmd_set_implemented 新增发布链 commit→push→tag→push --tags（IMP-002）；落盘事件注入 standard_version 并同步索引 brief（IMP-003）。tag 采用 v0.{ver} 而非字面 v{NNN}，理由见 
+- [055 · plan_modified · 2026-10-05T18:26:16](history/055.json) — 新增 scripts/structure_lint.py（IMP-001 §1.3：顶层编号从 0 连续 + 自指元注释检测，命中非零退出码）；在 turn_gate.py record 写盘 architecture/*.md 时调用并告警（非阻断）。
+- [056 · plan_modified · 2026-10-05T18:26:16](history/056.json) — 填写 §7 执行记录（status=executed、步骤表、执行偏差说明）；标记 architecture/006 落地，翻转 implemented_version 5→6。
+- [057 · plan_modified · 2026-10-05T18:26:16](history/057.json) — standard_version 锁文件 standard_version=v0.5 → v0.6（框架 dogfooding：architecture/006 落地后本仓库即运行 v0.6，与 set-implemented --version 6 发布链同批提交）。
+- [058 · plan_modified · 2026-10-05T18:27:16](history/058.json) — 三 improvement（001/002/003）随 v0.6 落地，置 status=3（Implemented，冻结）且 implemented_in=v0.6；in_architecture 维持 architecture/006.md。

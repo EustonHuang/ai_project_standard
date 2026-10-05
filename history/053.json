@@ -1,0 +1,35 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "执行 architecture/006：在 references/history_schema.md 字段表新增 standard_version"
+  },
+  "source": {
+    "user_prompt": "请理解本项目的架构并执行 @/Users/euston/personal/ai_project_standard/architecture/006.md",
+    "tool": "CodeBuddy",
+    "model": "unknown",
+    "model_confidence": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "references/history_schema.md"
+    ],
+    "change_summary": "字段参考表新增 standard_version（string，快照语义，脚本自动注入，禁止手填，镜像入 history_index brief）。",
+    "sections_affected": [
+      "字段参考"
+    ]
+  },
+  "correction": null,
+  "comments": "执行 architecture/006 步骤 2（IMP-003 schema 字段）。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 53,
+  "recorded_at": "2026-10-05T18:26:16.169877+08:00",
+  "standard_version": "v0.5",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "860222cd61f9c9b31d74b2072d5a811b0c1d48a5ee5f155553fc8acb4fe38c45",
+    "plan_md_line_count": 138,
+    "source_doc": "architecture/006.md"
+  }
+}

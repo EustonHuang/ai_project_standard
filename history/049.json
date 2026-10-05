@@ -1,0 +1,38 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "在 ai_project_standard 自身（dogfooding）的 improvements/ 新增 IMP-002：提案下个框架版本要求『执行 architecture plan 后必须 git commit』。"
+  },
+  "source": {
+    "user_prompt": "请在ai_project_standard里面的improvements加上这一点，一旦新的architecture的plan被执行，必须commit",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "improvements/002.md",
+      "improvement_index.json",
+      "improvement_TOC.md"
+    ],
+    "change_summary": "新增 improvements/002.md（IMP-002）：建议下一版本 ai_project_standard 在 architecture plan 被执行（产生工程文件改动或 set-implemented 翻转 implemented_version）后必须 git commit，将执行产物落入版本控制（push/tag 可选、留待显式意图）。关联 euston_wiki Q5（questions/005.md）与 architecture/002.md。该提案最初被 agent 误写入采纳方项目 euston_wiki（history/018），现按用户指令移入本框架仓库（见 euston_wiki history/019 correction）。",
+    "sections_affected": [
+      "improvements"
+    ]
+  },
+  "correction": null,
+  "comments": "本次为正确的落点（定义下一版本规范的位置）。注意 agent 此前两次把改进提案误写入采纳方项目 euston_wiki（先 IMP-001 结构守卫、后 IMP-002 本提案），均经用户指出后移入本框架仓库。source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 'unknown'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 49,
+  "recorded_at": "2026-10-05T17:50:25.936519+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1391177601a0264815356ef5dfee096fc9ef207cc64a247bd37a0d001a0c4da9",
+    "plan_md_line_count": 122,
+    "source_doc": "architecture/005.md"
+  }
+}

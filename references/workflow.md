@@ -59,6 +59,13 @@ The script:
   a snapshot of the latest architecture doc,
 - commits **under a lock**: re-checks the index version, checks the target does not
   exist, and verifies it still owns the lock,
+- **auto-injects `standard_version`** (architecture 006 / IMP-003): reads the
+  project's `standard_version` lock file and stamps the event with the framework
+  version it was produced under. This is a **snapshot** — written once and never
+  changed on later upgrades, so every history event stays traceable to the exact
+  standard version that produced it. The `history_index.json` brief carries the
+  same field, so audits can filter by version without re-reading event bodies.
+  **Never hand-fill this field**; the script owns it.
 - writes `history/{id}.json`, updates `history_index.json` (max_id, revision, brief), and
   **auto-regenerates `history_TOC.md`**.
 
@@ -142,3 +149,23 @@ A follow-up to an existing question **opens a NEW question** (e.g. `Q24`), it do
 append a "补充追问" section under the original. This rule took effect at `v0.4`; prior
 appended follow-ups (e.g. in `questions/021.md`) are retained as historical records and
 not retro-edited.
+
+## 10. 编辑受管文件守卫（architecture 006 / IMP-001）
+
+编辑受管架构文档（`architecture/*.md`）时，除「改了必须留痕」外，还须满足以下
+结构纪律，使 `plan_modified` 的「改了留痕」升级为「改了且改得合规」。`scripts/
+structure_lint.py` 对上述规则做机械兜底（由 `turn_gate.py record` 在写盘
+`architecture/*.md` 时调用，命中即告警）。
+
+1. **结构连贯硬约束**：编辑 `architecture/*.md` 时章节编号 / 层级必须保持连贯；
+   **禁止插入不编号的浮动小节**打断既有 `§0–§N` 序列；新增顶层小节必须编号并入序列。
+2. **禁冗余元注释**：禁止「文档结构自指」式表述（如「本节属于本版本 / 不属于 §X /
+   已不含于某处」）。版本归属由文档整体决定，章节内容本身已说明，复述即废话。
+3. **意图翻译步骤**：编辑前先把用户字面指令翻译为「意图」，再选**最贴合文档既有结构**
+   的落点（通常并入已有相关章节），而非新建平行区块。
+4. **编辑后结构自检清单**：编辑受管文档后须自检 ① 编号连续；② 无与既有内容重复的陈述；
+   ③ 无自指元注释；④ 改动确实落在意图所指位置。通过后再声明完成。
+
+> 适用范围：受管文件含 `architecture/`、`*_index.json`、`references/`、`scripts/`、
+> `skills/`、`README.md` 等（见 README「MANDATORY」）。本 §10 针对其中结构性最强的
+> `architecture/*.md`；其余文件的编辑同样遵循「意图翻译 + 并入既有结构」的原则。

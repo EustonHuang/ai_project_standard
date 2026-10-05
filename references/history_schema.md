@@ -85,6 +85,12 @@ Field reference (unchanged from architecture 001):
   (`architecture/<latest>.md`). The old hard-coded `plan.md` dependency is gone.
 - **`recorded_at`** — ISO-8601 real wall-clock stamped by the script. **No `timestamp`
   field** (removed in architecture 001, still absent).
+- **`standard_version`** — (architecture 006 / IMP-003) string, **auto-injected** by the
+  script from the project's `standard_version` lock file at record time. A **snapshot** of
+  the framework version that produced this event; written once and never changed on later
+  framework upgrades, so each history event is traceable to the exact standard version.
+  **Forbidden to hand-fill** — the script owns it (mirrored into `history_index.json` briefs).
+  Does not alter the `standard_version` file's own "current lock" semantics.
 
 ---
 

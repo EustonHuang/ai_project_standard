@@ -19,6 +19,7 @@ scripts/). History lives at <plan root>/history/.
 import argparse
 import json
 import os
+import subprocess
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -153,8 +154,30 @@ def cmd_record(args):
         save_state(state)
         print("turn_gate record: declared += %s (total %d)"
               % (norm_rel(fp) if fp else fp, len(state["declared"])))
+        # IMP-001 (architecture 006): mechanically lint managed architecture docs
+        # when they are written. Non-blocking warning — the hard gate (history
+        # coverage) is still enforced by `end`/`check`.
+        if rel.startswith("architecture/") and rel.endswith(".md"):
+            _run_structure_lint(fp)
     else:
         print("turn_gate record: no in-plan file to book.")
+
+
+def _run_structure_lint(path):
+    """Run scripts/structure_lint.py on a single architecture md (warning only)."""
+    lint = os.path.join(SCRIPT_DIR, "structure_lint.py")
+    if not os.path.exists(lint):
+        return
+    try:
+        out = subprocess.run([sys.executable, lint, PLAN_ROOT, "--file", path],
+                             capture_output=True, text=True, timeout=20)
+    except Exception as e:
+        print("turn_gate record: structure_lint 调用失败：%s" % e, file=sys.stderr)
+        return
+    if out.returncode != 0:
+        print("⚠ structure_lint 警告（非阻断）：", file=sys.stderr)
+        for line in out.stdout.splitlines():
+            print("    " + line, file=sys.stderr)
 
 
 def _new_event_targets(baseline):

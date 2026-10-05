@@ -1,0 +1,36 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "执行 architecture/006：在 references/workflow.md 新增编辑受管文件守卫节与 standard_version 说明"
+  },
+  "source": {
+    "user_prompt": "请理解本项目的架构并执行 @/Users/euston/personal/ai_project_standard/architecture/006.md",
+    "tool": "CodeBuddy",
+    "model": "unknown",
+    "model_confidence": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "references/workflow.md"
+    ],
+    "change_summary": "新增 §10「编辑受管文件守卫」（IMP-001 四条规则：结构连贯/禁自指元注释/意图翻译/编辑后自检），并于 §3 追加 standard_version 自动注入说明（IMP-003 §3.2）。",
+    "sections_affected": [
+      "§3",
+      "§10"
+    ]
+  },
+  "correction": null,
+  "comments": "执行 architecture/006 步骤 1（IMP-001 守卫节 + IMP-003 记录规范）。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 52,
+  "recorded_at": "2026-10-05T18:26:16.040647+08:00",
+  "standard_version": "v0.5",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "860222cd61f9c9b31d74b2072d5a811b0c1d48a5ee5f155553fc8acb4fe38c45",
+    "plan_md_line_count": 138,
+    "source_doc": "architecture/006.md"
+  }
+}

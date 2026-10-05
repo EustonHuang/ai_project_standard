@@ -49,6 +49,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import time
 
@@ -158,6 +159,27 @@ def attach_snapshot(event, plan):
         "plan_md_line_count": text.count("\n") + 1 if text else 0,
         "source_doc": "architecture/%s.md" % zeroed(ver) if ver else "architecture/<latest>.md",
     }
+
+
+def read_standard_version(plan):
+    """IMP-003 (architecture 006): read the framework version from the project's
+    `standard_version` lock file (the `standard_version=<ver>` line). Returns the
+    version string (e.g. "v0.5") or "unknown" if not parseable. This is a snapshot
+    of the version the event was produced under; it never changes on later upgrades.
+    """
+    p = os.path.join(plan, "standard_version")
+    if not os.path.exists(p):
+        return "unknown"
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("standard_version="):
+                    val = line.split("=", 1)[1].strip()
+                    return val or "unknown"
+    except Exception:
+        pass
+    return "unknown"
 
 
 def resolve_source_model(event, model_override=None):
@@ -476,6 +498,9 @@ def cmd_append_history(args, plan, event):
     event["event_id"] = next_id
     event.setdefault("recorded_at", now_iso())
     resolve_source_model(event, getattr(args, "model", None))
+    # IMP-003 (architecture 006): snapshot the framework version this event was
+    # produced under. Auto-injected; never hand-filled.
+    event["standard_version"] = read_standard_version(plan)
     attach_snapshot(event, plan)
 
     lock = acquire_lock(plan, ttl=args.ttl, retries=args.retries)
@@ -519,6 +544,7 @@ def cmd_append_history(args, plan, event):
             "change_summary": (event.get("operation") or {}).get("change_summary", ""),
             "is_correction": event.get("event_type") == "correction",
             "corrects_event_id": (event.get("correction") or {}).get("corrects_event_id"),
+            "standard_version": event.get("standard_version"),
             "file": "history/%s.json" % zeroed(next_id),
         })
         cur_idx["max_id"] = next_id
@@ -926,14 +952,59 @@ def cmd_recover(args):
     write_json(os.path.join(issue_dir, "description.json"), desc)
 
 
+def _git(plan, *cmd, check=True):
+    """Run a git command in the plan root; raises on failure unless check=False."""
+    return subprocess.run(["git", "-C", plan] + list(cmd),
+                          capture_output=True, text=True, check=check)
+
+
 def cmd_set_implemented(args):
     plan = os.path.abspath(args.plan)
     idx = load_json(index_path(plan, "architecture")) or empty_index("architecture")
-    idx["implemented_version"] = int(args.version)
+    ver = int(args.version)
+    idx["implemented_version"] = ver
     idx["revision"] = int(idx.get("revision", 0)) + 1
     write_json(index_path(plan, "architecture"), idx)
     _regen_toc(plan, "architecture")
     print("architecture implemented_version -> %s" % args.version)
+
+    # ---- IMP-002 (architecture 006): mandatory publish chain ----
+    # The ONLY trigger for commit/push/tag is implementing an architecture
+    # (this command). Bookkeeping (improvements/corrections/Q&A) must never commit.
+    # The chain is forced, connected, and never split: add -> commit -> push ->
+    # tag -> push --tags. The tag version equals the implemented architecture
+    # version. NOTE: we use `v0.{version}` (not the plan's literal `v{NNN}`),
+    # because check-standard's parse_version only accepts `vX.Y` and the repo's
+    # existing tags are v0.3/v0.4/v0.5 — `v6` would break version reporting.
+    title = ""
+    for v in idx.get("versions", []):
+        if int(v.get("version", 0)) == ver:
+            title = v.get("title", "")
+            break
+    tag = "v0.%d" % ver
+    commit_msg = "implement architecture/%s: %s" % (zeroed(ver), title)
+    try:
+        _git(plan, "add", "-A")
+        _git(plan, "commit", "-m", commit_msg)
+    except subprocess.CalledProcessError as e:
+        print("PUBLISH FAILED at commit: %s" % (e.stderr or e).strip(), file=sys.stderr)
+        sys.exit(1)
+    try:
+        _git(plan, "push")
+    except subprocess.CalledProcessError as e:
+        # roll back the local commit so we never leave a partial publish
+        _git(plan, "reset", "--soft", "HEAD~1", check=False)
+        print("PUBLISH FAILED at push (local commit rolled back): %s"
+              % (e.stderr or e).strip(), file=sys.stderr)
+        sys.exit(1)
+    try:
+        _git(plan, "tag", tag)
+        _git(plan, "push", "--tags")
+    except subprocess.CalledProcessError as e:
+        print("PUBLISH WARNING at tag/push --tags: %s (tag %s created locally)"
+              % ((e.stderr or e).strip(), tag), file=sys.stderr)
+        sys.exit(1)
+    print("PUBLISH OK: committed + pushed + tagged %s + pushed tags" % tag)
 
 
 def main():

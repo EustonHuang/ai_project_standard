@@ -1,6 +1,6 @@
 {
-  "max_id": 47,
-  "revision": 47,
+  "max_id": 58,
+  "revision": 58,
   "briefs": [
     {
       "event_id": 1,
@@ -471,6 +471,123 @@
       "is_correction": false,
       "corrects_event_id": null,
       "file": "history/047.json"
+    },
+    {
+      "event_id": 48,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T17:32:34.534129+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 improvements/001.md（IMP-001）：建议下一版本 ai_project_standard 增加编辑受管架构文档的结构守卫（编号连贯、禁自指元注释、意图翻译、编辑后结构自检、可选轻量 lint）。同步更新 improvement_index.json（max_id=1）与 improvement_TOC.md。该提案由 euston_wiki 项目误放后，按用户指令从 euston_wiki 移入本框架仓库（见 euston_wiki history/013 correction）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/048.json"
+    },
+    {
+      "event_id": 49,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T17:50:25.936519+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 improvements/002.md（IMP-002）：建议下一版本 ai_project_standard 在 architecture plan 被执行（产生工程文件改动或 set-implemented 翻转 implemented_version）后必须 git commit，将执行产物落入版本控制（push/tag 可选、留待显式意图）。关联 euston_wiki Q5（questions/005.md）与 architecture/002.md。该提案最初被 agent 误写入采纳方项目 euston_wiki（history/018），现按用户指令移入本框架仓库（见 euston_wiki history/019 correction）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/049.json"
+    },
+    {
+      "event_id": 50,
+      "event_type": "correction",
+      "recorded_at": "2026-10-05T18:09:52.869935+08:00",
+      "actor_type": "ai",
+      "change_summary": "修订 improvements/002.md（IMP-002）：将发布动作从『commit 必须、push/tag 可选/交用户触发』改为『commit→push→tag 强制连做、不可拆分不可延迟』；tag 版本号严格等于被 set-implemented 翻转的 architecture 版本号（如 --version 3 → v3）。同步纠正 history/049 中『push/tag 可选、留待显式意图』的记录。本框架 set-implemented 当前仅翻转 implemented_version、不含 git 动作，故该改进属下一版本实现项。",
+      "is_correction": true,
+      "corrects_event_id": 49,
+      "file": "history/050.json"
+    },
+    {
+      "event_id": 51,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:12:20.207116+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 architecture/006.md：目标 v0.6，统一落地 IMP-001（编辑受管架构文档结构一致性/反冗余守卫，含 workflow.md 守卫节 + 可选 structure_lint.py）、IMP-002（set-implemented 发布链 commit→push→tag 强制连做、tag=architecture 版本号）、IMP-003（history 事件携带 standard_version 字段、脚本自动注入）。architecture_index.json latest_version 升 6 并追加 version 6；improvement_index.json 将 IMP-001/002/003 的 in_architecture 置 architecture/006.md。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/051.json"
+    },
+    {
+      "event_id": 52,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:26:16.040647+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 §10「编辑受管文件守卫」（IMP-001 四条规则：结构连贯/禁自指元注释/意图翻译/编辑后自检），并于 §3 追加 standard_version 自动注入说明（IMP-003 §3.2）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.5",
+      "file": "history/052.json"
+    },
+    {
+      "event_id": 53,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:26:16.169877+08:00",
+      "actor_type": "ai",
+      "change_summary": "字段参考表新增 standard_version（string，快照语义，脚本自动注入，禁止手填，镜像入 history_index brief）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.5",
+      "file": "history/053.json"
+    },
+    {
+      "event_id": 54,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:26:16.253749+08:00",
+      "actor_type": "ai",
+      "change_summary": "cmd_set_implemented 新增发布链 commit→push→tag→push --tags（IMP-002）；落盘事件注入 standard_version 并同步索引 brief（IMP-003）。tag 采用 v0.{ver} 而非字面 v{NNN}，理由见 architecture/006 §7。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.5",
+      "file": "history/054.json"
+    },
+    {
+      "event_id": 55,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:26:16.339607+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 scripts/structure_lint.py（IMP-001 §1.3：顶层编号从 0 连续 + 自指元注释检测，命中非零退出码）；在 turn_gate.py record 写盘 architecture/*.md 时调用并告警（非阻断）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.5",
+      "file": "history/055.json"
+    },
+    {
+      "event_id": 56,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:26:16.424581+08:00",
+      "actor_type": "ai",
+      "change_summary": "填写 §7 执行记录（status=executed、步骤表、执行偏差说明）；标记 architecture/006 落地，翻转 implemented_version 5→6。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.5",
+      "file": "history/056.json"
+    },
+    {
+      "event_id": 57,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:26:16.507674+08:00",
+      "actor_type": "ai",
+      "change_summary": "standard_version 锁文件 standard_version=v0.5 → v0.6（框架 dogfooding：architecture/006 落地后本仓库即运行 v0.6，与 set-implemented --version 6 发布链同批提交）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.5",
+      "file": "history/057.json"
+    },
+    {
+      "event_id": 58,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T18:27:16.862711+08:00",
+      "actor_type": "ai",
+      "change_summary": "三 improvement（001/002/003）随 v0.6 落地，置 status=3（Implemented，冻结）且 implemented_in=v0.6；in_architecture 维持 architecture/006.md。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.6",
+      "file": "history/058.json"
     }
   ]
 }

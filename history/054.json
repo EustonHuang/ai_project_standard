@@ -1,0 +1,35 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "执行 architecture/006：scripts/append_history.py 加入发布链与 standard_version 注入"
+  },
+  "source": {
+    "user_prompt": "请理解本项目的架构并执行 @/Users/euston/personal/ai_project_standard/architecture/006.md",
+    "tool": "CodeBuddy",
+    "model": "unknown",
+    "model_confidence": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/append_history.py"
+    ],
+    "change_summary": "cmd_set_implemented 新增发布链 commit→push→tag→push --tags（IMP-002）；落盘事件注入 standard_version 并同步索引 brief（IMP-003）。tag 采用 v0.{ver} 而非字面 v{NNN}，理由见 architecture/006 §7。",
+    "sections_affected": [
+      "cmd_set_implemented"
+    ]
+  },
+  "correction": null,
+  "comments": "执行 architecture/006 步骤 3。 source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失且未提供 --model），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 54,
+  "recorded_at": "2026-10-05T18:26:16.253749+08:00",
+  "standard_version": "v0.5",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "860222cd61f9c9b31d74b2072d5a811b0c1d48a5ee5f155553fc8acb4fe38c45",
+    "plan_md_line_count": 138,
+    "source_doc": "architecture/006.md"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "event_type": "correction",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "在 ai_project_standard 自身（dogfooding）修订 IMP-002，推翻早期草案中『push/tag 交用户显式触发/可选』的措辞，明确 implement 场景下 commit→push→tag 强制连做、tag 版本号=architecture 版本号。"
+  },
+  "source": {
+    "user_prompt": "在 set-implemented 命令内自带 git add -A && git commit... 为什么push/tag仍交用户显式触发？我的要求是push tag紧跟着commit之后，tag的版本号就是architecture注明的版本号！",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "improvements/002.md"
+    ],
+    "change_summary": "修订 improvements/002.md（IMP-002）：将发布动作从『commit 必须、push/tag 可选/交用户触发』改为『commit→push→tag 强制连做、不可拆分不可延迟』；tag 版本号严格等于被 set-implemented 翻转的 architecture 版本号（如 --version 3 → v3）。同步纠正 history/049 中『push/tag 可选、留待显式意图』的记录。本框架 set-implemented 当前仅翻转 implemented_version、不含 git 动作，故该改进属下一版本实现项。",
+    "sections_affected": [
+      "improvements"
+    ]
+  },
+  "correction": {
+    "corrects_event_id": 49,
+    "reason": "用户明确推翻 IMP-002 早期草案的『push/tag 可选/交用户触发』表述，要求 implement 时 push 与 tag 紧跟 commit 自动执行，tag 版本号=architecture 版本号。"
+  },
+  "comments": "",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 50,
+  "recorded_at": "2026-10-05T18:09:52.869935+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1391177601a0264815356ef5dfee096fc9ef207cc64a247bd37a0d001a0c4da9",
+    "plan_md_line_count": 122,
+    "source_doc": "architecture/005.md"
+  }
+}

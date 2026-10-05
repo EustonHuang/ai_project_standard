@@ -1,0 +1,39 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "新增 architecture/006.md（v0.6），吸收 IMP-001/002/003 三点；同步升 architecture_index latest_version=6 并将三 improvement 的 in_architecture 指向 006。"
+  },
+  "source": {
+    "user_prompt": "请生成新的architecture，把improvements里面的001,002,003的点都考虑进去",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/006.md",
+      "architecture_index.json",
+      "improvement_index.json"
+    ],
+    "change_summary": "新增 architecture/006.md：目标 v0.6，统一落地 IMP-001（编辑受管架构文档结构一致性/反冗余守卫，含 workflow.md 守卫节 + 可选 structure_lint.py）、IMP-002（set-implemented 发布链 commit→push→tag 强制连做、tag=architecture 版本号）、IMP-003（history 事件携带 standard_version 字段、脚本自动注入）。architecture_index.json latest_version 升 6 并追加 version 6；improvement_index.json 将 IMP-001/002/003 的 in_architecture 置 architecture/006.md。",
+    "sections_affected": [
+      "architecture",
+      "improvements"
+    ]
+  },
+  "correction": null,
+  "comments": "本次为新增计划文档，未执行（status=planned）。standard_version 仍 v0.5，待本计划执行并 set-implemented --version 6 时按 IMP-002 触发 commit+push+tag v6 发布链。source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按规则置 unknown。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 51,
+  "recorded_at": "2026-10-05T18:12:20.207116+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "0b774fd0ac45f9fd614682f5d54fb17a15d5b1d4a8e2d564d537b694c754c57c",
+    "plan_md_line_count": 122,
+    "source_doc": "architecture/006.md"
+  }
+}
