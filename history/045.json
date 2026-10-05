@@ -1,0 +1,38 @@
+{
+  "event_type": "plan_created",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "创建 architecture/005.md（v0.5 计划）：install-standard 在既有动作外新增写入 <project>/.codebuddy/rules/ai-project-standard/RULE.mdc（alwaysApply:true）以在每次新会话自动注入规范上下文；重名默认强制替代；保留 hooks 作强制门并提示实测；遵循 Q25/Q26 调查结论选 rules 而非 CODEBUDDY.md。"
+  },
+  "source": {
+    "user_prompt": "看下来我觉得还是写rules比较好，因为CODEBUDDY.md一般会项目中标配，你在安装的时候基本会发现CODEBUDDY.md已经有了。所以如果你能保证.codebuddy/rules下面能通过某种方式必读一个rule的markdown文件（就如你说的alwaysApply:true），那么我们就按照这个操作。因为写rules还有一个好处就是很大概率会避免重名问题，不像CLAUDE.md这类。即使运气不好真的重名了（大概率是装我们新版本的项目规范然后发现旧版本的rule还在，这种情况就是替换掉），我们目前的默认方法就是强制替代。请写新的architecture",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/005.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ],
+    "change_summary": "创建 architecture/005.md（v0.5 计划：install 写入 .codebuddy/rules/ai-project-standard/RULE.mdc 总是类规则实现上下文自动加载 + 重名强制替代）；architecture_index.json 追加 version 5、latest_version=5（implemented_version 保持 4 待执行）；architecture_TOC.md 重新生成。动机来自 questions/025.md（context 不能保证）与 questions/026.md（CodeBuddy 加载架构调查）。",
+    "sections_affected": [
+      "architecture"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为 architecture/005.md 的创建（plan_created）。source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。v0.5 相对 v0.4 非 breaking（纯增量），故 update-standard 同 major 可自动升级。规则正文路径随 install_mode 自适应（copy→.plan-standard/README.md；self→仓库根 README.md）。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 45,
+  "recorded_at": "2026-10-05T11:20:34.822353+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1391177601a0264815356ef5dfee096fc9ef207cc64a247bd37a0d001a0c4da9",
+    "plan_md_line_count": 122,
+    "source_doc": "architecture/005.md"
+  }
+}

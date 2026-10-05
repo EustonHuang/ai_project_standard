@@ -151,6 +151,25 @@ python scripts/standard_ops.py install --version v0.4 --project /path/to/your/pr
 or via the `install-standard` skill. The hook is written per-adopter (not shared), so
 each project is self-contained.
 
+### What install writes (and a context-load guarantee)
+Install (v0.5+) performs five actions: copy the engine into `.plan-standard/`, write the
+`standard_version` lock, write per-project hooks, scaffold the history folders, **and
+write an always-apply rule `.codebuddy/rules/ai-project-standard/RULE.mdc`**
+(`alwaysApply: true`). The rule is what makes the standard's context load: at every
+**new session start** CodeBuddy injects the rule text, instructing the agent to read
+`README.md` + `references/workflow.md` and follow the "any change must land in history"
+gate. We chose `.codebuddy/rules` over `CODEBUDDY.md` because the latter is usually
+already present in projects (collision-prone), while a dedicated namespace
+(`ai-project-standard`) avoids that; on the rare collision (e.g. reinstalling over an
+older rule) install **force-replaces** — single-version truth, no prompt/backup.
+
+> **Session caveat (important):** CodeBuddy injects rules only at session start. After
+> `install`/`update` you must **open a new conversation** for the rule to take effect.
+> The `hooks` gate is the enforcement backstop, but its execution by the IDE is **not
+> documented in CodeBuddy's public docs** — verify empirically (edit a managed file and
+> confirm a `turn_gate` `exit 2` block). Do not assume the gate alone guarantees
+> compliance; the rule is the load guarantee, the hook is the backstop.
+
 ## Notes
 - Indexes stay at the plan root so they remain findable as `history/`, `questions/` etc.
   grow. The five `*_TOC.md` are auto-generated from the indexes and must not be hand-edited.

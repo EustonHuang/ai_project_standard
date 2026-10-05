@@ -1,0 +1,18 @@
+---
+description: "AI Project Standard (ai-project-standard) v0.5 — 本项目采用的项目规范框架；凡改动受管文件前必须先读其 README/workflow 并按“任何改动进 history”强制门记录。Use when editing architecture/、*_index.json、questions/、issues/、improvements/、README.md、references/、scripts/、skills/、assets/、standard_version、.codebuddy/settings.json。"
+alwaysApply: true
+enabled: true
+updatedAt: 2026-10-05T03:25:15.000Z
+provider:
+---
+<system_reminder>
+**本项目采用 AI Project Standard (ai-project-standard) v0.5（由 install-standard 写入此规则）。**
+
+## 受管文件（任何改动必须留痕）
+`architecture/`、 `*_index.json`、 `*_TOC.md`、 `questions/`、 `issues/`、 `improvements/`、 `README.md`、 `references/`、 `scripts/`、 `skills/`、 `assets/`、 `standard_version`、 `.codebuddy/settings.json`。
+
+## 必读与必做
+1. 改动上述任何文件前，先读 `<project>/README.md` 的「MANDATORY」节与 `references/workflow.md`。
+2. 任何改动**必须**在 `history/` 留痕（双录：提问写 `questions/` + 追加 `qna_recorded`；改进进 `improvements/`）。
+3. 本规则在**新会话开始**自动注入；若刚安装/升级，请**新建对话会话**使其生效。
+</system_reminder>

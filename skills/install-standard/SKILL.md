@@ -37,7 +37,15 @@ python3 scripts/standard_ops.py install --self --project .
    `PostToolUse`→`record`, `Stop`→`end` — targeting `turn_gate.py`, scoped to the
    project via `PLAN_HISTORY_ROOT=$CODEBUDDY_PROJECT_DIR`.
 4. scaffolds `<project>/{history,questions,issues,improvements,architecture}/` + indexes + TOCs.
+5. writes `<project>/.codebuddy/rules/ai-project-standard/RULE.mdc` — an **always-apply
+   rule** (`alwaysApply: true`) that injects the standard's context at every new
+   session start, instructing the agent to read `<project>/.plan-standard/README.md`
+   (self mode: `<project>/README.md`) + `references/workflow.md` and follow the
+   "any change must land in history" gate. Name collision → **force replace**
+   (single-version truth; no prompt/backup).
 
 ## After install
 Record the adoption as a `plan_modified` event in the project's `history/` so it is
 covered by the gate. Verify with `check-standard`.
+**生效提示**：规则仅在**新会话开始**注入——安装/升级后请**新建对话会话**使其生效；
+`hooks` 是否被 IDE 执行属平台未公开背书项，请实测（改受管文件看是否 `exit 2` 拦截）。

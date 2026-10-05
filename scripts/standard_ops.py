@@ -32,10 +32,12 @@ import re
 import shutil
 import subprocess
 import sys
+from datetime import datetime, timezone
 
 FRAMEWORK_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENGINE_DIRS = ("scripts", "references", "assets")
 HOOK_TIMEOUTS = {"UserPromptSubmit": 20, "PostToolUse": 20, "Stop": 30}
+RULE_DIR_NAME = "ai-project-standard"  # namespace for the always-apply rule under .codebuddy/rules/
 
 
 # --------------------------------------------------------------------------
@@ -183,6 +185,54 @@ def write_hooks(project, install_mode, engine_dest):
 
 
 # --------------------------------------------------------------------------
+# always-apply rule (CodeBuddy Rules: .codebuddy/rules/<name>/RULE.mdc)
+# --------------------------------------------------------------------------
+def _rule_content(install_mode, version):
+    """Build the always-apply rule file (RULE.mdc) for CodeBuddy Rules.
+
+    README path is mode-aware: copy mode points at the installed engine
+    (.plan-standard/README.md); self mode points at the repo-root README.md.
+    """
+    readme = "README.md" if install_mode == "self" else ".plan-standard/README.md"
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    front = (
+        '---\n'
+        'description: "AI Project Standard (ai-project-standard) %s — 本项目采用的项目规范框架；凡改动受管文件前必须先读其 README/workflow 并按“任何改动进 history”强制门记录。Use when editing architecture/、*_index.json、questions/、issues/、improvements/、README.md、references/、scripts/、skills/、assets/、standard_version、.codebuddy/settings.json。"\n'
+        'alwaysApply: true\n'
+        'enabled: true\n'
+        'updatedAt: %s\n'
+        'provider:\n'
+        '---\n'
+    ) % (version, now)
+    body = (
+        '<system_reminder>\n'
+        '**本项目采用 AI Project Standard (ai-project-standard) %s（由 install-standard 写入此规则）。**\n\n'
+        '## 受管文件（任何改动必须留痕）\n'
+        '`architecture/`、 `*_index.json`、 `*_TOC.md`、 `questions/`、 `issues/`、 `improvements/`、 `README.md`、 `references/`、 `scripts/`、 `skills/`、 `assets/`、 `standard_version`、 `.codebuddy/settings.json`。\n\n'
+        '## 必读与必做\n'
+        '1. 改动上述任何文件前，先读 `<project>/%s` 的「MANDATORY」节与 `references/workflow.md`。\n'
+        '2. 任何改动**必须**在 `history/` 留痕（双录：提问写 `questions/` + 追加 `qna_recorded`；改进进 `improvements/`）。\n'
+        '3. 本规则在**新会话开始**自动注入；若刚安装/升级，请**新建对话会话**使其生效。\n'
+        '</system_reminder>\n'
+    ) % (version, readme)
+    return front + body
+
+
+def write_rules(project, install_mode, version):
+    """Write (force-replace) the always-apply rule under .codebuddy/rules/.
+
+    Default on name collision is force replace (single-version truth): if the
+    namespace directory already exists it is overwritten without prompt/backup.
+    """
+    rules_dir = os.path.join(project, ".codebuddy", "rules", RULE_DIR_NAME)
+    os.makedirs(rules_dir, exist_ok=True)
+    path = os.path.join(rules_dir, "RULE.mdc")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(_rule_content(install_mode, version))
+    return path
+
+
+# --------------------------------------------------------------------------
 # scaffold project history
 # --------------------------------------------------------------------------
 def scaffold(project, framework_repo):
@@ -273,12 +323,15 @@ def cmd_install(args):
     })
     write_hooks(project, install_mode, engine_dest)
     scaffold(project, framework_repo)
+    write_rules(project, install_mode, version)
 
     print("installed standard %s into %s (mode=%s)" % (version, project, install_mode))
     print("  lock: %s/standard_version" % project)
     print("  hooks: %s/.codebuddy/settings.json" % project)
+    print("  rule: %s/.codebuddy/rules/%s/RULE.mdc (alwaysApply)" % (project, RULE_DIR_NAME))
     if not self_mode:
         print("  engine copied to: %s" % engine_dest)
+    print("  提示：请【新建对话会话】使规则生效；hooks 是否触发请实测（改受管文件看是否 exit 2 拦截）。")
 
 
 def cmd_update(args):
@@ -310,10 +363,13 @@ def cmd_update(args):
         copy_engine(framework_repo, os.path.join(project, ".plan-standard"), target)
         write_hooks(project, "copy", os.path.join(project, ".plan-standard"))
     write_lock(project, dict(lock, standard_version=target))
+    write_rules(project, lock.get("install_mode") or "copy", target)
     if cross:
         print_breaking_review(framework_repo, cur, tgt)
         print("已确认跨 major 更新。")
     print("已从 %s → %s" % (current, target))
+    print("  规则已重写：%s/.codebuddy/rules/%s/RULE.mdc（alwaysApply，强制替代；请新建会话生效）。"
+          % (project, RULE_DIR_NAME))
 
 
 def cmd_check(args):

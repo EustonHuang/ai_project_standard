@@ -45,3 +45,7 @@
 - [039 · plan_created · 2026-10-04T17:53:56](history/039.json) — 创建 architecture/004.md（项目规范框架化 v0.4），汇总 Q21–Q23：skill→元规范、独立 git/GitHub 仓库、install/update/check skills、breaking-change 类 semver、improvements
 - [040 · plan_modified · 2026-10-04T22:46:57](history/040.json) — 执行 004 v0.4：README 改名+引用同步；improvements 栏目与脚本扩展；004 版本头与根索引 implemented=4。
 - [041 · plan_modified · 2026-10-04T22:46:57](history/041.json) — 执行 004 v0.4：实现 install/update/check 内置 skills；turn_gate 增 PLAN_HISTORY_ROOT；仓库自举（standard_version + hook）。
+- [042 · qna_recorded · 2026-10-05T10:27:57](history/042.json) — 新建 Q24，记录新项目如何采用/安装本框架：clone 框架仓库后跑 standard_ops.py install --version v0.4 --project <proj>（copy 模式：拷引擎到 .plan-standard/、写 standard_version 
+- [043 · qna_recorded · 2026-10-05T10:34:39](history/043.json) — 新建 Q25，记录安装后规范 context 是否自动加载的设计质疑：确认不能保证；install 仅 wiring hook 强制门（turn_gate.py）而非 context 注入；CodeBuddy 自动 context 通道为编辑器文件/Rules/Skills，in
+- [044 · qna_recorded · 2026-10-05T10:47:47](history/044.json) — 新建 Q26，调查 CodeBuddy 上下文加载架构：CODEBUDDY.md/AGENTS.md 默认全文注入（类 CLAUDE.md）；.codebuddy/rules 须文件夹+RULE.mdc+frontmatter 三类（总是/请求/手动）；skills 元数据常驻+
+- [045 · plan_created · 2026-10-05T11:20:34](history/045.json) — 创建 architecture/005.md（v0.5 计划：install 写入 .codebuddy/rules/ai-project-standard/RULE.mdc 总是类规则实现上下文自动加载 + 重名强制替代）；architecture_index.json 追加 

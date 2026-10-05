@@ -1,6 +1,6 @@
 {
-  "max_id": 23,
-  "revision": 23,
+  "max_id": 26,
+  "revision": 26,
   "notes": "见 questions/*.md",
   "briefs": [
     {
@@ -163,6 +163,27 @@
       "question": "答复 Q22 三确认点：① 框架版本号接受 v<major>.<minor>；② improvements priority=1 Very Low..5 Very High、status=1 Drafting/2 Recorded In Architect/3 Implemented；③ 采用方 hook 为每个项目安装一份（install-standard 写进项目 settings），问是否先写到 question。",
       "answer_summary": "同意并落 004：版本号 v<major>.<minor> 配 tag；improvements 三态对应「队列→进计划→完成」流程、index 记 status+priority+in_architecture+implemented_in；hook 模型=每采用方项目一份（install 写入项目 settings），指向本地已安装框架路径使项目自包含。三项确认齐，004 输入完备。",
       "file": "questions/023.md"
+    },
+    {
+      "num": 24,
+      "question_ref": "Q24",
+      "question": "假设我有一个新的项目，想要运用这个项目规范框架，我应该怎么做？有什么命令或者指示使得我能够在新的项目中\"安装\"这个项目规范？",
+      "answer_summary": "新项目采用本框架：clone 框架仓库后跑 standard_ops.py install --version v0.4 --project <proj>（copy 模式：拷引擎到 .plan-standard/、写 standard_version 锁、装三个 turn_gate hook、脚手架五类目录）。装完后必须把\"采纳\"本身记成 plan_modified 事件，否则 Stop hook 拦。注意 hook 整体覆盖、.plan-standard 为拷贝需经 update 升级。",
+      "file": "questions/024.md"
+    },
+    {
+      "num": 25,
+      "question_ref": "Q25",
+      "question": "下一个问题，你能保证安装项目规范之后，我接下来在这个项目中正常prompting的时候，codebuddy IDE能够把项目规范相关的context给load进去吗？我觉得目前项目规范的安装程度并不能保证这一点吧？",
+      "answer_summary": "不能保证，用户怀疑正确。install 仅写 hook 强制门（turn_gate.py 在 Stop 时检查漏记并 exit 2），不注入规范文档；CodeBuddy 自动 context 通道为编辑器文件/Rules/Skills，install 三者均未配置。agent 是否照规范行事取决于是否碰巧读到文档。must-do 修复：install 应额外写 workspace Rule 指向 README/workflow。",
+      "file": "questions/025.md"
+    },
+    {
+      "num": 26,
+      "question_ref": "Q26",
+      "question": "你的意思是，需要加.codebuddy/rules，但是你能保证codebuddy IDE加载的时候先读rules吗？因为之前的实践告诉我codebuddy IDE并没有像claude code那样会先去读CLAUDE.md（对应CODEBUDDY.md和.codebuddy/rules下面的内容），甚至我有理由怀疑他有没有读hook。你仔细调查一下，codebuddy IDE这样的生态存不存在，是不是需要某种设置？他的架构是怎样的",
+      "answer_summary": "生态确实存在且有类 CLAUDE.md 机制：CODEBUDDY.md/AGENTS.md 默认全文注入；.codebuddy/rules 须文件夹+RULE.mdc+frontmatter，分总是/请求/手动三类；skills 元数据常驻+场景自动触发。判定：用户不读 rules 怀疑部分不成立；怀疑读 hook 在公开文档完全未提 hooks 无法证伪。两致命限定：自动加载仅会话开始一次、改后须新会话；框架自身未用任何自动加载只押 hooks。修正建议：install 应生成 CODEBUDDY.md 或 .codebuddy/rules(RULE.mdc+alwaysApply) 或装成 skills；hooks 须实测。",
+      "file": "questions/026.md"
     }
   ]
 }

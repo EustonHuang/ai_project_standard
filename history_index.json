@@ -1,6 +1,6 @@
 {
-  "max_id": 41,
-  "revision": 41,
+  "max_id": 45,
+  "revision": 45,
   "briefs": [
     {
       "event_id": 1,
@@ -411,6 +411,46 @@
       "is_correction": false,
       "corrects_event_id": null,
       "file": "history/041.json"
+    },
+    {
+      "event_id": 42,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-05T10:27:57.604428+08:00",
+      "actor_type": "ai",
+      "change_summary": "新建 Q24，记录新项目如何采用/安装本框架：clone 框架仓库后跑 standard_ops.py install --version v0.4 --project <proj>（copy 模式：拷引擎到 .plan-standard/、写 standard_version 锁、装三个 turn_gate hook、脚手架五类目录）；装完须把采纳记成 plan_modified 事件；注意 hook 整体覆盖、.plan-standard 为拷贝须经 update 升级。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/042.json"
+    },
+    {
+      "event_id": 43,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-05T10:34:39.329632+08:00",
+      "actor_type": "ai",
+      "change_summary": "新建 Q25，记录安装后规范 context 是否自动加载的设计质疑：确认不能保证；install 仅 wiring hook 强制门（turn_gate.py）而非 context 注入；CodeBuddy 自动 context 通道为编辑器文件/Rules/Skills，install 未配置任一；缺 must-do 修复=install 应额外写 workspace Rule 指向 README/workflow。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/043.json"
+    },
+    {
+      "event_id": 44,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-05T10:47:47.233407+08:00",
+      "actor_type": "ai",
+      "change_summary": "新建 Q26，调查 CodeBuddy 上下文加载架构：CODEBUDDY.md/AGENTS.md 默认全文注入（类 CLAUDE.md）；.codebuddy/rules 须文件夹+RULE.mdc+frontmatter 三类（总是/请求/手动）；skills 元数据常驻+场景自动触发；hooks 在 Overview/Rules/Skills 公开文档未记载、无法保证执行；自动加载仅会话开始一次、改后须新会话；框架自身未用任何自动加载只押 hooks。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/044.json"
+    },
+    {
+      "event_id": 45,
+      "event_type": "plan_created",
+      "recorded_at": "2026-10-05T11:20:34.822353+08:00",
+      "actor_type": "ai",
+      "change_summary": "创建 architecture/005.md（v0.5 计划：install 写入 .codebuddy/rules/ai-project-standard/RULE.mdc 总是类规则实现上下文自动加载 + 重名强制替代）；architecture_index.json 追加 version 5、latest_version=5（implemented_version 保持 4 待执行）；architecture_TOC.md 重新生成。动机来自 questions/025.md（context 不能保证）与 questions/026.md（CodeBuddy 加载架构调查）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/045.json"
     }
   ]
 }

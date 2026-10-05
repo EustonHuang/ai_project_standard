@@ -1,0 +1,42 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "记录 Q26：调查 CodeBuddy 上下文加载架构（CODEBUDDY.md/AGENTS.md 默认全文注入、.codebuddy/rules 三类、skills 元数据常驻），判定用户'不读 rules'怀疑部分不成立、'怀疑读 hook'在文档层无法证伪；两个致命限定=仅会话开始加载/框架自身未用任何自动加载只押 hooks。"
+  },
+  "source": {
+    "user_prompt": "你的意思是，需要加.codebuddy/rules，但是你能保证codebuddy IDE加载的时候先读rules吗？因为之前的实践告诉我codebuddy IDE并没有像claude code那样会先去读CLAUDE.md（对应CODEBUDDY.md和.codebuddy/rules下面的内容），甚至我有理由怀疑他有没有读hook。你仔细调查一下，codebuddy IDE这样的生态存不存在，是不是需要某种设置？他的架构是怎样的",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "questions/026.md"
+    ],
+    "change_summary": "新建 Q26，调查 CodeBuddy 上下文加载架构：CODEBUDDY.md/AGENTS.md 默认全文注入（类 CLAUDE.md）；.codebuddy/rules 须文件夹+RULE.mdc+frontmatter 三类（总是/请求/手动）；skills 元数据常驻+场景自动触发；hooks 在 Overview/Rules/Skills 公开文档未记载、无法保证执行；自动加载仅会话开始一次、改后须新会话；框架自身未用任何自动加载只押 hooks。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q26",
+    "question": "你的意思是，需要加.codebuddy/rules，但是你能保证codebuddy IDE加载的时候先读rules吗？因为之前的实践告诉我codebuddy IDE并没有像claude code那样会先去读CLAUDE.md（对应CODEBUDDY.md和.codebuddy/rules下面的内容），甚至我有理由怀疑他有没有读hook。你仔细调查一下，codebuddy IDE这样的生态存不存在，是不是需要某种设置？他的架构是怎样的",
+    "answer_summary": "生态确实存在且有类 CLAUDE.md 机制：CODEBUDDY.md/AGENTS.md 默认全文注入；.codebuddy/rules 须文件夹+RULE.mdc+frontmatter，分总是/请求/手动三类；skills 元数据常驻+场景自动触发。判定：用户'不读 rules'怀疑部分不成立；'怀疑读 hook'在公开文档（Overview/Rules/Skills）完全未提 hooks，无法证伪。两致命限定：自动加载仅会话开始一次、改后须新会话；框架自身未用任何自动加载、只押 hooks（文档未保证执行）。修正 Q25 建议：install 应改生成 CODEBUDDY.md 或 .codebuddy/rules(RULE.mdc+alwaysApply) 或装成 skills；hooks 须实测。",
+    "answer_location": "questions/026.md"
+  },
+  "correction": null,
+  "comments": "本事件为 Q26 的问答双录（第二步：history 审计轨迹）。调查依据：官方文档 Overview/Rules/Skills 三页（web_fetch）+ 本机 ~/.codebuddy 探查（含 plugins/marketplaces/cb_teams_marketplace/rules-standard.md、settings.json 仅 enabledPlugins、框架仓库 .codebuddy/settings.json 仅 hooks）。source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 44,
+  "recorded_at": "2026-10-05T10:47:47.233407+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "8243f9c7cc514bd6c06d8c940a4ac31176b199601e8799eaedc0ad17b1cab698",
+    "plan_md_line_count": 213,
+    "source_doc": "architecture/004.md"
+  }
+}

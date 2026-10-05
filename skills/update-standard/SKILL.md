@@ -32,9 +32,12 @@ python3 <framework>/scripts/standard_ops.py update --project <project> --to v1.0
 - Reads `<project>/standard_version` for the current version + framework repo.
 - **Same major** (e.g. v0.4 → v0.5): backward-compatible, auto-upgrade engine + lock.
 - **Cross major** (e.g. v0.4 → v1.0): non-backward-compatible. Without
-  `--confirm-breaking` it only prints the breaking-change review (per `architecture/NNN.md`
-  `breaking: true` + `breaking_items`) and exits without changing anything. With
-  `--confirm-breaking` it applies the upgrade after the review output is acknowledged.
+   `--confirm-breaking` it only prints the breaking-change review (per `architecture/NNN.md`
+   `breaking: true` + `breaking_items`) and exits without changing anything. With
+   `--confirm-breaking` it applies the upgrade after the review output is acknowledged.
+- On any upgrade it **rewrites** `<project>/.codebuddy/rules/ai-project-standard/RULE.mdc`
+   (force replace; the rule's embedded version + `updatedAt` are refreshed).
 
 ## After update
 Record the upgrade as a `plan_modified` event. Verify with `check-standard`.
+**生效提示**：规则仅在**新会话开始**注入——升级后请**新建对话会话**使其生效。

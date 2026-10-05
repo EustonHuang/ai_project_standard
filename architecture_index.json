@@ -1,11 +1,11 @@
 {
-  "implemented_version": 4,
-  "latest_version": 4,
-  "revision": 5,
+  "implemented_version": 5,
+  "latest_version": 5,
+  "revision": 7,
   "plan_id": "ai_project_standard",
   "plan_title": "AI Project Standard Framework",
   "created_at": "2026-10-03T00:00:00+08:00",
-  "notes": "v4 = architecture/004.md（项目规范框架化 v0.4，已于 2026-10-04 执行，implemented_version=4）。v4 相对 v3 为 breaking：存储位置迁至独立仓库 ai_project_standard、SKILL.md→README.md、新增 improvements 栏目与 install/update/check 内置 skills、turn_gate 增加 PLAN_HISTORY_ROOT、双版本轴分离。v3 = Q11–Q14 改进目标（删 *_meta.json、删 plan_001/002、TOC 扩展四类 + gen-toc + show 尾部窗口）。框架自身 standard_version=v0.4（dogfooding）。",
+  "notes": "v5 = architecture/005.md（采用方上下文自动加载：install 写入 .codebuddy/rules/ai-project-standard/RULE.mdc 总是类规则 + 重名强制替代，已于 2026-10-05 执行，implemented_version=5）。v5 相对 v4 非 breaking（纯增量，不改 hook/锁/目录结构）。动机：Q25 发现 install 只装 hook 不注入规范上下文；Q26 调查 CodeBuddy 加载架构（CODEBUDDY.md/AGENTS.md 默认全文注入、.codebuddy/rules 三类、skills 元数据常驻、hooks 公开文档未记载）后决策选 .codebuddy/rules 总是类作为上下文自动加载载体。v4 = architecture/004.md（项目规范框架化 v0.4，已执行）。v3 = Q11–Q14 改进目标。框架自身 standard_version=v0.5（dogfooding，已随 v0.5 执行升）。",
   "versions": [
     {
       "version": 1,
@@ -26,6 +26,11 @@
       "version": 4,
       "file": "architecture/004.md",
       "title": "项目规范框架化：skill→元规范、独立 git/GitHub 仓库、install/update/check skills、improvements 栏目、README 改名、双版本轴分离"
+    },
+    {
+      "version": 5,
+      "file": "architecture/005.md",
+      "title": "采用方上下文自动加载：install 写入 .codebuddy/rules 总是类规则（alwaysApply）+ 重名强制替代"
     }
   ]
 }
