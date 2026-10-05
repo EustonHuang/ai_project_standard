@@ -1,6 +1,6 @@
 {
-  "max_id": 45,
-  "revision": 45,
+  "max_id": 46,
+  "revision": 46,
   "briefs": [
     {
       "event_id": 1,
@@ -451,6 +451,16 @@
       "is_correction": false,
       "corrects_event_id": null,
       "file": "history/045.json"
+    },
+    {
+      "event_id": 46,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-05T11:26:10.815724+08:00",
+      "actor_type": "ai",
+      "change_summary": "执行 v0.5（architecture/005.md）：① scripts/standard_ops.py 新增 _rule_content/write_rules，cmd_install 与 cmd_update 调用之（install 写 .codebuddy/rules/ai-project-standard/RULE.mdc，alwaysApply:true，重名强制替代；正文 README 路径随 install_mode 自适应）；② install-standard/update-standard SKILL.md 与 README.md 增补规则自动加载、重名强制替代、新会话生效、hooks 实测提示；③ 框架仓库自举（install --self --version v0.5）写入规则（self 模式指向仓库根 README.md）；④ architecture_index implemented_version 升 5；⑤ 提交 + 打 tag v0.5 + push remote。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "file": "history/046.json"
     }
   ]
 }

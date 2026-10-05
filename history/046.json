@@ -1,0 +1,46 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "执行 architecture/005.md（v0.5）：standard_ops.py 新增 _rule_content/write_rules 并在 cmd_install/cmd_update 调用；install-standard/update-standard SKILL.md 与 README.md 增补规则说明、重名强制替代、新会话生效、hooks 实测提示；框架仓库自举写入 .codebuddy/rules/ai-project-standard/RULE.mdc（self 模式指向仓库根 README.md）；architecture_index implemented_version 升 5；提交 + 打 tag v0.5 + push remote。"
+  },
+  "source": {
+    "user_prompt": "执行计划",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "unknown"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/standard_ops.py",
+      "skills/install-standard/SKILL.md",
+      "skills/update-standard/SKILL.md",
+      "README.md",
+      "architecture_index.json",
+      "architecture_TOC.md",
+      ".codebuddy/rules/ai-project-standard/RULE.mdc",
+      "standard_version"
+    ],
+    "change_summary": "执行 v0.5（architecture/005.md）：① scripts/standard_ops.py 新增 _rule_content/write_rules，cmd_install 与 cmd_update 调用之（install 写 .codebuddy/rules/ai-project-standard/RULE.mdc，alwaysApply:true，重名强制替代；正文 README 路径随 install_mode 自适应）；② install-standard/update-standard SKILL.md 与 README.md 增补规则自动加载、重名强制替代、新会话生效、hooks 实测提示；③ 框架仓库自举（install --self --version v0.5）写入规则（self 模式指向仓库根 README.md）；④ architecture_index implemented_version 升 5；⑤ 提交 + 打 tag v0.5 + push remote。",
+    "sections_affected": [
+      "scripts",
+      "skills",
+      "README",
+      "architecture"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件为 v0.5 的执行（plan_modified）。实现中发现并修复一处 bug：_rule_content 模板误把 version（已含 v 前缀）再拼一个 v，导致 'vv0.5'；已改为 '%s' 直接嵌入。source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 'unknown'；禁止 agent 自报 'Hy3'。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 46,
+  "recorded_at": "2026-10-05T11:26:10.815724+08:00",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1391177601a0264815356ef5dfee096fc9ef207cc64a247bd37a0d001a0c4da9",
+    "plan_md_line_count": 122,
+    "source_doc": "architecture/005.md"
+  }
+}
