@@ -2,3 +2,4 @@
 .codebuddy/hooks/.turn/
 __pycache__/
 *.pyc
+.tmp/

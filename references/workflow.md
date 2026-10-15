@@ -169,3 +169,20 @@ structure_lint.py` 对上述规则做机械兜底（由 `turn_gate.py record` �
 > 适用范围：受管文件含 `architecture/`、`*_index.json`、`references/`、`scripts/`、
 > `skills/`、`README.md` 等（见 README「MANDATORY」）。本 §10 针对其中结构性最强的
 > `architecture/*.md`；其余文件的编辑同样遵循「意图翻译 + 并入既有结构」的原则。
+
+## 11. 临时载体与 ignore（architecture 007 / D1 + D2）
+
+agent 调用 `append_history.py` 等工具前，临时事件文件（如 `event_006.json`）**统一放
+`<project>/.tmp/`**；该路径已被 turn_gate 豁免（命中 `.turngateignore`，不记账、不要求
+历史事件覆盖），无需任何历史事件覆盖即可落盘与删除。
+
+- **D1（通用忽略）**：plan root 下的 `.turngateignore`（gitignore 语法）声明 scratch 模式；
+  turn_gate 的 `record`/`end` 读它，对命中路径跳过记账（不计入本轮改动、不要求覆盖事件）。
+  忽略规则是**项目级配置**，任意项目自声明（`.tmp/`、构建产物、编辑器临时文件等），引擎不内置
+  任何硬编码忽略常量——新增一类 scratch 不必改引擎。
+- **D2（写时硬拦截）**：`PreToolUse` hook 在 `write_to_file`/`replace_in_file`/`delete_file`
+  **之前**校验目标路径；仅当目标 ∈ 受管文件白名单（见 `turn_gate.py` 的 `MANAGED_*`）**或**
+  命中 `.turngateignore` 才放行，否则拒绝写入。软 `end` 守卫保留作最后兜底。
+
+> 软约定（统一放 `.tmp/`）本身不强制 agent；D2 是「忘了也能强制」的硬兜底。白名单与
+> 本文件「受管文件」定义保持单一来源，避免硬拦截与既有约定漂移。

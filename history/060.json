@@ -1,0 +1,37 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "修订 architecture/007.md：显式纳入 Q12 的 workflow.md 软约定（临时 event 文件统一放 <project>/.tmp/、守卫已豁免、无需覆盖事件）作为三层保障的软层，与 D1/D2 机制层并列。"
+  },
+  "source": {
+    "user_prompt": "你的解决方案中，难道不加 workflow.md 写明约定：临时 event 文件统一放 /.tmp/，守卫已豁免，无需覆盖事件 这个吗？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "0893806939594df4b0fda73f5a8cecfc"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/007.md"
+    ],
+    "change_summary": "补充 architecture/007.md：将 Q12 原文要求的 workflow.md 约定显式列为软约定（第一项决策），并在 §5/§6 写明约定原文；形成软约定 + D1(.turngateignore 豁免) + D2(PreToolUse 硬拦截) 三层保障。",
+    "sections_affected": [
+      "architecture/007.md"
+    ]
+  },
+  "correction": null,
+  "comments": "跨项目操作，事件历史写入 ai_project_standard（非 euston）。standard_version 由脚本自动注入（v0.6）。前序事件 #59 为本架构初版。",
+  "recorded_by": "ai",
+  "event_id": 60,
+  "recorded_at": "2026-10-14T21:27:13.907858+08:00",
+  "standard_version": "v0.6",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "ab5949616a22c2062c10f42b48134407d16cbee95df4a8df75644c48cc3ec921",
+    "plan_md_line_count": 142,
+    "source_doc": "architecture/007.md"
+  }
+}

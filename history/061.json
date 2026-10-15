@@ -1,0 +1,37 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "修订 architecture/007.md：移除 agent 自作主张加入的「优先 --event - 从 stdin 读、根本不落盘」表述（用户从未要求）。软约定仅保留 Q12 原话：临时 event 文件统一放 <project>/.tmp/、守卫已豁免、无需覆盖事件。"
+  },
+  "source": {
+    "user_prompt": "软约定... 我他妈没有说优先 --event - 从 stdin 读、根本不落盘 不要他妈的自作主张！！！！改！！！！！！",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy",
+    "session_id": "0893806939594df4b0fda73f5a8cecfc"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/007.md"
+    ],
+    "change_summary": "删除 007.md 中未获用户授权的 stdin/--event - 约定表述，仅保留 Q12 原文约定；同步清理 §2.1/§5/§6/§7 中相关残留。",
+    "sections_affected": [
+      "architecture/007.md"
+    ]
+  },
+  "correction": null,
+  "comments": "跨项目操作，事件历史写入 ai_project_standard（非 euston）。standard_version 由脚本自动注入（v0.6）。",
+  "recorded_by": "ai",
+  "event_id": 61,
+  "recorded_at": "2026-10-14T21:35:24.973320+08:00",
+  "standard_version": "v0.6",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "8262d36b6ba8c614b7223e5d9227b2ddc1de0aee9ee4163c2d0b327aee174d16",
+    "plan_md_line_count": 142,
+    "source_doc": "architecture/007.md"
+  }
+}

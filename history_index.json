@@ -1,6 +1,6 @@
 {
-  "max_id": 58,
-  "revision": 58,
+  "max_id": 62,
+  "revision": 62,
   "briefs": [
     {
       "event_id": 1,
@@ -588,6 +588,50 @@
       "corrects_event_id": null,
       "standard_version": "v0.6",
       "file": "history/058.json"
+    },
+    {
+      "event_id": 59,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-14T21:04:03.778116+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增架构 007（目标 v0.7）：基于 euston 项目 Q11/Q12，引入项目级 .turngateignore 通用忽略 + PreToolUse 写时硬拦截 hook，替代硬编码 .tmp/ 与软守卫。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.6",
+      "file": "history/059.json"
+    },
+    {
+      "event_id": 60,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-14T21:27:13.907858+08:00",
+      "actor_type": "ai",
+      "change_summary": "补充 architecture/007.md：将 Q12 原文要求的 workflow.md 约定显式列为软约定（第一项决策），并在 §5/§6 写明约定原文；形成软约定 + D1(.turngateignore 豁免) + D2(PreToolUse 硬拦截) 三层保障。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.6",
+      "file": "history/060.json"
+    },
+    {
+      "event_id": 61,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-14T21:35:24.973320+08:00",
+      "actor_type": "ai",
+      "change_summary": "删除 007.md 中未获用户授权的 stdin/--event - 约定表述，仅保留 Q12 原文约定；同步清理 §2.1/§5/§6/§7 中相关残留。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.6",
+      "file": "history/061.json"
+    },
+    {
+      "event_id": 62,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-15T10:03:54.146602+08:00",
+      "actor_type": "ai",
+      "change_summary": "执行 architecture/007 (v0.7)：① 新增 .turngateignore 通用忽略（gitignore 语法，含 .tmp/、*.tmp、*.tmp/）；② turn_gate.py 读 .turngateignore 并对命中路径跳过记账（record/end），无硬编码忽略常量；③ 新增 PreToolUse 写时硬拦截 prewrite 入口（白名单+忽略放行、否则拒绝）+ .codebuddy/settings.json 加 PreToolUse hook；④ workflow.md 新增 §11 临时载体与 ignore；⑤ .gitignore 忽略 .tmp/；⑥ architecture_index.json 补 v0.7 摘要；⑦ standard_version v0.6→v0.7；⑧ architecture/007.md §8 执行记录。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.7",
+      "file": "history/062.json"
     }
   ]
 }

@@ -1,0 +1,35 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai"
+  },
+  "source": {
+    "user_prompt": "请执行 @/Users/euston/personal/ai_project_standard/architecture/007.md",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command append_history.py)"
+  },
+  "operation": {
+    "target_files": [
+      ".turngateignore",
+      "scripts/turn_gate.py",
+      ".codebuddy/settings.json",
+      "references/workflow.md",
+      ".gitignore",
+      "architecture/007.md",
+      "architecture_index.json",
+      "standard_version"
+    ],
+    "change_summary": "执行 architecture/007 (v0.7)：① 新增 .turngateignore 通用忽略（gitignore 语法，含 .tmp/、*.tmp、*.tmp/）；② turn_gate.py 读 .turngateignore 并对命中路径跳过记账（record/end），无硬编码忽略常量；③ 新增 PreToolUse 写时硬拦截 prewrite 入口（白名单+忽略放行、否则拒绝）+ .codebuddy/settings.json 加 PreToolUse hook；④ workflow.md 新增 §11 临时载体与 ignore；⑤ .gitignore 忽略 .tmp/；⑥ architecture_index.json 补 v0.7 摘要；⑦ standard_version v0.6→v0.7；⑧ architecture/007.md §8 执行记录。"
+  },
+  "comments": "source.model 取自平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 unknown。执行中将 §3 受管白名单扩展（补 README.md/.gitignore/.codebuddy/），否则硬拦截会误伤框架自身受管编辑与 install-standard 的 rules 写入；该偏差记入 architecture/007.md §8.2。现行代码已无硬编码 .tmp/ 忽略，步骤2清理为空操作。",
+  "schema_version": "2.0",
+  "event_id": 62,
+  "recorded_at": "2026-10-15T10:03:54.146602+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "fa40316f95d427e5dc9cae2f534dfb84dfb10f2a368174f147864e56bcb18dd0",
+    "plan_md_line_count": 161,
+    "source_doc": "architecture/007.md"
+  }
+}

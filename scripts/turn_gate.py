@@ -19,6 +19,7 @@ scripts/). History lives at <plan root>/history/.
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -114,6 +115,119 @@ def extract_filepath(payload):
 
 
 # --------------------------------------------------------------------------
+# D1 (architecture 007): .turngateignore — project-level, gitignore-flavored
+# scratch/exclude rules the turn gate should NOT book or gate on.
+# --------------------------------------------------------------------------
+def load_turngateignore_lines():
+    """Return non-comment, non-empty lines of <plan>/.turngateignore (empty if absent)."""
+    p = os.path.join(PLAN_ROOT, ".turngateignore")
+    if not os.path.exists(p):
+        return []
+    out = []
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            for raw in f.read().splitlines():
+                line = raw.strip()
+                if not line or line.startswith("#"):
+                    continue
+                out.append(line)
+    except Exception:
+        return []
+    return out
+
+
+def _glob_translate(pat):
+    """Translate one gitignore pattern (trailing-slash handled by caller) to regex."""
+    res = []
+    i, n = 0, len(pat)
+    while i < n:
+        c = pat[i]
+        if pat[i:i + 2] == "**":
+            res.append(".*")
+            i += 2
+            if i < n and pat[i] == "/":
+                i += 1
+            continue
+        if c == "*":
+            res.append("[^/]*")
+            i += 1
+            continue
+        if c == "?":
+            res.append("[^/]")
+            i += 1
+            continue
+        if c in ".+^${}()|[]\\":
+            res.append("\\" + c)
+        else:
+            res.append(c)
+        i += 1
+    return "".join(res)
+
+
+def _pattern_matches(pat, rel):
+    """Match rel (normalized, '/'-sep) against one gitignore pattern."""
+    dir_only = pat.endswith("/")
+    clean = pat.rstrip("/")
+    anchored = "/" in clean
+    if clean.startswith("/"):
+        clean = clean[1:]
+        anchored = True
+    rx = _glob_translate(clean)
+    if anchored:
+        regex = "^" + rx
+        regex += "(/.*)?$" if dir_only else "$"
+        return re.match(regex, rel, re.DOTALL) is not None
+    # Unanchored: match the whole rel, or any single path component.
+    if re.match("^" + rx + "$", rel, re.DOTALL):
+        return True
+    for comp in rel.split("/"):
+        if re.fullmatch(rx, comp):
+            return True
+    return False
+
+
+def is_ignored(rel):
+    """True if rel is covered by .turngateignore (gitignore-flavored, supports !negation)."""
+    if rel.startswith("./"):
+        rel = rel[2:]
+    for rule in load_turngateignore_lines():
+        neg = rule.startswith("!")
+        pat = rule[1:] if neg else rule
+        if _pattern_matches(pat, rel):
+            return not neg
+    return False
+
+
+# --------------------------------------------------------------------------
+# D2 (architecture 007): managed allowlist — the ONLY in-plan paths the
+# PreToolUse hard block permits. Everything else is rejected unless it also
+# matches .turngateignore. Mirrors README MANDATORY + workflow.md managed set.
+# --------------------------------------------------------------------------
+MANAGED_PREFIXES = (
+    "architecture/", "questions/", "history/", "issues/", "improvements/",
+    "references/", "scripts/", "skills/", "assets/", ".codebuddy/",
+)
+MANAGED_FILES = (
+    "architecture_index.json", "architecture_TOC.md",
+    "questions_index.json", "questions_TOC.md",
+    "history_index.json", "history_TOC.md",
+    "issues_index.json", "issues_TOC.md",
+    "improvement_index.json", "improvement_TOC.md",
+    "standard_version", ".turngateignore", ".gitignore", "README.md",
+)
+
+
+def in_managed_allowlist(rel):
+    if rel in MANAGED_FILES:
+        return True
+    for pre in MANAGED_PREFIXES:
+        base = pre.rstrip("/")
+        if rel == base or rel.startswith(pre):
+            return True
+    return False
+
+
+# --------------------------------------------------------------------------
 # sub-commands
 # --------------------------------------------------------------------------
 def cmd_begin(args):
@@ -147,7 +261,10 @@ def cmd_record(args):
     added = False
     if fp and in_plan(fp):
         rel = norm_rel(fp)
-        if rel not in state["declared"]:
+        if is_ignored(rel):
+            # D1 (architecture 007): ignored scratch — do not book, do not gate.
+            print("turn_gate record: %s ignored by .turngateignore; not booked." % rel)
+        elif rel not in state["declared"]:
             state["declared"].append(rel)
             added = True
     if added:
@@ -210,7 +327,7 @@ def cmd_end(args):
         print("turn_gate end: no turn state; nothing to gate.")
         sys.exit(0)
 
-    declared = [d for d in state.get("declared", []) if in_plan(d)]
+    declared = [d for d in state.get("declared", []) if in_plan(d) and not is_ignored(d)]
     if not declared:
         print("turn_gate end: no in-plan files changed this turn; gate passed.")
         sys.exit(0)
@@ -257,6 +374,41 @@ def cmd_check(args):
     sys.exit(0)
 
 
+def cmd_prewrite(args):
+    """D2 (architecture 007): PreToolUse hard block.
+
+    Allow the write iff the target is (a) out-of-plan, (b) ignored by
+    .turngateignore, or (c) in the managed allowlist. Otherwise block (non-zero
+    exit) so scratch never lands in the plan root outside .tmp/ or other ignored
+    paths. The soft `end` gate remains the last-ditch fallback.
+    """
+    fp = args.file
+    if fp is None:
+        payload = read_stdin_json()
+        if payload is not None:
+            fp = extract_filepath(payload)
+    if fp is None:
+        fp = os.environ.get("CODEBUDDY_FILE_PATH")
+    # Cannot see a target -> allow (do not block what we cannot reason about).
+    if not fp:
+        print("turn_gate prewrite: no target file; allow.")
+        sys.exit(0)
+    if not in_plan(fp):
+        print("turn_gate prewrite: out-of-plan; allow.")
+        sys.exit(0)
+    rel = norm_rel(fp)
+    if is_ignored(rel):
+        print("turn_gate prewrite: %s ignored by .turngateignore; allow." % rel)
+        sys.exit(0)
+    if in_managed_allowlist(rel):
+        print("turn_gate prewrite: %s is a managed file; allow." % rel)
+        sys.exit(0)
+    print("turn_gate prewrite: BLOCKED — %s is neither a managed file nor ignored "
+          "by .turngateignore. Put scratch under .tmp/ (or another ignored path)."
+          % rel, file=sys.stderr)
+    sys.exit(1)
+
+
 def main():
     p = argparse.ArgumentParser(description="Turn-end history gate (Q15–Q17).")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -269,9 +421,12 @@ def main():
     pc.add_argument("--changed", nargs="+", help="files changed this turn (declarative)")
     pc.add_argument("--since", type=int, default=None,
                     help="baseline event id; events with id > since are checked (default: tip-1)")
+    pp = sub.add_parser("prewrite")
+    pp.add_argument("--file", help="explicit file path (else read hook stdin/env)")
 
     args = p.parse_args()
-    {"begin": cmd_begin, "record": cmd_record, "end": cmd_end, "check": cmd_check}[args.cmd](args)
+    {"begin": cmd_begin, "record": cmd_record, "end": cmd_end,
+     "check": cmd_check, "prewrite": cmd_prewrite}[args.cmd](args)
 
 
 if __name__ == "__main__":

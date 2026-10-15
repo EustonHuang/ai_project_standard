@@ -1,0 +1,6 @@
+# 框架默认忽略：临时载体与 scratch（gitignore 语法）
+# turn_gate 读此文件，命中路径不记账、不要求历史事件覆盖、PreToolUse 不拦截。
+# 项目可在此自声明任意 scratch 模式（构建产物、编辑器临时文件等），引擎不内置硬编码常量。
+.tmp/
+*.tmp
+*.tmp/

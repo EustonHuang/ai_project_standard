@@ -62,3 +62,7 @@
 - [056 · plan_modified · 2026-10-05T18:26:16](history/056.json) — 填写 §7 执行记录（status=executed、步骤表、执行偏差说明）；标记 architecture/006 落地，翻转 implemented_version 5→6。
 - [057 · plan_modified · 2026-10-05T18:26:16](history/057.json) — standard_version 锁文件 standard_version=v0.5 → v0.6（框架 dogfooding：architecture/006 落地后本仓库即运行 v0.6，与 set-implemented --version 6 发布链同批提交）。
 - [058 · plan_modified · 2026-10-05T18:27:16](history/058.json) — 三 improvement（001/002/003）随 v0.6 落地，置 status=3（Implemented，冻结）且 implemented_in=v0.6；in_architecture 维持 architecture/006.md。
+- [059 · plan_modified · 2026-10-14T21:04:03](history/059.json) — 新增架构 007（目标 v0.7）：基于 euston 项目 Q11/Q12，引入项目级 .turngateignore 通用忽略 + PreToolUse 写时硬拦截 hook，替代硬编码 .tmp/ 与软守卫。
+- [060 · plan_modified · 2026-10-14T21:27:13](history/060.json) — 补充 architecture/007.md：将 Q12 原文要求的 workflow.md 约定显式列为软约定（第一项决策），并在 §5/§6 写明约定原文；形成软约定 + D1(.turngateignore 豁免) + D2(PreToolUse 硬拦截) 三层保障。
+- [061 · plan_modified · 2026-10-14T21:35:24](history/061.json) — 删除 007.md 中未获用户授权的 stdin/--event - 约定表述，仅保留 Q12 原文约定；同步清理 §2.1/§5/§6/§7 中相关残留。
+- [062 · plan_modified · 2026-10-15T10:03:54](history/062.json) — 执行 architecture/007 (v0.7)：① 新增 .turngateignore 通用忽略（gitignore 语法，含 .tmp/、*.tmp、*.tmp/）；② turn_gate.py 读 .turngateignore 并对命中路径跳过记账（record/e
