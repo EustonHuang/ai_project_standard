@@ -46,6 +46,11 @@ own spec**; the framework repo dogfoods it (it adopts itself — see `standard_v
   skills/                       built-in skills: install-standard / update-standard / check-standard
   scripts/                      append_history.py, turn_gate.py, standard_ops.py
   references/  assets/
+  custom/                       project-defined record categories (registry-driven)
+    <feature>/<id>.md           one record file per id (e.g. custom/topic_plan/001-spark.md)
+    <feature>_index.json        per-feature index (auto-generated, lives inside custom/)
+    <feature>_TOC.md            per-feature TOC (auto-generated, lives inside custom/)
+  custom_categories.json        registry: which custom/<feature>/ are managed
   # indexes at the ROOT (never inside the category folders)
   history_index.json  questions_index.json  issues_index.json
   improvement_index.json  architecture_index.json
@@ -124,6 +129,12 @@ you whether a plan has actually been executed.
      self-reporting `"Hy3"`. New events use `schema_version="2.0"`.
    - **Improvements**: fileable but only-append; editable while `status<3`, frozen at
      `status=3` (implemented). See `architecture/004.md` §5.
+   - **Custom features (architecture 008)**: register a project-specific record category,
+     then every record under it is numbered and auto-synced. Register:
+     `python scripts/append_history.py custom register --plan <plan_folder> --name topic_plan`
+     (idempotent — repeating prints "已注册" and stops without changes). List / sync with
+     `custom list --plan <plan_folder>` and `custom sync --plan <plan_folder> --all`.
+     See `skills/register-custom-feature/` and `references/workflow.md` §12.
 
 ## Bundled resources
 - `scripts/append_history.py` — folder-form logger: `init`, `append`, `show`, `audit`,

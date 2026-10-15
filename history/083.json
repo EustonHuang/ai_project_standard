@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0",
+  "event_type": "correction",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户指出 008.md 未提及 README 更新步骤；此前回答称 v0.8 发布时补 README，但 008 计划无此步骤，implement 会漏。已补。"
+  },
+  "source": {
+    "user_prompt": "你他妈的看看 008.md 有没有写 update README.md adding customs 相关的内容？你回答说到 v0.8 发布时补 README，但 008.md 没写相应内容，implement 是不是会漏掉 README.md？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (read_file + replace_in_file)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md"
+    ],
+    "change_summary": "修正 008.md 遗漏：原计划（§6 改动清单、§7 实施步骤 step5「文档」、§8 验收）均未提及发布时需更新 README.md。本次补：§6 新增 `README.md` 改动项（Layout 加 custom/ 目录行 + How to use 加 custom 命令步骤，与 v0.8 发布同步）；§7 step5 文档项加入 README.md；§8 验收新增第 6 条（README 随 v0.8 同步更新）。原因：此前回答凭空声称 v0.8 会补 README，但计划未含该步骤，按原计划 implement 必漏 README。目标 v0.8 不变，仍待 set-implemented。",
+    "sections_affected": [
+      "§6 改动清单（文件级）",
+      "§7 实施步骤 step 5「文档」",
+      "§8 验收"
+    ]
+  },
+  "correction": {
+    "error_type": "plan_inconsistency",
+    "previous_statement": "此前回答称「等 008 set-implemented（v0.8）时，README 的 Layout / How to use 才该同步补上 custom/ 与对应命令」",
+    "reality": "architecture/008.md 原计划（§6/§7/§8）未包含任何 README 更新步骤，故按原计划 implement 会漏掉 README.md",
+    "fix": "在 008.md §6/§7/§8 显式加入 README 更新步骤，使发布清单完整、implement 不会遗漏"
+  },
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。另：architecture_index.json 的 v8 notes 仍残留被删的 status 流程/implements_to/requires_approval，与改后 008 不符，属独立待办，等 008 落地时一并刷新。",
+  "recorded_by": "ai",
+  "event_id": 83,
+  "recorded_at": "2026-10-15T20:57:52.175594+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

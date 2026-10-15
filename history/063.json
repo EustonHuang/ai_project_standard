@@ -1,0 +1,33 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai"
+  },
+  "source": {
+    "user_prompt": "在 ai_project_standard 项目中新增两个全局运维 skill（放在 skills/ 之外，因为 skills/ 是采纳方安装时的分发载荷）：① project-standard-monitor 读取配置中的 a list of paths，扫描这些路径下所有安装了项目规范的项目，输出项目文件夹 + 已装版本，最后输出最新版本；② project-standard-upgrade 默认列出配置中版本非最新的项目、可批量升级指定项目到指定/最新版本（多个项目+版本，缺版本=最新），作为全局 orchestra 搭配 update-standard 使用。",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "tools/project-standard-monitor/projects.config.json",
+      "tools/project-standard-monitor/scan.py",
+      "tools/project-standard-monitor/SKILL.md",
+      "tools/project-standard-upgrade/upgrade.py",
+      "tools/project-standard-upgrade/SKILL.md",
+      "scripts/turn_gate.py"
+    ],
+    "change_summary": "在 ai_project_standard 新增两个全局运维工具（置于 tools/，非 skills/ 分发载荷）：① tools/project-standard-monitor（projects.config.json + scan.py + SKILL.md）递归扫描 scan_roots、识别含 standard_version 锁的已安装项目、输出项目文件夹/已装版本/是否落后，并给出最新版本（取自框架仓库 git tag v0.N 最大）；② tools/project-standard-upgrade（upgrade.py + SKILL.md）默认列出配置中版本 != 最新的项目，支持 --all / --target <proj>=<ver> / --target <proj> 批量升级到指定或最新版本，底层调用 scripts/standard_ops.py update（与 update-standard 同一条路径）。为配合 007 的 PreToolUse 硬拦截，将 tools/ 加入 turn_gate.py MANAGED_PREFIXES 受管白名单。"
+  },
+  "comments": "本项目改动属框架工具新增（非 architecture 执行），按发布纪律不 commit/push/tag，保留未提交工作区供审阅。monitor 实测扫描到 7 个已安装项目（含本仓库自身 v0.7），6 个落后 v0.7；upgrade --list 正确排除本仓库自身。",
+  "schema_version": "2.0",
+  "event_id": 63,
+  "recorded_at": "2026-10-15T11:02:38.074417+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "fa40316f95d427e5dc9cae2f534dfb84dfb10f2a368174f147864e56bcb18dd0",
+    "plan_md_line_count": 161,
+    "source_doc": "architecture/007.md"
+  }
+}

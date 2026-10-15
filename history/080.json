@@ -1,0 +1,45 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按 Q34 结论修改 architecture/008.md：剥离 D3 的 frontmatter 与 supersedes 修订机制，记录回归 D2 编号 md 文件。"
+  },
+  "source": {
+    "user_prompt": "请修改方案",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md"
+    ],
+    "change_summary": "修改 architecture/008.md（v0.8 计划）落实 Q34 结论。① §0.3 D3 决策描述改为「一条记录 = 一个编号 md 文件（含可选同名辅助目录），形态见 D2；不另加 frontmatter 或版本机制」。② 重写 §3 D3：删除 §3.1 的 frontmatter 块（revision/supersedes/change_summary）与索引镜像这些字段的描述，删除 §3.2 的 append-only supersedes 修订机制；改为「记录 = 编号 md 文件 + 可选同名辅助目录，形态由 D2 规定，不另加 frontmatter/版本机制」；index/TOC 由同步逻辑从磁盘推导（num/topic 取自文件名、file 路径、aux_files 取自同名目录），「有序」由文件名序号保证。③ §8 验收点4 去掉（supersedes: 1）。④ 删除 §9 待确认（frontmatter 键名可配条目），因其前提已不存在。残留 frontmatter 字样均为「不另加 frontmatter」否定语境；read_frontmatter 为 §6 脚本既有函数名（实现层细节），不在本次设计范围。依据 Q34（D3 过度设计、未被要求、与 questions/ 纯 markdown 实践不一致）。",
+    "sections_affected": [
+      "0.3",
+      "3",
+      "8",
+      "9"
+    ]
+  },
+  "correction": {
+    "type": "design_overreach_removed",
+    "summary": "008.md D3 的 frontmatter 与 supersedes 修订机制已按 Q34 剥离，记录回归 D2 编号 md 文件。",
+    "related_question_refs": [
+      "Q34"
+    ]
+  },
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。本次为计划设计修正（非 implement），按发布纪律不 commit/push/tag，保持未提交工作区供审阅。",
+  "recorded_by": "ai",
+  "event_id": 80,
+  "recorded_at": "2026-10-15T20:20:35.524616+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "324c6e4fdded08132d2b611cb4cfd4fd45b84aded166e46028f112598be1a70c",
+    "plan_md_line_count": 194,
+    "source_doc": "architecture/008.md"
+  }
+}

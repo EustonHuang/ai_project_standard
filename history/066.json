@@ -1,0 +1,42 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户就 architecture/008.md §1.2 的 record_file 字段提问；答题并双录为 questions/027.md + 本事件。"
+  },
+  "source": {
+    "user_prompt": "record_file\t⬜\t记录正文文件名，默认 record.md（euston_wiki 可用 plan.md）。\n这个的意义是什么？不要改任何东西，告诉我意义是什么，并写在questions中，并举3个例子说明",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/027.md"
+    ],
+    "change_summary": "新增 questions/027.md（Q27）：解释 architecture/008.md §1.2 中 record_file 的意义——它是「一条记录文件夹里那份给人看的正文档案叫什么名字」的命名旋钮，除命名外不承载语义；存在的理由是引擎生成 TOC 链接、执行 custom append --body 落盘、audit 校验正文存在都需要知道正文确切文件名，而各领域叫法不同故做成声明项（与 D1 及 Q11 教训一致）；边界为一个记录只有一个正文文件（其余进 assets/）、修订审批语义全在 record.json、路径仍是 <dir>/<id>/<record_file>。三例：topic_plan 用 plan.md、spec_change 用 RFC.md、不声明用默认 record.md。诚实判断：纯命名旋钮，无结构性收益，审阅时可直接砍掉该字段硬编码 record.md，D1–D4 与 §6 网关不受影响。本次按用户要求未改动 architecture/008.md 任何内容。",
+    "sections_affected": [
+      "008 §1.2"
+    ]
+  },
+  "correction": null,
+  "qna": {
+    "question_ref": "Q27",
+    "question": "architecture/008.md §1.2 中 record_file（记录正文文件名，默认 record.md）这一项的意义是什么？要求不改设计并举例说明。",
+    "answer_summary": "record_file = 一条记录文件夹里给人看的正文的文件名，纯命名旋钮；不声明即用 record.md。详见 questions/027.md。",
+    "answer_location": "questions/027.md"
+  },
+  "comments": "双录完成：questions/027.md（问答正文）+ 本 qna_recorded 事件。user_prompt 为逐字转写含制表符的原始缩进表格行。model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 66,
+  "recorded_at": "2026-10-15T12:36:45.192093+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "f60fae5ef9e1d01b6d279e18c4aef6d5e065b2bea7a11a75cce934f4182692af",
+    "plan_md_line_count": 253,
+    "source_doc": "architecture/008.md"
+  }
+}

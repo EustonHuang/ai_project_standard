@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按用户要求新增 architecture/008.md：自定义栏目（Custom Category）机制计划（目标 v0.8）。"
+  },
+  "source": {
+    "user_prompt": "接下来新写一份architecture\n每个项目规范可能有每个项目规范的custom folder，在这个custom folder下面，我可能也需要同样的结构，比如_index.json _TOC.md\n举个例子，在euston_wiki中，我在构建一个topic的时候，我想要先做一个plan\n那么这个topic_plan就是一个custom folder\n因为AI做的topic plan是需要经过我的审核才能implement的，如果有问题，我就需要他改plan，知道改到我满意为止。但是改plan也需要有所记录，每一次改动都改了些什么，我需要像\nquestions_index.json，questions_TOC.md这样记录下来，所以我希望的一个结构是\n- custom_feature folder\n- {concrete_custom_feature} folder\n- {concrete_custom_feature}_index.json\n- {concrete_custom_feature}_TOC.md\n你先写architecture",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md",
+      "architecture_index.json"
+    ],
+    "change_summary": "新增 architecture/008.md（目标 v0.8，待执行）：项目可自声明的「自定义栏目」机制。四项决策——D1 plan root 新增 custom_categories.json 声明清单（name/dir/record_file/status_flow/requires_approval/implements_to），引擎由它派生布局、索引、TOC、审计与网关白名单（取代 append_history.py 中 CATEGORY_DIR 硬编码五大栏目）；D2 布局取「扁平记录」<category>/<id>/{record.json,record.md,assets/} + 根级 <category>_index.json / <category>_TOC.md（与 questions_* 同构，索引仍放 plan 根，遵守 architecture 003）；D3 修订=追加新记录（supersedes + revision+1 + 逐条 change_summary，禁止就地改旧版），status 流程 draft→review→approved→implemented（rejected 终态），approved 只能由 human 驱动、implemented 后冻结（沿用 architecture 004 §5 improvements 的 status=3 冻结 precedent）；D4 双录四步 = 记录本体 + 根索引 + TOC + history 事件，并新增单一事件类型 custom_record_appended。网关部分：turn_gate 的 prewrite 白名单按声明追加 <dir>/、<name>_index.json、<name>_TOC.md、custom_categories.json；requires_approval 栏目增加两条硬拦截——(1) 写 implements_to 命中路径须存在 approved 且 approved_by.type=human 且其 target 覆盖该路径的记录，(2) 推进到 implemented 须当前 status=approved。动机用例：euston_wiki 的 topic_plan（AI 起草须人工审核方可实施、每次改 plan 须留痕），以及 euston_wiki 现用 scripts/wiki.py 手维护的 topics_index.json/topics_TOC.md 脱离 audit 与 turn_gate。broken: false（未声明自定义栏目的项目行为与 audit 结果不变）。同步 architecture_index.json：latest_version=8、追加 version 8、notes 追加 v0.8 摘要。",
+    "sections_affected": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ]
+  },
+  "correction": null,
+  "comments": "按用户本次要求只写 architecture，未实现（未改任何 scripts/ references/ README/ standard_version），故仅为 planned 状态，implemented_version 仍为 7；按发布纪律不 commit/push/tag。model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，agent 不自报模型。文档 §10「待确认点」记录两处待用户拍板项：① 目录粒度本报告取「扁平记录」方案（若改双层 subjects/ 或集中到 custom/ 容器则 §2/§4/§5.1 需重写）；② 审批是否做成 PreToolUse 硬拦截（本报告取「软约定+硬拦截」，只想要软约定则删 §6.2）。",
+  "recorded_by": "ai",
+  "event_id": 65,
+  "recorded_at": "2026-10-15T12:14:08.685999+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "f60fae5ef9e1d01b6d279e18c4aef6d5e065b2bea7a11a75cce934f4182692af",
+    "plan_md_line_count": 253,
+    "source_doc": "architecture/008.md"
+  }
+}

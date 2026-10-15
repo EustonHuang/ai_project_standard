@@ -1,0 +1,38 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "回答 Q29：status_flow 解决什么、spark_lifetime 状态挂哪、requires_approval 具体例子、是否过度设计。"
+  },
+  "source": {
+    "user_prompt": "回到问题 @questions/028.md 你设计status_flow需要解决什么问题？比如说topic_plan folder下面的一个具体的topic_plan e.g spark_lifetime.md 他的状态是怎样的？还是别的意思？\n\nrequires_approval又是设么意思？你举个具体的例子说明\n\n写到questions中，并告诉我是不是过度设计？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/029.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q29 问答：① 澄清状态挂在 plan 记录 frontmatter（status/approved_by/target）并镜像进 custom/<feature>_index.json，不在文件夹也不在 topic 内容文件；spark_lifetime 是 subject 而非文件名（序号文件 001.md 才支持 append-only 多修订）。② status_flow=该栏目允许的状态枚举（默认主链 draft→review→approved→implemented + rejected 终态），做可枚举校验并支持不同栏目不同生命周期。③ requires_approval=true 接进 §6.2 两条 PreToolUse 硬拦截，用 spark_lifetime 走通 draft→review→approved→implemented 全链路并演示 human-only approved。④ 过度设计判断：审批门禁非过度（核心需求），status_flow 可配枚举是通用化税，建议默认共享一套流、例外才声明。已双录：questions/029.md + 本事件；索引 max_id/revision 升 29，TOC 追加 Q29。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。附：Q27 的答案现引用旧 008 设计（『一条记录=一个文件夹』），但 008 已据用户澄清重写为扁平记录（custom/<feature>/<id>.md），Q27 答案因此已与当前 008 不一致，建议另起一条 Q 或在实现时一并订正（不在本事件范围内）。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 72,
+  "recorded_at": "2026-10-15T13:50:45.859744+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1240f038b0669ac78373c54aaa5ff3e00e9c0bbbf31fe87287116038f0b9a42b",
+    "plan_md_line_count": 282,
+    "source_doc": "architecture/008.md"
+  }
+}

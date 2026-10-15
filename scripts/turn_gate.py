@@ -206,6 +206,9 @@ def is_ignored(rel):
 MANAGED_PREFIXES = (
     "architecture/", "questions/", "history/", "issues/", "improvements/",
     "references/", "scripts/", "skills/", "assets/", ".codebuddy/",
+    # architecture 008: registered custom features live here. The declaration
+    # list (custom_categories.json) decides which of them are really managed.
+    "custom/",
 )
 MANAGED_FILES = (
     "architecture_index.json", "architecture_TOC.md",
@@ -214,6 +217,7 @@ MANAGED_FILES = (
     "issues_index.json", "issues_TOC.md",
     "improvement_index.json", "improvement_TOC.md",
     "standard_version", ".turngateignore", ".gitignore", "README.md",
+    "custom_categories.json",
 )
 
 
@@ -225,6 +229,61 @@ def in_managed_allowlist(rel):
         if rel == base or rel.startswith(pre):
             return True
     return False
+
+
+# --------------------------------------------------------------------------
+# D4 (architecture 008): per-feature index/TOC sync for custom features.
+# A write under custom/<feature>/ rebuilds ONLY that feature's
+# <feature>_index.json + <feature>_TOC.md — never the other features.
+# --------------------------------------------------------------------------
+CUSTOM_ROOT = "custom"
+CUSTOM_CATEGORIES = "custom_categories.json"
+
+
+def custom_feature_of(rel):
+    """'custom/topic_plan/001-x.md' -> 'topic_plan'; else None."""
+    parts = rel.replace(os.sep, "/").split("/")
+    if len(parts) >= 2 and parts[0] == CUSTOM_ROOT:
+        return parts[1]
+    return None
+
+
+def registered_custom_features():
+    p = os.path.join(PLAN_ROOT, CUSTOM_CATEGORIES)
+    if not os.path.exists(p):
+        return []
+    try:
+        data = json.load(open(p, "r", encoding="utf-8"))
+        return [c.get("name") for c in (data.get("categories") or []) if c.get("name")]
+    except Exception:
+        return []
+
+
+def sync_custom_feature(name):
+    script = os.path.join(SCRIPT_DIR, "append_history.py")
+    if not os.path.exists(script):
+        return False
+    try:
+        out = subprocess.run(
+            [sys.executable, script, "custom", "sync", "--plan", PLAN_ROOT, "--name", name],
+            capture_output=True, text=True, timeout=20)
+    except Exception as e:
+        print("turn_gate record: custom sync 调用失败：%s" % e, file=sys.stderr)
+        return False
+    if out.returncode != 0:
+        print("turn_gate record: custom sync 失败（%s）：%s"
+              % (name, (out.stderr or "").strip()[:200]), file=sys.stderr)
+        return False
+    return True
+
+
+def custom_side_files(rel):
+    """Declared paths that must also land in history when a custom record changes."""
+    feat = custom_feature_of(rel)
+    if not feat or feat not in registered_custom_features():
+        return []
+    return ["%s/%s_index.json" % (CUSTOM_ROOT, feat),
+            "%s/%s_TOC.md" % (CUSTOM_ROOT, feat)]
 
 
 # --------------------------------------------------------------------------
@@ -259,6 +318,7 @@ def cmd_record(args):
         fp = os.environ.get("CODEBUDDY_FILE_PATH")
 
     added = False
+    rel = None
     if fp and in_plan(fp):
         rel = norm_rel(fp)
         if is_ignored(rel):
@@ -267,6 +327,18 @@ def cmd_record(args):
         elif rel not in state["declared"]:
             state["declared"].append(rel)
             added = True
+    # architecture 008 D4: a write under custom/<feature>/ rebuilds ONLY that
+    # feature's index+TOC; both must then be covered by this turn's history event.
+    if rel is not None:
+        feat = custom_feature_of(rel)
+        if feat and feat in registered_custom_features():
+            if sync_custom_feature(feat):
+                for side in custom_side_files(rel):
+                    if side not in state["declared"]:
+                        state["declared"].append(side)
+                        added = True
+                print("turn_gate record: 已同步 custom/%s 的 index+TOC（须在本轮 history 事件中留痕）。"
+                      % feat)
     if added:
         save_state(state)
         print("turn_gate record: declared += %s (total %d)"

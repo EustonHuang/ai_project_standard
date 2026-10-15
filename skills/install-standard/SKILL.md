@@ -38,7 +38,9 @@ python3 scripts/standard_ops.py install --self --project .
    `PostToolUse`→`record`, `Stop`→`end` — targeting `turn_gate.py`, scoped to the
    project via `PLAN_HISTORY_ROOT=$CODEBUDDY_PROJECT_DIR`.
 4. scaffolds `<project>/{history,questions,issues,improvements,architecture}/` + indexes + TOCs.
-5. writes `<project>/.codebuddy/rules/ai-project-standard/RULE.mdc` — an **always-apply
+5. installs `skills/register-custom-feature` into `<project>/.codebuddy/skills/` — every
+   adopting project needs it to register domain-specific `custom/` features (architecture 008).
+6. writes `<project>/.codebuddy/rules/ai-project-standard/RULE.mdc` — an **always-apply
    rule** (`alwaysApply: true`) that injects the standard's context at every new
    session start, instructing the agent to read `<project>/.plan-standard/README.md`
    (self mode: `<project>/README.md`) + `references/workflow.md` and follow the

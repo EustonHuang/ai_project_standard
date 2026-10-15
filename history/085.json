@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按用户指令 implement architecture 008：将既有 custom 代码/skill 从旧草案（implements_to/supersedes/status/revision frontmatter）对齐到精简版 008（D3 无 frontmatter、无版本/状态机制），并补齐 README/workflow 文档与 architecture_index 描述。"
+  },
+  "source": {
+    "user_prompt": "现在请implement architecture 008",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/append_history.py",
+      "skills/register-custom-feature/SKILL.md",
+      "references/workflow.md",
+      "README.md",
+      "architecture_index.json",
+      "standard_version"
+    ],
+    "change_summary": "implement architecture 008（v0.8）：将既有 custom 实现对齐到精简设计。① append_history.py：删除 read_frontmatter；sync_custom_feature/_regen_custom_toc 不再读 frontmatter 的 status/revision/supersedes/change_summary，仅从磁盘文件名派生 num/topic/aux_files/file；custom register 去掉 --implements-to 与 implements_to 字段；gen-toc --kind all 已覆盖 custom TOC。② register-custom-feature SKILL：去掉 --implements-to 说明，修订节改为「追加新序号文件、无 frontmatter、有序性由文件名保证」。③ workflow.md §12：去掉 supersedes/revision/status 流程，改为无 frontmatter/无版本字段的修订说明。④ README：Layout 增 custom/ 容器与 custom_categories.json，How to use 增 custom 命令步骤。⑤ architecture_index.json：v8 notes/title 改为精简设计描述（移除 implements_to/status/requires_approval），标注已执行。⑥ standard_version 锁文件 v0.7→v0.8（dogfooding）。另修一处预存 bug：audit 对空 architecture/ 计划崩溃（max([])），已加空列表保护；该路径正是 install-standard 新建采纳项目的状态。turn_gate.py/standard_ops.py/RULE.mdc/install-standard 已对齐，未改。验收（临时计划目录）：register 幂等、index/TOC 从磁盘派生、按 feature 同步不波及他栏、audit 通过。",
+    "sections_affected": [
+      "scripts/append_history.py",
+      "skills/register-custom-feature/SKILL.md",
+      "references/workflow.md §12",
+      "README.md Layout/How to use",
+      "architecture_index.json v8",
+      "standard_version"
+    ]
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律 set-implemented 触发 commit+push+tag v0.8。euston_wiki 实测（008 §8 第5项）为独立运行时测试，未在本仓执行。",
+  "recorded_by": "ai",
+  "event_id": 85,
+  "recorded_at": "2026-10-15T21:14:14.166539+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

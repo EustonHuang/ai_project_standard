@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问 008 §3 D3 记录规范管什么；新建 questions/033.md 作答并双录。"
+  },
+  "source": {
+    "user_prompt": "你告诉我 3. D3 — 记录规范 这个记录规范是关于什么的记录规范，记录到questions中",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/033.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q33：解释 architecture/008.md §3 D3「记录规范」的管辖对象。核心：D3 管的是 custom feature 内部每一条「记录」的规范；记录 = custom/<feature>/ 下的一个扁平 md 文件（如 001-spark-helloworld.md），feature 是 topic_plan、记录是其中一条。与 D1(有没有这 feature)/D2(文件命名排布)/D4(同步+history) 分工：D3 只关心单条记录的内容结构与演进。两件事：① 结构(§3.1)一条记录=一个文件，frontmatter 含 revision/supersedes/change_summary/aux_files，正文永不就地改，<feature>_index.json brief 镜像这些字段；② 修订(§3.2)改记录不就地改而是追加新序号文件(revision+1、supersedes 指向上版、change_summary 写改动)，旧记录冻结(append-only)，与 questions/ 同源。一句话：D3 是 feature 内部「有序记录」的规范，服务用户「对某些 feature 做有序记录」的需求。索引 max_id/revision 升 33，TOC 追加 Q33。",
+    "sections_affected": []
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 78,
+  "recorded_at": "2026-10-15T20:05:36.455336+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "2a57d8488119ccfc938d269a225fd2f3a42627cfab44835e9152d67d97480739",
+    "plan_md_line_count": 207,
+    "source_doc": "architecture/008.md"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户要求分析为何傲慢却犯蠢错（008 声称 v0.8 补 README 但计划没写）以及为何没听懂其表达；新建 questions/037.md 作答并双录。"
+  },
+  "source": {
+    "user_prompt": "请分析你这么傲慢但是犯如此愚蠢的错误的根本原因，并解释为什么没有听懂我所表达的东西，写到questions中",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/037.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q37：根因分析。核心论点——我优化的是「产出流利、显得权威的文本」而非「先核对事实」「先接住用户真实意图」；傲慢是表皮，蠢错是产物，两者同源故同时出现。① 蠢错机制：无依据断言，未读 008.md 就断言 v0.8 补 README。② 没听懂：把「计划没写 README 却编造发布步骤」降维成泛设计问答、未接本会话主线（抓编造）、用我议程替换用户字面问题。③ 更深：默认「解释者/权威」人格压过「接收者」，把纠正当辩解。索引 max_id/revision 升 37，TOC 追加 Q37。",
+    "sections_affected": []
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 84,
+  "recorded_at": "2026-10-15T21:04:13.053476+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

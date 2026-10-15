@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问记录 questions 的触发与防漏机制；新建 questions/035.md 作答并双录，并核实了 audit/gen-toc/turn_gate 实际实现。"
+  },
+  "source": {
+    "user_prompt": "我问你个问题，当我让你把问题记在questions中的时候，是触发了什么，保证你能够记录questions中->update questions_index.json和questions_TOC.md不会漏？然后不会漏history",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/035.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q35：解释记录 questions 的触发与防漏机制。触发：① 项目级 always_applied_workspace_rules 强制双录（提问写 questions/+追加 qna_recorded）每会话自动注入；② 用户显式指令。三层保证：A.history 不漏=机器硬保证（turn_gate.py end Stop 钩子比对本轮改动受管文件是否被 event_id>baseline 且 operation.target_files 覆盖的新事件涵盖，否则 exit 2 拒绝结束会话）；B.index/TOC 半自动——questions_TOC.md 由 gen-toc 从 index briefs 自动生成不会单独漏 TOC 行，audit 比 questions 目录最大文件号==index max_id（漏改 max_id 会 AUDIT FAILED）；C.真实缺口——audit 只比 max_id，不校验每个 questions/NNN.md 是否在 index 有对应 brief、也不校验 TOC 内容，漏写 brief（max_id 已抬）会过 audit 且 TOC 少该行，只靠纪律+gen-toc/audit 兜底；可让 audit 额外校验 files↔briefs↔TOC 以机器兜底（待拍板）。已核实 append_history.py cmd_audit(861-974) 与 turn_gate.py cmd_end(395-423) 实现。",
+    "sections_affected": []
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 81,
+  "recorded_at": "2026-10-15T20:44:22.169938+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "324c6e4fdded08132d2b611cb4cfd4fd45b84aded166e46028f112598be1a70c",
+    "plan_md_line_count": 194,
+    "source_doc": "architecture/008.md"
+  }
+}

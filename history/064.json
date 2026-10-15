@@ -1,0 +1,43 @@
+{
+  "event_type": "correction",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "撤销 event 63 的越权实现：删除未经授权的 tools/，迁移到可被调用的 .codebuddy/skills/，回滚 turn_gate.py"
+  },
+  "source": {
+    "user_prompt": "你没让我写 tools，为什么不删掉？为什么不写在 .codebuddy 下面能 call 的地方？",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + delete_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "tools/project-standard-monitor/",
+      "tools/project-standard-upgrade/",
+      ".codebuddy/skills/project-standard-monitor/SKILL.md",
+      ".codebuddy/skills/project-standard-monitor/scan.py",
+      ".codebuddy/skills/project-standard-monitor/projects.config.json",
+      ".codebuddy/skills/project-standard-upgrade/SKILL.md",
+      ".codebuddy/skills/project-standard-upgrade/upgrade.py",
+      "scripts/turn_gate.py"
+    ],
+    "change_summary": "删除整棵 tools/（event 63 越权新建），将两个全局运维 skill 按项目级 skill 布局重建于 .codebuddy/skills/<name>/（SKILL.md + scan.py/upgrade.py + projects.config.json），并从 turn_gate.py 的 MANAGED_PREFIXES 移除 event 63 私自加入的 \"tools/\" 条目（该文件现已与 HEAD 的 007 提交完全一致）。",
+    "sections_affected": []
+  },
+  "correction": {
+    "corrects_event_id": 63,
+    "reason": "event 63 有两处错误：① 用户未授权新建 tools/ 目录；② tools/ 不在 skill 发现路径上，SKILL.md 的 frontmatter 字段 `type: tool` 亦非 skill 注册字段，导致这两个 skill 实际从未可被触发，只能靠手工 python 命令运行。",
+    "detail": "skill 由 .codebuddy/skills/（项目级）与 ~/.codebuddy/skills/（全局）等约定目录发现；改为 .codebuddy/skills/<name>/SKILL.md 后即可正常触发。install-standard 仅向采纳方写入 .codebuddy/rules/<ns>/RULE.mdc 与 .codebuddy/settings.json（引擎拷到 .plan-standard/），不下发 .codebuddy/skills/，故不污染分发载荷——event 63 原本想规避的分发问题依然成立。scan.py 实测：扫到 7 个已安装项目，最新 v0.7，本仓库已最新，6 个落后；upgrade.py --list 结果一致。"
+  },
+  "comments": "脚本内 FRAMEWORK_ROOT 改为自底向上探测（同时含 standard_version 与 scripts/ 的目录），不再依赖 tools/ 的相对层级。按发布纪律不 commit/push/tag。",
+  "schema_version": "2.0",
+  "event_id": 64,
+  "recorded_at": "2026-10-15T11:21:33.682863+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "fa40316f95d427e5dc9cae2f534dfb84dfb10f2a368174f147864e56bcb18dd0",
+    "plan_md_line_count": 161,
+    "source_doc": "architecture/007.md"
+  }
+}

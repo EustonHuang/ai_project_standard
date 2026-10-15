@@ -1,0 +1,16 @@
+---
+description: "写/改 architecture、README、references、questions、issues、improvements 等任何规范文档时，禁止写入『澄清 / 误读 / 已按某某重写』之类自我叙述作者纠错的段落；只写最终权威设计。Use when writing or editing architecture/, README.md, references/, questions/, issues/, improvements/。"
+alwaysApply: true
+enabled: true
+updatedAt: 2026-10-15T14:05:00.000Z
+provider:
+---
+<system_reminder>
+**写规范文档时禁止"澄清式旁白"，且改编号必须顺排。**
+
+1. 文档只承载**最终、权威**的设计内容。不要把作者自己的误解、改稿过程、与用户的来回纠正写进文档（如"误读澄清""本文件据此重写""已按用户澄清修改"等）。
+2. 如果先前写错了，直接把文档改成正确的最终版本，**不要另加一段说明"我之前错了"**。历史纠错由 `history/` 事件负责（双录），文档本身保持干净，读者不必读作者的认知变化史。
+3. 背景 / 需求 / 缺口 / 决策可以写，但用中性陈述，不叙述作者的认知变化。
+4. 用户明确表达过：多一段澄清就是多一段没用的文字，重犯视作低级错误。
+5. **删除带编号的章节 / 小节后，必须顺排其后所有编号**：删掉 §0.2，后面的 0.3 / 0.4 / 0.5 要顺移成 0.2 / 0.3 / 0.4。删章节不能只做"删"，要连带检查并重排整个编号序列，杜绝留下跳号（0.1 直接跳 0.3 之类）。
+</system_reminder>

@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问改 008 后为何不改 README、How to use 为何不加 customs；新建 questions/036.md 作答并双录。"
+  },
+  "source": {
+    "user_prompt": "我想请问你的architecture 008.md 你在README.md中不改吗？How to use中你提到了questions, improvements 为啥不加customs？请先回答我的问题，这个需不需要加",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/036.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q36：判断改 architecture/008.md 后 README 是否需加 customs。结论：不需要现在加，v0.8 发布时加。事实依据：architecture_index implemented_version=7/latest=8 → 008 仍 plan 未落地；README How to use 只列 questions(步骤4)/improvements(步骤5)，Layout/描述均无 custom。① 没改 README 正确非漏——README 记已发布标准(v0.7)，写未落地 008 等于文档承诺不存在的东西，同过度设计。② 不加 customs 因 custom 是 v0.8 内容未 ship，等 set-implemented 升 v0.8+打 tag 时再补 Layout/How to use。③ 标准：README 跟 implemented_version 走只写已发布功能。④ 顺带事实：architecture_index v8 notes 仍写被删的 status 流程/implements_to/requires_approval，与改后 008 不符，等 008 落地时一并刷新。索引 max_id/revision 升 36，TOC 追加 Q36。",
+    "sections_affected": []
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 82,
+  "recorded_at": "2026-10-15T20:54:57.014099+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "324c6e4fdded08132d2b611cb4cfd4fd45b84aded166e46028f112598be1a70c",
+    "plan_md_line_count": 194,
+    "source_doc": "architecture/008.md"
+  }
+}

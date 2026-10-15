@@ -1,0 +1,9 @@
+{
+  "scan_roots": [
+    "/Users/euston/personal"
+  ],
+  "exclude": [
+    "node_modules", ".git", "__pycache__", ".venv", "venv", ".codebuddy", ".plan-standard", "dist", "build"
+  ],
+  "max_depth": 4
+}

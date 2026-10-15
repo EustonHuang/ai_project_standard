@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户纠正：custom-feature 只是有序记录、未必 implement，从未要求 implements_to；新建 questions/032.md 溯源并承认过度设计。"
+  },
+  "source": {
+    "user_prompt": "你为什么要设计 implements_to？我哪里提示要设计这个？我只是告诉你 custom-feature 的路径以及它里面会有哪些东西，没说 implements_to。你只是想对某些 feature 进行有序记录而已，没说要不要 implement，这个 feature 甚至不用 implement 就是记录。假如你理解了我所说的，请告诉我当初设计 implements_to 的初衷是什么？请记录到 questions 中。",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/032.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q32：澄清 implements_to 非用户要求、属 agent 过度设计。核心：① 用户蓝图只规定目录格式、register-custom-feature 机制、受管文件含 custom/、TOC/index 同步，无 implement/门禁/产物路径字样，implements_to 是 agent 自行加入 generic schema；② 初衷诚实溯源：源于更早用户一句「AI 做的 topic plan 必须经我审核才能 implement」，agent 将其做成机器硬规则并设计通用审批门禁，implements_to 即「告诉门禁实施产物落在哪」的映射字段，为 topic_plan 这一具体要求而生；③ 过度设计/错读：把单个 feature 的审批需求泛化为通用 schema 字段，通用机制本质是有序记录、很多 feature 不 implement，给所有 feature 强加未必需要的概念；④ 结论：implements_to 应移出 generic schema，每项只需 name+可选 description，具体 feature 真需审批时再单独处理（YAGNI）。索引 max_id/revision 升 32，TOC 追加 Q32。",
+    "sections_affected": []
+  },
+  "correction": {
+    "type": "design_overreach",
+    "summary": "implements_to 把单个 feature 的审批需求泛化为通用 custom_categories.json 字段，与用户澄清的「custom-feature 只是有序记录、未必 implement」冲突；应移出 generic schema。",
+    "related_question_refs": [
+      "Q30",
+      "Q31"
+    ]
+  },
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 76,
+  "recorded_at": "2026-10-15T19:43:31.150395+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "8a0ae3186b785e065b59cbba48210a8cc3641bc342698c4473eb189fc9961d1f",
+    "plan_md_line_count": 231,
+    "source_doc": "architecture/008.md"
+  }
+}

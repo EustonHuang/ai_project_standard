@@ -30,3 +30,14 @@
 - [Q24](questions/024.md) — 假设我有一个新的项目，想要运用这个项目规范框架，我应该怎么做？有什么命令或者指示使得我能够在新的项目中"安装"这个项目规范？
 - [Q25](questions/025.md) — 下一个问题，你能保证安装项目规范之后，我接下来在这个项目中正常prompting的时候，codebuddy IDE能够把项目规范相关的context给load进去吗？我觉得目前项目规范的安装程度并不能保证这一点吧？
 - [Q26](questions/026.md) — 你的意思是，需要加.codebuddy/rules，但是你能保证codebuddy IDE加载的时候先读rules吗？因为之前的实践告诉我codebuddy IDE并没有像claude code那样会先去读CLAUDE.md（对应CODEBUDDY.md和.codebuddy/r…
+- [Q27](questions/027.md) — architecture/008.md §1.2 中 record_file（记录正文文件名，默认 record.md）这一项的意义是什么？要求不改设计，并举 3 个例子说明。
+- [Q28](questions/028.md) — architecture/008.md 里 custom_categories.json 的 status_flow 和 requires_approval 这两个字段的意义是什么？
+- [Q29](questions/029.md) — 回到 Q28：status_flow 解决什么问题？custom/topic_plan/ 下具体 plan（如 spark_lifetime）的状态长什么样、挂哪？requires_approval 什么意思（给具体例子）？这一套是否过度设计？
+- [Q30](questions/030.md) — 但凡加一个字段就要考虑怎么维护它；我没说过要加 requires_approval 这些字段。status_flow 的 draft→review→approved→implemented 维护要花多少力气、一处不对就要查原因，收益大吗？你既然认同，为什么还这么设计并替自己辩解？
+- [Q31](questions/031.md) — architecture/008.md §1 里 implements_to: topics_meta/<subject>/** 是什么意思？举例详细说明。
+- [Q32](questions/032.md) — 你为什么要设计 implements_to？我哪里提示要设计这个？我只是告诉你 custom-feature 的路径和内容格式，没说 implements_to；custom-feature 只是有序记录，未必 implement。当初设计 implements_to 的初衷是什…
+- [Q33](questions/033.md) — architecture/008.md 的「3. D3 — 记录规范」是关于什么的记录规范？
+- [Q34](questions/034.md) — D3 记录规范的 frontmatter(revision/supersedes/change_summary/aux_files)与 append-only supersedes 修订机制是不是过度设计？我有没有让你设计这个？哪条具体指示要求的？questions/ 下的文件(…
+- [Q35](questions/035.md) — 当我让你把问题记在 questions 中时，什么触发了你去做？靠什么保证写 questions/NNN.md、更新 questions_index.json 和 questions_TOC.md 不漏？又靠什么保证 history 不漏？
+- [Q36](questions/036.md) — 改了 architecture/008.md，README.md 为啥不改？How to use 提到 questions/improvements 为啥不加 customs？这个需不需要加？
+- [Q37](questions/037.md) — 分析你为何傲慢却犯蠢错（008 声称 v0.8 补 README 但计划没写），并解释为什么没听懂我所表达的东西。

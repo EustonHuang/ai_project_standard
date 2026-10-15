@@ -1,0 +1,52 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按用户四点要求重写 architecture/008 并实现注册制 custom feature（目录格式、注册 skill、受管清单、按 feature 同步）。"
+  },
+  "source": {
+    "user_prompt": "接着，我觉得你并没有理解我的全部蓝图\n1. 我不是规定死的custom/topic_plan/001.md 这样的文件目录格式，每个custom feature有他自己的内部格式，这个项目规范不明文指定。只是说preferrably我希望不管怎么命名，都需要先有个序号，比如说关于topic_plan，我可能希望 custom/topic_plan/001-spark-helloworld.md / custom/topic_plan/002-rdd.md；同时也要考虑每个custom feature可能不仅限于markdown file，有些别的文件可能补充说明，所以还需要预留 custom/topic_plan/001-spark-helloworld/ 目录（记录里有 see 001-spark-helloworld/spark-introduction.md 这种引用）。总而言之希望的目录格式是 custom/{custom_feature}/{number}_{topic}.md 与 custom/{custom_feature}/{number}_{topic}/ for additional explanation markdowns。\n2. 我不想一开始就在项目里写死哪些custom_feature。谁都不能预测有哪些东西需要进custom_feature at the beginning right? 所以需要有个注册机制，写入 skill 中（放在本项目规范 skills 文件夹下，安装本项目规范时加载，所有用到本规范的项目都要用）。skill 名为 register-custom-feature，参数为 custom-feature 名（e.g topic_plan）。任务：查看此 custom-feature 有没有被注册过（通过 custom_categories.json），已注册则提醒用户并终止；未注册则加入 custom_categories.json。\n3. 修改 .codebuddy/rules/ai-project-standard/RULE.mdc：受管文件中必须含有 custom 文件夹，custom 文件夹的改动需要被记录历史。\n4. 确保 custom 下任意一个 custom-feature 的更新都要确保 {custom-feature}_TOC.md 和 {custom-feature}_index.json 的同步更新，哪个 feature 更新就更新对应的 TOC 和 index.json，严禁过度操作。请查看这个逻辑以什么方式实现（rules 或 hooks 里的 scripts）并对相应实现进行 update，需要考虑 custom folder 下面的记录规范。\n请根据我的上述描述，重写 008.md（不是修改，是重写！），期间注意不要 over-complex description，确保 markdown 可理解且结构良好。",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md",
+      "scripts/append_history.py",
+      "scripts/turn_gate.py",
+      "scripts/standard_ops.py",
+      "skills/register-custom-feature/SKILL.md",
+      "skills/install-standard/SKILL.md",
+      ".codebuddy/rules/ai-project-standard/RULE.mdc",
+      "references/workflow.md"
+    ],
+    "change_summary": "① 重写 architecture/008.md（非补丁）：框架不预置任何 custom feature，改为注册制（custom_categories.json 为唯一真相）；目录格式只规定「记录文件必须以零填充序号开头」与「额外说明放同名目录」，分隔符/topic 命名由项目自定；记录规范（修订=追加新记录 supersedes、固定 5 态状态流、审批门禁由 implements_to 派生）；同步只针对被改动的 feature；字段集砍到 name/description(选)/implements_to(选)，明确不设 status_flow 与 requires_approval（依 Q29/Q30）。② scripts/append_history.py：新增 custom 段（custom_root/custom_dir/custom_index_path/custom_toc_path/load_categories/custom_records/custom_aux_files/read_frontmatter/sync_custom_feature/_regen_custom_toc）与 custom 子命令组 register/sync/list（register 幂等：已注册则提示并 exit 2）；audit 按注册清单校验目录/index/TOC/max_id；gen-toc --kind all 覆盖 custom TOC。③ scripts/turn_gate.py：MANAGED_PREFIXES 加 custom/、MANAGED_FILES 加 custom_categories.json；record 中新增 custom_feature_of/registered_custom_features/sync_custom_feature/custom_side_files——写 custom/<feature>/ 时只重建该 feature 的 index+TOC，并把二者计入本轮待留痕文件（Stop 时要求 history 覆盖）。④ scripts/standard_ops.py：生成的规则受管清单加 custom/ 与 custom_categories.json；install/update 复制模式把 skills/register-custom-feature 装进采纳项目 .codebuddy/skills/（DISTRIBUTED_SKILLS）。⑤ 新增 skills/register-custom-feature/SKILL.md；install-standard SKILL.md 说明随引擎分发。⑥ RULE.mdc 受管文件加 custom/、custom_categories.json。⑦ references/workflow.md 新增 §12 自定义 feature 记录规范。",
+    "sections_affected": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  "correction": null,
+  "comments": "冒烟测试（/tmp/custtest，仓库外，不受网关影响）：register 幂等（重复注册提示已注册 exit 2）；sync 生成 index（含 aux_files/change_summary/status/supersedes 镜像）与 TOC；turn_gate prewrite 放行 custom/、拦截非受管 scratch.txt；record 自动同步被改动 feature 并把 index+TOC 计入待留痕。仓库内 audit 通过、gen-toc 通过、py_compile 通过。008 §7 步骤 6（implements_to 审批门禁的 prewrite 校验）尚未实现，列为待办。model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 74,
+  "recorded_at": "2026-10-15T16:55:01.877907+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "8a0ae3186b785e065b59cbba48210a8cc3641bc342698c4473eb189fc9961d1f",
+    "plan_md_line_count": 231,
+    "source_doc": "architecture/008.md"
+  }
+}

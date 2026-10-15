@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "记录 Q28：解释 architecture/008.md 中 custom_categories.json 的 status_flow（状态枚举/词汇表）与 requires_approval（是否启用 §6.2 实施硬拦截）两个字段的意义与边界。"
+  },
+  "source": {
+    "user_prompt": "@/Users/euston/personal/ai_project_standard/architecture/008.md   中status_flow和requires_approval的意义是什么，记录到questions中",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/028.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新建 Q28，解释 008.md §1.2 的两个栏目声明字段：status_flow=该栏目记录允许的状态枚举（默认主链 draft→review→approved→implemented + rejected 终态），使「有哪些状态、怎么流转」由项目级声明派生而非引擎硬编码（与 D1/Q11 同源）；requires_approval=true 则该栏目受 §6.2 两条 PreToolUse 硬拦截（写 implements_to 命中路径前须存在 approved 且 approved_by.type=human 且 target 覆盖该路径的记录；推进 implemented 前须当前 status=approved），把「AI 起草的计划须人工批准才可实施」从文档约定升级为机器行为。并指出边界：review→approved 只能 human 驱动属状态机硬规则（§3.3），与 requires_approval 开关无关。附带发现一处文档措辞不一致：§1.2 称「四项流程」，但示例数组与 §3.3 图均为 5 个节点（主链 4 + rejected 终态），建议实现 v0.8 时统一为「主链四项 + rejected 终态」。未改动 architecture/008.md 任何内容（用户本次只要求记录到 questions）。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "qna": {
+    "question_ref": "Q28",
+    "question": "architecture/008.md 里 custom_categories.json 的 status_flow 和 requires_approval 这两个字段的意义是什么？",
+    "answer_summary": "两者是栏目声明字段、彼此正交。status_flow=该栏目记录允许的状态枚举（默认主链 draft→review→approved→implemented，外加 rejected 终态），把「有哪些状态、能怎么流转」从引擎硬编码升级为项目级配置（topic_plan 用起草→送审→批准→实施，评审稿类栏目可能只要 draft/review/published）；requires_approval=true 则该栏目接上 §6.2 的两条 PreToolUse 硬拦截：① 写 implements_to 命中路径前须存在 status=approved 且 approved_by.type=human、target 覆盖该路径的记录；② 推进到 implemented 前须当前 status=approved——即把「AI 起草的 plan 须人工批准才可实施」从纸面约定变成机器行为，false 则只是普通留痕栏目。边界：review→approved 只能由 human 驱动是 §3.3 状态机本身的硬规则，不随该开关变化。附：§1.2「四项流程」与示例 5 个值的措辞不一致，待 v0.8 实现时统一。",
+    "answer_location": "questions/028.md"
+  },
+  "correction": null,
+  "comments": "本事件为 Q28 的问答双录（第二步：history 审计轨迹）。编号纠正说明：首次 append 时 --question-ref 误填 Q27（该编号已被同会话稍早记录的 record_file 问答占用，见 questions/027.md），随后在同一轮、尚未有任何 history 事件固化之前把 questions/028.md 正文标题与 questions_index.json 的 question_ref 一并改为 Q28，并用 gen-toc --kind questions 重生成 questions_TOC.md；故 target_files 含这三个文件，编号以 Q28 为准。source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失），按 Q18 置 unknown + model_confidence=unknown，agent 不自报模型。本次为纯问答记录，未实现 v0.8、未改动 architecture/008.md、未 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 67,
+  "recorded_at": "2026-10-15T12:38:16.871649+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "f60fae5ef9e1d01b6d279e18c4aef6d5e065b2bea7a11a75cce934f4182692af",
+    "plan_md_line_count": 253,
+    "source_doc": "architecture/008.md"
+  }
+}

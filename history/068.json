@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "event_type": "correction",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按用户澄清重写 architecture/008.md 的 D2：自定义栏目的正确结构是 custom/ 容器下的 feature 文件夹 + 容器内同名 index/TOC，一条记录 = 一个扁平 md；初稿的「一条记录一个文件夹 + record.json + record_file + assets/」属过度设计，全部删除。"
+  },
+  "source": {
+    "user_prompt": "1）你自己要的就是这个（最强依据） 你在提需求的原话里列的四行结构里，第二行是 - {concrete_custom_feature} folder。我当时把 {concrete_custom_feature} 落成了「一条记录」（即 topic_plan 下一份具体 plan 的一个版本），所以 D2 写成一条记录 = 一个 folder —— 这是对原话的直接落实，不是我推导出来的新增规定。\n\n你怎么理解我的话的？？？？\n{concrete_custom_feature} folder\n比如说这个custom_feature是topic_plan\n那么这个folder意思是topic_plan这个folder啊\n你的意思是topic_plan folder下面每个topic plan还要一个folder？？？？？\nlike topic_plan/{spark_helloworld}/v1.md\n???????\n你有必要这么过渡复杂化吗？？？？\n\n我的意思是先在root project建一个\ncustom folder\n然后在custom folder下面建一个{concrete_custom_feature} folder\n就是\n- custom/topic_plan/\n- custom/topic_plan_TOC.md\n- custom/topic_plan_index.json\n\n假如我还有另外一个feature called code_plan 那么结构是\n- custom/code_plan/\n- custom/code_plan_TOC.md\n- custom/code_plan_index.json\n我要的是这个，你他妈的明白吗？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md",
+      "architecture_index.json"
+    ],
+    "change_summary": "重写 architecture/008.md（仍为 planned，目标 v0.8）。D2 改为「容器 + 扁平记录」：<plan>/custom/<feature>/<id>.md 一条记录一个 md（元数据走 frontmatter），索引/TOC 与 feature 文件夹并列放在 custom/ 容器内（custom/<feature>_index.json、custom/<feature>_TOC.md）；再新增一个 feature 只需复制这套三件套（code_plan 示例已写入文档）。删除初稿的过度设计：每条记录一个文件夹、record.json、§1.2 的 record_file 字段、每条记录一个 assets/（多素材改用 custom/<feature>/assets/<id>/，本期引擎不做特殊处理）。新增 §0.1（用户逐字目标结构）与 §0.2（误读澄清，明示勿回到旧稿）；D1 声明文件保留在项目根 custom_categories.json 并新增 container 字段（默认 custom）；D3 状态机不变（draft→review→approved→implemented，rejected 终态，approved 只能 human 驱动，implemented 冻结），但 set-status 现在只重写 frontmatter、正文字节不变（可选正文哈希校验）；D4 双录四步不变；D6 白名单改为派生 <container>/<name>/ 与 <container>/<name>_index.json|TOC.md；§10 待确认点更新为三条（硬拦截取舍 / 声明文件位置 root vs custom/_categories.json / 记录文件名数字 id vs 语义文件名）。architecture_index.json：version 8 的 title 改为如实描述新布局（latest_version 仍为 8，implemented_version 仍为 7，未执行）。",
+    "sections_affected": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ]
+  },
+  "correction": {
+    "corrects_event_id": 65,
+    "reason": "event 65 记录的 D2 是错的：我把用户原话 `{concrete_custom_feature} folder` 里的 folder 解释成了「一条记录一个文件夹」（topic_plan/{slug}/v1.md 之类），而用户指的是 feature 文件夹本身（custom/topic_plan/），并当面指出这属于过度复杂化。用户同时明确 index/TOC 放在 custom/ 容器内而不是 plan 根：custom/<feature>_index.json、custom/<feature>_TOC.md。",
+    "detail": "纠正后的结构与用户原话逐条对应：① root 建 custom/ 容器；② 容器下每个 feature 一个文件夹；③ index/TOC 与该 feature 文件夹并列在容器内。副产物：既然一条记录只是一个 md，记录元数据的载体从 record.json 改为 md 的 YAML frontmatter（沿用 improvements/001.md 把状态写进自身的做法），因此 record_file 字段连同 Q27 讨论的那个配置项一并作废——Q27 的结论（它只是命名旋钮、可直接砍掉）在本国 design 中已被采纳为「砍掉」，questions/027.md 作为当时的问答记录保留不动、不视为错误记录。注意 architecture 003 定的「索引放 plan 根」规则在此为受控例外（容器内收拢，避免项目根随 feature 数量线性膨胀），已在 §2 写明；五个内置栏目规则不变。"
+  },
+  "comments": "用户采用了激烈的语气；本事件按 platform 规范逐字记录 user_prompt 以求申诉有据（含原话标点与用词），不做净化。model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。仍为 planned，未改任何 scripts/ references/ README/ standard_version；按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 68,
+  "recorded_at": "2026-10-15T12:52:16.781067+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "3300236ca17f0c9628006c4b8477f7e90ca2925628629aaa7a7ecc6c9185cf2f",
+    "plan_md_line_count": 286,
+    "source_doc": "architecture/008.md"
+  }
+}

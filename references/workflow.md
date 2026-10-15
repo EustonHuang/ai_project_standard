@@ -186,3 +186,20 @@ agent 调用 `append_history.py` 等工具前，临时事件文件（如 `event_
 
 > 软约定（统一放 `.tmp/`）本身不强制 agent；D2 是「忘了也能强制」的硬兜底。白名单与
 > 本文件「受管文件」定义保持单一来源，避免硬拦截与既有约定漂移。
+
+## 12. 自定义 feature（`custom/`，architecture 008）
+
+框架**不预置任何 custom feature**；项目按需注册，注册后 `custom/<feature>/` 才是受管文件
+（`custom/` 与 `custom_categories.json` 已在受管白名单内）。
+
+- **注册**：`append_history.py custom register --plan . --name <feature>`（等价 skill：
+  `register-custom-feature`）。已在 `custom_categories.json` 中则提示「已注册」并终止，不改任何文件。
+- **目录**：记录文件**必须以零填充序号开头**（`001-spark-helloworld.md`、`002-rdd.md`）；
+  分隔符与 topic 命名由项目自定。额外说明文件放**同名目录**
+  （`001-spark-helloworld/spark-introduction.md`）——按名字配对，归属不会含糊。
+- **修订**：追加一个新序号的文件，旧记录正文就此冻结，**永不就地改**。本规范不另加 frontmatter、
+  不另加版本/修订字段——有序性由文件名序号保证，改了什么写进新文件正文即可。
+- **同步**：写 `custom/<feature>/**` 时，PostToolUse 只重建**该** feature 的
+  `<feature>_index.json` + `<feature>_TOC.md`；其它 feature 一律不动（严禁过度操作）。
+- **留痕**：记录文件 + 该 feature 的 index + TOC 三者都要列进本轮 history 事件的
+  `operation.target_files`，否则 Stop 时 turn_gate 拦截。

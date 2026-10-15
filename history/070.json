@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "重排 architecture/008.md §0 子节编号，消除删 §0.2 后遗留的跳号。"
+  },
+  "source": {
+    "user_prompt": "你0.1 目标结构后面直接跟0.3 现状缺口？？？？？？？？？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md"
+    ],
+    "change_summary": "删除原 §0.2（澄清段）后 §0 出现跳号 0.1→0.3。将其余子节重排为连续编号：0.1 目标结构、0.2 现状缺口、0.3 已有 precedent、0.4 四项设计决策。文档内无其它交叉引用旧编号，故仅改标题。",
+    "sections_affected": [
+      "0"
+    ]
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 70,
+  "recorded_at": "2026-10-15T13:11:46.984796+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1240f038b0669ac78373c54aaa5ff3e00e9c0bbbf31fe87287116038f0b9a42b",
+    "plan_md_line_count": 282,
+    "source_doc": "architecture/008.md"
+  }
+}

@@ -37,6 +37,11 @@ from datetime import datetime, timezone
 FRAMEWORK_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENGINE_DIRS = ("scripts", "references", "assets")
 ENGINE_FILES = ("README.md",)  # copied so the always-apply rule's README reference resolves
+# architecture 008: skills every adopting project needs, installed as project skills
+# (src inside the framework repo -> dest inside the adopting project).
+DISTRIBUTED_SKILLS = (
+    ("skills/register-custom-feature", ".codebuddy/skills/register-custom-feature"),
+)
 HOOK_TIMEOUTS = {"UserPromptSubmit": 20, "PostToolUse": 20, "Stop": 30}
 RULE_DIR_NAME = "ai-project-standard"  # namespace for the always-apply rule under .codebuddy/rules/
 
@@ -146,6 +151,17 @@ def copy_engine(framework_repo, dest, version):
                 shutil.copy(src, os.path.join(dest, f))
 
 
+def copy_distributed_skills(framework_repo, project):
+    """Install framework skills every adopting project needs (architecture 008)."""
+    for src_rel, dest_rel in DISTRIBUTED_SKILLS:
+        src = os.path.join(framework_repo, src_rel)
+        if not os.path.isdir(src):
+            continue
+        dest = os.path.join(project, dest_rel)
+        shutil.copytree(src, dest, dirs_exist_ok=True)
+        print("  skill: %s" % dest_rel)
+
+
 def _int_of_version(version):
     v = parse_version(version)
     return v[1] if v else 0
@@ -203,7 +219,7 @@ def _rule_content(install_mode, version):
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z")
     front = (
         '---\n'
-        'description: "AI Project Standard (ai-project-standard) %s — 本项目采用的项目规范框架；凡改动受管文件前必须先读其 README/workflow 并按“任何改动进 history”强制门记录。Use when editing architecture/、*_index.json、questions/、issues/、improvements/、README.md、references/、scripts/、skills/、assets/、standard_version、.codebuddy/settings.json。"\n'
+        'description: "AI Project Standard (ai-project-standard) %s — 本项目采用的项目规范框架；凡改动受管文件前必须先读其 README/workflow 并按“任何改动进 history”强制门记录。Use when editing architecture/、*_index.json、questions/、issues/、improvements/、custom/、custom_categories.json、README.md、references/、scripts/、skills/、assets/、standard_version、.codebuddy/settings.json。"\n'
         'alwaysApply: true\n'
         'enabled: true\n'
         'updatedAt: %s\n'
@@ -214,7 +230,7 @@ def _rule_content(install_mode, version):
         '<system_reminder>\n'
         '**本项目采用 AI Project Standard (ai-project-standard) %s（由 install-standard 写入此规则）。**\n\n'
         '## 受管文件（任何改动必须留痕）\n'
-        '`architecture/`、 `*_index.json`、 `*_TOC.md`、 `questions/`、 `issues/`、 `improvements/`、 `README.md`、 `references/`、 `scripts/`、 `skills/`、 `assets/`、 `standard_version`、 `.codebuddy/settings.json`。\n\n'
+        '`architecture/`、 `*_index.json`、 `*_TOC.md`、 `questions/`、 `issues/`、 `improvements/`、 `custom/`、 `custom_categories.json`、 `README.md`、 `references/`、 `scripts/`、 `skills/`、 `assets/`、 `standard_version`、 `.codebuddy/settings.json`。\n\n'
         '## 必读与必做\n'
         '1. 改动上述任何文件前，先读 `<project>/%s` 的「MANDATORY」节与 `references/workflow.md`。\n'
         '2. 任何改动**必须**在 `history/` 留痕（双录：提问写 `questions/` + 追加 `qna_recorded`；改进进 `improvements/`）。\n'
@@ -319,6 +335,7 @@ def cmd_install(args):
     else:
         engine_dest = os.path.join(project, ".plan-standard")
         copy_engine(framework_repo, engine_dest, version)
+        copy_distributed_skills(framework_repo, project)
         install_mode = "copy"
 
     write_lock(project, {
@@ -367,6 +384,7 @@ def cmd_update(args):
         sys.exit(0)
     if lock.get("install_mode") == "copy":
         copy_engine(framework_repo, os.path.join(project, ".plan-standard"), target)
+        copy_distributed_skills(framework_repo, project)
         write_hooks(project, "copy", os.path.join(project, ".plan-standard"))
     write_lock(project, dict(lock, standard_version=target))
     write_rules(project, lock.get("install_mode") or "copy", target)

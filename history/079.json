@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户指出 D3 的 frontmatter/supersedes 修订机制是过度设计且从未被要求；新建 questions/034.md 作答并双录。"
+  },
+  "source": {
+    "user_prompt": "你仔细想想这是不是过度设计？？？我有没有让你设计这个？如果有，我哪条具体的指示告诉你要记录这个的？你看看questions文件夹下面，每个markdown文件（比如033.md），你看到有revision supersedes这些东西吗？回答记录到questions中",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/034.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q34：判定 D3 的 frontmatter(revision/supersedes/change_summary/aux_files)与 append-only supersedes 修订机制是过度设计且用户从未要求。核心：① 用户蓝图只规定目录格式/注册机制/受管文件含 custom/+按 feature 同步 index/TOC，关于「记录」唯一具体指示是目录格式(编号 md 文件+可选同名辅助目录)，从未要求 frontmatter 或版本链；② 「有序记录」已由 D2 编号文件名满足；③ 实证 questions/ 下文件(如 033.md)是纯 markdown(## Qxx — date/**问题：**/**答案：**)，无 frontmatter/revision/supersedes 作记录 schema，grep 命中的 3 处 supersedes/1 处 revision 均为答案正文描述 008 设计时提及而非 questions 文件自身元数据，故本项目自身记录格式比 D3 强加的更轻且不一致；④ 结论 D3 应剥离 frontmatter 与 supersedes 机制，记录回归 D2 编号 md 文件，与 questions/ 实践一致。索引 max_id/revision 升 34，TOC 追加 Q34。",
+    "sections_affected": []
+  },
+  "correction": {
+    "type": "design_overreach_identified",
+    "summary": "D3 的 frontmatter 与 supersedes 修订机制属 agent 自创过度设计，未被用户要求，且与项目自身 questions/ 纯 markdown 格式不一致；应剥离。",
+    "related_question_refs": [
+      "Q30",
+      "Q32",
+      "Q33"
+    ]
+  },
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 79,
+  "recorded_at": "2026-10-15T20:16:22.471098+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "2a57d8488119ccfc938d269a225fd2f3a42627cfab44835e9152d67d97480739",
+    "plan_md_line_count": 207,
+    "source_doc": "architecture/008.md"
+  }
+}

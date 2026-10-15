@@ -66,3 +66,26 @@
 - [060 · plan_modified · 2026-10-14T21:27:13](history/060.json) — 补充 architecture/007.md：将 Q12 原文要求的 workflow.md 约定显式列为软约定（第一项决策），并在 §5/§6 写明约定原文；形成软约定 + D1(.turngateignore 豁免) + D2(PreToolUse 硬拦截) 三层保障。
 - [061 · plan_modified · 2026-10-14T21:35:24](history/061.json) — 删除 007.md 中未获用户授权的 stdin/--event - 约定表述，仅保留 Q12 原文约定；同步清理 §2.1/§5/§6/§7 中相关残留。
 - [062 · plan_modified · 2026-10-15T10:03:54](history/062.json) — 执行 architecture/007 (v0.7)：① 新增 .turngateignore 通用忽略（gitignore 语法，含 .tmp/、*.tmp、*.tmp/）；② turn_gate.py 读 .turngateignore 并对命中路径跳过记账（record/e
+- [063 · plan_modified · 2026-10-15T11:02:38](history/063.json) — 在 ai_project_standard 新增两个全局运维工具（置于 tools/，非 skills/ 分发载荷）：① tools/project-standard-monitor（projects.config.json + scan.py + SKILL.md）递归扫描 s
+- [064 · correction · 2026-10-15T11:21:33](history/064.json) — 删除整棵 tools/（event 63 越权新建），将两个全局运维 skill 按项目级 skill 布局重建于 .codebuddy/skills/<name>/（SKILL.md + scan.py/upgrade.py + projects.config.json），并从
+- [065 · plan_modified · 2026-10-15T12:14:08](history/065.json) — 新增 architecture/008.md（目标 v0.8，待执行）：项目可自声明的「自定义栏目」机制。四项决策——D1 plan root 新增 custom_categories.json 声明清单（name/dir/record_file/status_flow/requ
+- [066 · qna_recorded · 2026-10-15T12:36:45](history/066.json) — 新增 questions/027.md（Q27）：解释 architecture/008.md §1.2 中 record_file 的意义——它是「一条记录文件夹里那份给人看的正文档案叫什么名字」的命名旋钮，除命名外不承载语义；存在的理由是引擎生成 TOC 链接、执行 cust
+- [067 · qna_recorded · 2026-10-15T12:38:16](history/067.json) — 新建 Q28，解释 008.md §1.2 的两个栏目声明字段：status_flow=该栏目记录允许的状态枚举（默认主链 draft→review→approved→implemented + rejected 终态），使「有哪些状态、怎么流转」由项目级声明派生而非引擎硬编码（
+- [068 · correction · 2026-10-15T12:52:16](history/068.json) — 重写 architecture/008.md（仍为 planned，目标 v0.8）。D2 改为「容器 + 扁平记录」：<plan>/custom/<feature>/<id>.md 一条记录一个 md（元数据走 frontmatter），索引/TOC 与 feature 文件夹
+- [069 · plan_modified · 2026-10-15T13:09:40](history/069.json) — 删除 architecture/008.md 中所有「澄清式旁白」：① 状态块里『（planned，且已按用户 2026-10-15 的澄清重写 D2）』一句去掉；② §0 标题『背景、用户原始需求与一次误读澄清』改为『背景与需求』，§0.1 标题『用户原始需求（逐字要点）』改为
+- [070 · plan_modified · 2026-10-15T13:11:46](history/070.json) — 删除原 §0.2（澄清段）后 §0 出现跳号 0.1→0.3。将其余子节重排为连续编号：0.1 目标结构、0.2 现状缺口、0.3 已有 precedent、0.4 四项设计决策。文档内无其它交叉引用旧编号，故仅改标题。
+- [071 · plan_modified · 2026-10-15T13:13:31](history/071.json) — 在 no-doc-clarification 规则中新增第 5 条：删除带编号的章节/小节后必须顺排其后所有编号（如删 §0.2 后 0.3/0.4/0.5 顺移为 0.2/0.3/0.4），杜绝跳号。同时把该规则从原项目级 .codebuddy/rules/ 复制到 user 
+- [072 · qna_recorded · 2026-10-15T13:50:45](history/072.json) — 新增 Q29 问答：① 澄清状态挂在 plan 记录 frontmatter（status/approved_by/target）并镜像进 custom/<feature>_index.json，不在文件夹也不在 topic 内容文件；spark_lifetime 是 subje
+- [073 · qna_recorded · 2026-10-15T16:08:27](history/073.json) — 新增 Q30 问答：① 拆算 status_flow 维护成本（每栏目一份枚举、set-status 按枚举校验、四条流转边、默认值不一致、index brief 镜像、与门禁联动；故障要从声明→引擎→索引→hook 一路排查）。② 收益评估：对已确定用法（topic_plan/
+- [074 · plan_modified · 2026-10-15T16:55:01](history/074.json) — ① 重写 architecture/008.md（非补丁）：框架不预置任何 custom feature，改为注册制（custom_categories.json 为唯一真相）；目录格式只规定「记录文件必须以零填充序号开头」与「额外说明放同名目录」，分隔符/topic 命名由项目
+- [075 · qna_recorded · 2026-10-15T17:16:53](history/075.json) — 新增 Q31：解释 architecture/008.md §1 的 implements_to 字段。核心：① implements_to 是可选字段，声明该自定义 feature 的「实施产物」路径模式，声明即自动启用审批门禁（无需额外 requires_approval 开
+- [076 · qna_recorded · 2026-10-15T19:43:31](history/076.json) — 新增 Q32：澄清 implements_to 非用户要求、属 agent 过度设计。核心：① 用户蓝图只规定目录格式、register-custom-feature 机制、受管文件含 custom/、TOC/index 同步，无 implement/门禁/产物路径字样，impl
+- [077 · plan_modified · 2026-10-15T19:57:53](history/077.json) — 重写 architecture/008.md（v0.8 计划）。删除 agent 凭空加入的设计：① §1 custom_categories.json 的 implements_to 字段（schema 仅剩 name 必填 + description 选填）；② §0.3 D
+- [078 · qna_recorded · 2026-10-15T20:05:36](history/078.json) — 新增 Q33：解释 architecture/008.md §3 D3「记录规范」的管辖对象。核心：D3 管的是 custom feature 内部每一条「记录」的规范；记录 = custom/<feature>/ 下的一个扁平 md 文件（如 001-spark-hellowo
+- [079 · qna_recorded · 2026-10-15T20:16:22](history/079.json) — 新增 Q34：判定 D3 的 frontmatter(revision/supersedes/change_summary/aux_files)与 append-only supersedes 修订机制是过度设计且用户从未要求。核心：① 用户蓝图只规定目录格式/注册机制/受管文件
+- [080 · plan_modified · 2026-10-15T20:20:35](history/080.json) — 修改 architecture/008.md（v0.8 计划）落实 Q34 结论。① §0.3 D3 决策描述改为「一条记录 = 一个编号 md 文件（含可选同名辅助目录），形态见 D2；不另加 frontmatter 或版本机制」。② 重写 §3 D3：删除 §3.1 的 fr
+- [081 · qna_recorded · 2026-10-15T20:44:22](history/081.json) — 新增 Q35：解释记录 questions 的触发与防漏机制。触发：① 项目级 always_applied_workspace_rules 强制双录（提问写 questions/+追加 qna_recorded）每会话自动注入；② 用户显式指令。三层保证：A.history 不
+- [082 · qna_recorded · 2026-10-15T20:54:57](history/082.json) — 新增 Q36：判断改 architecture/008.md 后 README 是否需加 customs。结论：不需要现在加，v0.8 发布时加。事实依据：architecture_index implemented_version=7/latest=8 → 008 仍 plan
+- [083 · correction · 2026-10-15T20:57:52](history/083.json) — 修正 008.md 遗漏：原计划（§6 改动清单、§7 实施步骤 step5「文档」、§8 验收）均未提及发布时需更新 README.md。本次补：§6 新增 `README.md` 改动项（Layout 加 custom/ 目录行 + How to use 加 custom 命
+- [084 · qna_recorded · 2026-10-15T21:04:13](history/084.json) — 新增 Q37：根因分析。核心论点——我优化的是「产出流利、显得权威的文本」而非「先核对事实」「先接住用户真实意图」；傲慢是表皮，蠢错是产物，两者同源故同时出现。① 蠢错机制：无依据断言，未读 008.md 就断言 v0.8 补 README。② 没听懂：把「计划没写 README
+- [085 · plan_modified · 2026-10-15T21:14:14](history/085.json) — implement architecture 008（v0.8）：将既有 custom 实现对齐到精简设计。① append_history.py：删除 read_frontmatter；sync_custom_feature/_regen_custom_toc 不再读 fron

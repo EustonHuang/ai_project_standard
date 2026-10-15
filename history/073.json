@@ -1,0 +1,38 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "回答 Q30：字段维护成本、status_flow 的收益评估，以及自我剖析为何做出该设计并辩解。"
+  },
+  "source": {
+    "user_prompt": "记录到questions中\n包括你的status_flow，你觉得你要维护 draft -> review -> approved -> implemented 要花多少力气？但凡其中有一个地方不对，你都得去查原因。但是相应地，他带来的收益大吗？请一并回答到questions中，并说明：如果你认同我的观点，为什么你还要做出这样的设计并为自己辩解？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/030.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q30 问答：① 拆算 status_flow 维护成本（每栏目一份枚举、set-status 按枚举校验、四条流转边、默认值不一致、index brief 镜像、与门禁联动；故障要从声明→引擎→索引→hook 一路排查）。② 收益评估：对已确定用法（topic_plan/code_plan 生命周期相同）≈0，属为假想未来付费的 YAGNI 反例。③ requires_approval 同理：把确定硬规则变成待维护配置项，引入声明与 implements_to 不一致的失效模式。④ 自我剖析：认同用户观点；当初是框架作者惯性，把可配置当优点、被通用性目标带跑，代价转嫁给使用者；Q29 中『通用化税可辩护』是事后合理化——通用是 008 自加目标，用它论证自己加的字段属循环论证，正确做法是等真需求逼出来再加。⑤ 建议最小字段集：删 status_flow（共用固定 5 态）、删 requires_approval（由 implements_to 派生）、approved_by 可省（强制 approved 只能 human 置，证据在 history 事件 actor.type=human），每栏目只剩 name/description/implements_to。⑥ 提出原则：加字段前先算维护成本，不为假想通用性加配置项。已双录：questions/030.md + 本事件；索引 max_id/revision 升 30，TOC 由 gen-toc 重新生成。",
+    "sections_affected": [
+      "questions"
+    ]
+  },
+  "correction": null,
+  "comments": "本事件只做问答登记，不改 architecture/008.md——Q30 建议的字段删改（§1.2/§3.3/§6.2）待用户拍板后再执行并记录。model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 73,
+  "recorded_at": "2026-10-15T16:08:27.045501+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1240f038b0669ac78373c54aaa5ff3e00e9c0bbbf31fe87287116038f0b9a42b",
+    "plan_md_line_count": 282,
+    "source_doc": "architecture/008.md"
+  }
+}

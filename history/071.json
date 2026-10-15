@@ -1,0 +1,37 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "把『删除带编号章节必须顺排后续编号』写入项目级与 user 级全局规则。"
+  },
+  "source": {
+    "user_prompt": "给我写进rules里面，全局rules!",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file + write_to_file)"
+  },
+  "operation": {
+    "target_files": [
+      ".codebuddy/rules/no-doc-clarification/RULE.mdc",
+      "/Users/euston/.codebuddy/rules/no-doc-clarification/RULE.mdc"
+    ],
+    "change_summary": "在 no-doc-clarification 规则中新增第 5 条：删除带编号的章节/小节后必须顺排其后所有编号（如删 §0.2 后 0.3/0.4/0.5 顺移为 0.2/0.3/0.4），杜绝跳号。同时把该规则从原项目级 .codebuddy/rules/ 复制到 user 级全局位置 ~/.codebuddy/rules/（此前不存在，本次新建），使其成为跨所有项目生效的全局规则。updatedAt 更新为 2026-10-15T14:05:00Z；全局版 description 标注 GLOBAL 跨项目生效。",
+    "sections_affected": [
+      "rules"
+    ]
+  },
+  "correction": null,
+  "comments": "用户要求『全局rules』。本工作区只支持项目级 .codebuddy/rules/；user 级全局位置推测为 ~/.codebuddy/rules/（与项目级结构平行），本次新建该目录与文件。若 IDE 实际不加载此路径，请告知正确 user 级 rules 路径，我即复制过去。model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 71,
+  "recorded_at": "2026-10-15T13:13:31.411816+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "1240f038b0669ac78373c54aaa5ff3e00e9c0bbbf31fe87287116038f0b9a42b",
+    "plan_md_line_count": 282,
+    "source_doc": "architecture/008.md"
+  }
+}

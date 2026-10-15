@@ -1,0 +1,50 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按用户蓝图重写 architecture/008.md：删除凭空发明的 implements_to / status_flow / requires_approval / 状态机(§3.3) / 审批门禁(§3.4)，仅保留目录格式、注册机制、受管文件含 custom/、按 feature 同步。"
+  },
+  "source": {
+    "user_prompt": "接下来请修改architecture!",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md"
+    ],
+    "change_summary": "重写 architecture/008.md（v0.8 计划）。删除 agent 凭空加入的设计：① §1 custom_categories.json 的 implements_to 字段（schema 仅剩 name 必填 + description 选填）；② §0.3 D3 中「状态用固定 5 态；审批门禁由 implements_to 派生」一句；③ §3.3 状态机（draft→review→approved→implemented）整节；④ §3.4 审批门禁整节；⑤ §3.1 frontmatter 的 status 键与 index brief 的 status 镜像；⑥ §5.1 命令的 --implements-to 选项；⑦ §7 实施步骤的审批门禁步骤(原6)及验证中 approved→implemented 表述；⑧ §8 验收点5的 approved→实施→implemented；⑨ §9 待确认中关于 §3.4 门禁的条目。保留用户蓝图真实要求：D2 目录格式(序号开头 + 同名辅助目录)、D1 注册机制、D4 受管文件含 custom/ 且改动进 history、按 feature 同步 index/TOC。依据 Q30/Q32（加字段先算维护成本、通用机制只是有序记录、不为假想通用性加配置项）。",
+    "sections_affected": [
+      "0.3",
+      "1",
+      "3",
+      "5.1",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  "correction": {
+    "type": "design_overreach_removed",
+    "summary": "移除 008.md 中所有用户未要求的机制（状态机、审批门禁、implements_to），仅保留用户蓝图的四个真实需求。",
+    "related_question_refs": [
+      "Q30",
+      "Q31",
+      "Q32"
+    ]
+  },
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。本次为计划设计修正（非 implement），按发布纪律不 commit/push/tag，保持未提交工作区供审阅。",
+  "recorded_by": "ai",
+  "event_id": 77,
+  "recorded_at": "2026-10-15T19:57:53.242776+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "2a57d8488119ccfc938d269a225fd2f3a42627cfab44835e9152d67d97480739",
+    "plan_md_line_count": 207,
+    "source_doc": "architecture/008.md"
+  }
+}

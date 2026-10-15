@@ -130,6 +130,140 @@ def empty_index(kind):
     return {"max_id": 0, "revision": 0, "briefs": []}
 
 
+# --------------------------------------------------------------------------
+# custom features (architecture 008)
+#
+# The framework ships NO predefined custom feature. A project registers the ones
+# it needs into `custom_categories.json` (via the `register-custom-feature`
+# skill / `append_history.py custom register`). That declaration list is the
+# single source of truth for: which `custom/<feature>/` folders are managed,
+# which index+TOC pairs exist, what `audit` checks and what the gate allows.
+# --------------------------------------------------------------------------
+CUSTOM_ROOT = "custom"
+CUSTOM_CATEGORIES = "custom_categories.json"
+# A record file MUST start with a zero-padded number; everything after it is the
+# project's own business (separator + topic naming are NOT dictated).
+CUSTOM_RECORD_RE = re.compile(r"^(\d+)[^/]*\.md$")
+
+
+def custom_root(plan):
+    return os.path.join(plan, CUSTOM_ROOT)
+
+
+def custom_categories_path(plan):
+    return os.path.join(plan, CUSTOM_CATEGORIES)
+
+
+def custom_dir(plan, name):
+    return os.path.join(custom_root(plan), name)
+
+
+def custom_index_path(plan, name):
+    return os.path.join(custom_root(plan), "%s_index.json" % name)
+
+
+def custom_toc_path(plan, name):
+    return os.path.join(custom_root(plan), "%s_TOC.md" % name)
+
+
+def load_categories(plan):
+    """Registered custom feature names (empty when the file is absent)."""
+    data = load_json(custom_categories_path(plan))
+    if not isinstance(data, dict):
+        return []
+    return [c.get("name") for c in (data.get("categories") or []) if c.get("name")]
+
+
+def custom_records(plan, name):
+    """Record files of ONE feature → [(num, rel_path, topic)], sorted by num.
+
+    Only top-level `*.md` files that start with a number are records. A
+    same-named directory (`001-spark-helloworld/`) holds auxiliary markdowns and
+    is NOT a record — it is scanned by `custom_aux_files()` instead.
+    """
+    d = custom_dir(plan, name)
+    out = []
+    if not os.path.isdir(d):
+        return out
+    for fn in os.listdir(d):
+        if not os.path.isfile(os.path.join(d, fn)):
+            continue
+        m = CUSTOM_RECORD_RE.match(fn)
+        if not m:
+            continue
+        num = int(m.group(1))
+        topic = fn[len(m.group(1)):].lstrip("-_ ")
+        if topic.endswith(".md"):
+            topic = topic[:-3]
+        out.append((num, "%s/%s/%s" % (CUSTOM_ROOT, name, fn), topic))
+    return sorted(out, key=lambda x: x[0])
+
+
+def custom_aux_files(plan, name):
+    """{record_num: [aux rel paths]} — auxiliary markdowns living in the
+    same-named directory next to a record (`001-x.md` ↔ `001-x/*.md`)."""
+    d = custom_dir(plan, name)
+    out = {}
+    if not os.path.isdir(d):
+        return out
+    for fn in sorted(os.listdir(d)):
+        p = os.path.join(d, fn)
+        if not os.path.isdir(p):
+            continue
+        m = CUSTOM_RECORD_RE.match(fn + ".md")
+        if not m:
+            continue
+        num = int(m.group(1))
+        aux = sorted("%s/%s/%s/%s" % (CUSTOM_ROOT, name, fn, x)
+                     for x in os.listdir(p) if x.endswith(".md"))
+        if aux:
+            out[num] = aux
+    return out
+
+
+def _regen_custom_toc(plan, name, briefs=None):
+    if briefs is None:
+        briefs = (load_json(custom_index_path(plan, name)) or {}).get("briefs", [])
+    lines = ["<!-- 自动生成，请勿手改；改动会被脚本覆盖 -->", "",
+             "# %s — TOC" % name, "",
+             "> 由 `append_history.py custom sync` 自动生成；记录正文见 `%s/%s/`。"
+             % (CUSTOM_ROOT, name), ""]
+    for b in sorted(briefs, key=lambda x: x.get("num", 0)):
+        lines.append("- [%s · %s](%s)"
+                     % (zeroed(b.get("num", 0)), b.get("topic", ""), b.get("file", "")))
+    os.makedirs(custom_root(plan), exist_ok=True)
+    with open(custom_toc_path(plan, name), "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
+def sync_custom_feature(plan, name):
+    """Rebuild ONLY this feature's index + TOC from disk (no other feature is touched).
+
+    architecture 008 D3: a record is just a numbered md file (+ optional same-named
+    aux dir). No frontmatter, no version fields — ordering is the filename number,
+    so the index/TOC need only carry num / topic / aux_files / file.
+    """
+    os.makedirs(custom_dir(plan, name), exist_ok=True)
+    recs = custom_records(plan, name)
+    aux = custom_aux_files(plan, name)
+    briefs = []
+    for num, rel, topic in recs:
+        briefs.append({
+            "num": num,
+            "topic": topic,
+            "aux_files": aux.get(num, []),
+            "file": rel,
+        })
+    idx = load_json(custom_index_path(plan, name)) or {}
+    idx["feature"] = name
+    idx["max_id"] = max([b["num"] for b in briefs], default=0)
+    idx["revision"] = int(idx.get("revision", 0)) + 1
+    idx["briefs"] = briefs
+    write_json(custom_index_path(plan, name), idx)
+    _regen_custom_toc(plan, name, briefs)
+    return len(briefs), "%s/%s_index.json" % (CUSTOM_ROOT, name), "%s/%s_TOC.md" % (CUSTOM_ROOT, name)
+
+
 def latest_architecture_md(plan):
     d = cat_dir(plan, "architecture")
     if not os.path.isdir(d):
@@ -766,8 +900,9 @@ def cmd_audit(args):
     else:
         vers = _fs_ids(cat_dir(plan, "architecture"), r"^(\d+)\.md$")
         imp, lat = aidx.get("implemented_version"), aidx.get("latest_version")
-        if not vers and lat:
-            problems.append("architecture/ 为空（索引声明了版本但缺文档）")
+        if not vers:
+            if lat:
+                problems.append("architecture/ 为空（索引声明了版本但缺文档）")
         else:
             if lat != max(vers):
                 problems.append("architecture latest_version=%s 与实际最大版本=%s 不一致" % (lat, max(vers)))
@@ -776,6 +911,24 @@ def cmd_audit(args):
         if imp != lat:
             # 进行中的正常状态（目标版本已定义、尚未落地），非数据不一致
             notes.append("架构版本 %s 已定义但尚未落地（implemented=%s, latest=%s）" % (lat, imp, lat))
+
+    # custom features (architecture 008) — only what is registered is checked
+    for nm in load_categories(plan):
+        if not os.path.isdir(custom_dir(plan, nm)):
+            problems.append("custom/%s/ 缺失（已注册但无目录）" % nm)
+        if not os.path.exists(custom_index_path(plan, nm)):
+            problems.append("custom/%s_index.json 缺失（应由 custom sync 生成）" % nm)
+        if not os.path.exists(custom_toc_path(plan, nm)):
+            problems.append("custom/%s_TOC.md 缺失（应由 custom sync 生成）" % nm)
+        cidx = load_json(custom_index_path(plan, nm))
+        if cidx is not None:
+            fids = [r[0] for r in custom_records(plan, nm)]
+            if fids and max(fids) != int(cidx.get("max_id", 0)):
+                problems.append("custom/%s 索引 max_id=%s 与实际记录最大号=%s 不一致"
+                                % (nm, cidx.get("max_id"), max(fids)))
+            for b in cidx.get("briefs", []):
+                if b.get("file") and not os.path.exists(os.path.join(plan, b["file"])):
+                    problems.append("custom/%s 索引含 %s 但文件不存在" % (nm, b["file"]))
 
     # meta files must be gone
     for kind in ("history", "questions", "issues", "architecture"):
@@ -865,6 +1018,59 @@ def cmd_gen_toc(args):
     for k in kinds:
         _regen_toc(plan, k)
         print("Generated %s_TOC.md" % k)
+    if args.kind == "all":
+        for nm in load_categories(plan):
+            _regen_custom_toc(plan, nm)
+            print("Generated %s/%s_TOC.md" % (CUSTOM_ROOT, nm))
+
+
+# --------------------------------------------------------------------------
+# custom feature commands (architecture 008)
+# --------------------------------------------------------------------------
+def cmd_custom_register(args):
+    """Register ONE custom feature. Idempotent: refuses when already registered."""
+    plan = os.path.abspath(args.plan)
+    name = (args.name or "").strip()
+    if not re.match(r"^[A-Za-z0-9_-]+$", name or ""):
+        sys.exit("ERROR: custom feature 名只允许字母/数字/下划线/连字符，实际：%r" % args.name)
+    data = load_json(custom_categories_path(plan)) or {"categories": []}
+    cats = data.setdefault("categories", [])
+    if any(c.get("name") == name for c in cats):
+        print("custom feature '%s' 已注册（见 %s）。未做任何改动，终止。"
+              % (name, CUSTOM_CATEGORIES))
+        sys.exit(2)
+    entry = {"name": name}
+    if args.description:
+        entry["description"] = args.description
+    cats.append(entry)
+    write_json(custom_categories_path(plan), data)
+    n, idx_rel, toc_rel = sync_custom_feature(plan, name)
+    print("registered custom feature '%s'：%s 已更新，%s/ 已建，%s + %s 已生成（%d 条记录）。"
+          % (name, CUSTOM_CATEGORIES, "%s/%s" % (CUSTOM_ROOT, name), idx_rel, toc_rel, n))
+
+
+def cmd_custom_sync(args):
+    """Rebuild index+TOC for ONE feature (or --all). Never touches other features."""
+    plan = os.path.abspath(args.plan)
+    if args.all:
+        names = load_categories(plan)
+    elif args.name:
+        names = [args.name]
+    else:
+        sys.exit("ERROR: custom sync 需要 --name 或 --all")
+    for nm in names:
+        n, idx_rel, toc_rel = sync_custom_feature(plan, nm)
+        print("synced %s：%d 条记录 → %s + %s" % (nm, n, idx_rel, toc_rel))
+
+
+def cmd_custom_list(args):
+    plan = os.path.abspath(args.plan)
+    names = load_categories(plan)
+    if not names:
+        print("(未注册任何 custom feature；见 %s)" % CUSTOM_CATEGORIES)
+        return
+    for nm in names:
+        print("%-20s %d 条记录" % (nm, len(custom_records(plan, nm))))
 
 
 def cmd_migrate(args):
@@ -1062,7 +1268,25 @@ def main():
     pk.add_argument("--plan", required=True)
     pk.add_argument("--version", required=True)
 
+    # custom features (architecture 008)
+    pcf = sub.add_parser("custom")
+    cfsub = pcf.add_subparsers(dest="custom_cmd", required=True)
+    pcr = cfsub.add_parser("register")
+    pcr.add_argument("--plan", required=True)
+    pcr.add_argument("--name", required=True)
+    pcr.add_argument("--description")
+    pcs = cfsub.add_parser("sync")
+    pcs.add_argument("--plan", required=True)
+    pcs.add_argument("--name")
+    pcs.add_argument("--all", action="store_true")
+    pcl = cfsub.add_parser("list")
+    pcl.add_argument("--plan", required=True)
+
     args = p.parse_args()
+    if args.cmd == "custom":
+        {"register": cmd_custom_register, "sync": cmd_custom_sync,
+         "list": cmd_custom_list}[args.custom_cmd](args)
+        return
     {
         "init": cmd_init, "append": cmd_append, "show": cmd_show, "audit": cmd_audit,
         "rebuild-index": cmd_rebuild_index, "gen-toc": cmd_gen_toc, "migrate": cmd_migrate,

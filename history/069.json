@@ -1,0 +1,38 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按用户要求删除 architecture/008.md 中的「澄清式旁白」，并新增项目级规则禁止此类写法。"
+  },
+  "source": {
+    "user_prompt": "0.2 误读澄清（本文件据此重写，勿回到旧稿）\n你为什么要写这个？？？？你在制造垃圾吗？？？？？？？你知道你多写一个澄清我就多读一段没有用的文字？？？为什么你老是这样？？？？\n\n澄清是最没有用的，我需要你写最终修改的架构文档，不是他妈的澄清一点加一个澄清，懂吗？？？？？？\n\n你把这个记在全局的rules下面，我不想再看到类似的问题发生！",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file + write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/008.md",
+      ".codebuddy/rules/no-doc-clarification/RULE.mdc"
+    ],
+    "change_summary": "删除 architecture/008.md 中所有「澄清式旁白」：① 状态块里『（planned，且已按用户 2026-10-15 的澄清重写 D2）』一句去掉；② §0 标题『背景、用户原始需求与一次误读澄清』改为『背景与需求』，§0.1 标题『用户原始需求（逐字要点）』改为『目标结构』；③ 删除整段 §0.2『误读澄清（本文件据此重写，勿回到旧稿）』及其『初稿把…误读为…』正文；④ §8 改动清单里『新增（本计划，已按用户澄清重写 D2）』改为『新增（本计划 v0.8 的权威设计）』。文档现只含最终权威设计，无作者纠错叙述。另新增项目级规则 .codebuddy/rules/no-doc-clarification/RULE.mdc（alwaysApply）：写/改规范文档时禁止写入『澄清/误读/已按某某重写』之类自我叙述作者纠错的段落，只写最终权威设计；写错了直接改成正确版本，不加说明，历史纠错由 history/ 事件负责。",
+    "sections_affected": [
+      "0",
+      "8"
+    ]
+  },
+  "correction": null,
+  "comments": "用户明确要求『不要澄清式旁白、只写最终架构文档』，并要记进全局 rules。rules 已写入本项目 .codebuddy/rules/（与既有 ai-project-standard/RULE.mdc 同一机制、新会话自动注入）。若该规则需跨所有项目生效（真正的 user 级全局），当前工作区只能写入本项目 rules；如需 user 级位置请告知路径，我可复制过去。历史中的 068 correction 事件保留不动（append-only，记录的是当时的纠错事实，不属于文档内容）。model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 69,
+  "recorded_at": "2026-10-15T13:09:40.210025+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "98e5f158b90bd63cd3d13bae3ce6b5f8d1639c2f51a60c5c49e536f6ce56e5c1",
+    "plan_md_line_count": 282,
+    "source_doc": "architecture/008.md"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问 implements_to 字段含义；新建 questions/031.md 作答并双录。"
+  },
+  "source": {
+    "user_prompt": "你能跟我具体讲讲 \"implements_to\": \"topics_meta/<subject>/**\" 这个是什么意思吗？举例详细说明，但是不要加入过多无用的细节，记录到questions中",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/031.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "新增 Q31：解释 architecture/008.md §1 的 implements_to 字段。核心：① implements_to 是可选字段，声明该自定义 feature 的「实施产物」路径模式，声明即自动启用审批门禁（无需额外 requires_approval 开关）；② 计划(custom/<feature>/ 带状态机) vs 实施产物(topics_meta/<subject>/)是两个位置；③ glob 拆解：topics_meta/ 固定前缀、<subject> 占位符(话题名)、** 任意层级，并给出命中/不命中的具体例子表；④ 走查 spark-lifetime：注册→draft→human 置 approved→写产物放行，未 approved 则 PreToolUse 拒；⑤ 不声明即纯留痕栏目；⑥ 两点诚实说明：当前门禁粒度粗(feature 有任意 approved 即解锁整个 glob，未做 subject 级匹配)、prewrite 硬性拦截属 008 §7.6 待办尚未接线。索引 max_id/revision 升 31，TOC 追加 Q31。",
+    "sections_affected": []
+  },
+  "correction": null,
+  "comments": "model 取平台可信信号（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown。按发布纪律不 commit/push/tag。",
+  "recorded_by": "ai",
+  "event_id": 75,
+  "recorded_at": "2026-10-15T17:16:53.178182+08:00",
+  "standard_version": "v0.7",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "8a0ae3186b785e065b59cbba48210a8cc3641bc342698c4473eb189fc9961d1f",
+    "plan_md_line_count": 231,
+    "source_doc": "architecture/008.md"
+  }
+}
