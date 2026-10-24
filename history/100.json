@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户质疑 per-project 装脚本与单 daemon trace 所有 session 是否矛盾。写 questions/049.md 并追加本 qna_recorded 事件：水龙头（per-project 产生）与收集器（per-user daemon）两层澄清，session 落盘仍分文件。"
+  },
+  "source": {
+    "user_prompt": "now you are saying update to v0.9 they will have python scripts, and install-session-recorder. but you mention in the architecture that tracing didn't separate the projects and sessions right? you only open one daemon and it can trace every sessions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/049.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q49：澄清两层不矛盾——产生事件 per-project（脚本+hooks 水龙头，未装不产生事件）、收集事件 per-user（daemon 单实例收所有已装项目）；session 落盘按 (plan_id,session_id) 分文件，共享进程不共享文件；全局一次安装唯有用户级 hooks（§7-6 待实测）。",
+    "sections_affected": [
+      "questions/049.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q49",
+      "question": "per-project 装脚本 vs 单 daemon trace 所有 session，两者矛盾吗？",
+      "answer_summary": "不矛盾：产生事件是 per-project（水龙头），收集事件是 per-user 全局（收集器）；session 落盘按 (plan_id,session_id) 分文件。全局一次安装唯有用户级 hooks（§7-6 待实测），默认 per-project。",
+      "answer_location": "questions/049.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 100,
+  "recorded_at": "2026-10-24T13:04:58.088431+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

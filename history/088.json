@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户纠正 Q39 的『框架不能』框架，要求给出真正做成全录 session 的方法。写 questions/040.md 并追加本 qna_recorded 事件：独立 hook 驱动 session recorder 设计。"
+  },
+  "source": {
+    "user_prompt": "I am not letting you to consider this problem under the current framework. I need you to think about the method to make it happen: record everything in the codebuddy session including user's prompt, your answer, thinking, skill called, file written, web search, hook, output, etc.",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/040.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q40：纠正 Q39 错误框架，给出真正做成全录的方法=独立 hook 驱动 session recorder（UserPromptSubmit/PostToolUse/Stop 等事件捕 prompt/工具调用/回答，thinking 靠实测或 agent 自发射），trace 存 JSONL，history 引用路径。",
+    "sections_affected": [
+      "questions/040.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q40",
+      "question": "不要在当前框架谈「能不能」。我要的是做成全录 session（prompt/回答/thinking/skill/文件/web/hook/输出）的方法。",
+      "answer_summary": "建独立 hook 驱动 session recorder：UserPromptSubmit 录 prompt、PostToolUse 录每个工具调用(input+output)覆盖 skill/文件/web/命令、Stop 录收尾+回答(transcript 拷贝或 agent 自发射)、PreToolUse 录意图。thinking 靠实测 reasoning 字段直采或 agent 发 reasoning 条目。trace 存 JSONL，history 事件引用路径。",
+      "answer_location": "questions/040.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。本事件为 Q39 回答框架的纠正：从『框架不能』转为给出独立 hook recorder 实现方法。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 88,
+  "recorded_at": "2026-10-23T21:44:08.630445+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

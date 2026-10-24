@@ -41,3 +41,15 @@
 - [Q35](questions/035.md) — 当我让你把问题记在 questions 中时，什么触发了你去做？靠什么保证写 questions/NNN.md、更新 questions_index.json 和 questions_TOC.md 不漏？又靠什么保证 history 不漏？
 - [Q36](questions/036.md) — 改了 architecture/008.md，README.md 为啥不改？How to use 提到 questions/improvements 为啥不加 customs？这个需不需要加？
 - [Q37](questions/037.md) — 分析你为何傲慢却犯蠢错（008 声称 v0.8 补 README 但计划没写），并解释为什么没听懂我所表达的东西。
+- [Q38](questions/038.md) — history/NNN.json 每个字段怎么填（schema_version=2.0、event_type=plan_modified 从哪来/取什么值）？记录靠 skill/hook/还是别的触发？
+- [Q39](questions/039.md) — 想在 CodeBuddy session 全录一切（用户 prompt、agent 回答、thinking、skill、写文件、web search、hook、输出）：怎么实现？
+- [Q40](questions/040.md) — 不要在当前框架谈「能不能」。我要的是做成全录 session（prompt/回答/thinking/skill/文件/web/hook/输出）的方法。
+- [Q41](questions/041.md) — 要录一切 input/output 肯定含 hooks；用 agent 去 trace 会死循环。要跳脱 agent——建独立进程监听 agent 捕获。hooks 怎么被捕获？
+- [Q42](questions/042.md) — 把 Q38–Q41 整段讨论收口：到底怎么把 CodeBuddy session 一切（prompt/回答/thinking/skill/文件/web/hook/输出）录下来？作为结论记进 questions。
+- [Q43](questions/043.md) — 你的设计为何还在用 hook？以及为何看 .turn 状态有帮助？
+- [Q44](questions/044.md) — agent 动作→IDE 触发 hook，这 hook 是 agent 动作第一步吗？hook 本身不会被记录对吧？
+- [Q45](questions/045.md) — daemon 是 per-project 还是单进程监控所有项目？生命周期如何（启动/退出/被杀/重拉）？
+- [Q46](questions/046.md) — 怎么保证每个项目、每个 session 都被录到（多项目多 session 并发）？
+- [Q47](questions/047.md) — architecture 009 实施的六项实测与验收实际结果？
+- [Q48](questions/048.md) — 采用本规范的项目都要更新到 v0.9 才能开 tracing 吗？旧版本无所谓吗？
+- [Q49](questions/049.md) — per-project 装脚本 vs 单 daemon trace 所有 session，两者矛盾吗？

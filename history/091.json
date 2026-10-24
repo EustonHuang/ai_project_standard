@@ -1,0 +1,35 @@
+{
+  "schema_version": "2.0",
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "新增 IMP-005：受管架构文档章节编号守卫去掉硬编码的 0 起点，约定改为从 1 起"
+  },
+  "source": {
+    "user_prompt": "把这个改进写进 ai_project_standard 项目：每个章节都从 1 开始，去掉那个从 0 开始的设定",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy"
+  },
+  "operation": {
+    "target_files": [
+      "improvements/005.md",
+      "improvement_index.json",
+      "improvement_TOC.md"
+    ],
+    "change_summary": "新增 improvements/005.md（IMP-005）：指出 IMP-001 的真实需求仅为「编号连贯 + 禁止未编号浮动小节」，从未要求「必须从 0 起」；而 scripts/structure_lint.py:89 实现为 range(0, nums[-1]+1)，把当时文档恰好从 0 起的『观察』硬编码成『规则』，导致编号 1..N 且完全连贯的文档被误判为『缺 0』，并倒逼作者添加多余的 ## 0. 前言章节（采纳方 euston-daily-collect 的 architecture/002.md 即因此被迫加 §0，用户明确反馈过载）。提案内容：① 守卫改为只校验连续（range(nums[0], ...)）并改写提示语；② 文档约定改为顶层章节从 §1 起编号，背景/前言并入 §1；③ 存量 architecture/001–008.md 与采纳方文档重编号并同步约 102 处 §N 交叉引用（003.md 占 53 处），须脚本化且逐篇 lint 验证；④ references/workflow.md 条文去 §0–§N 字样并补「从 1 起」约定。保留「未编号浮动小节」检测不变。improvement_index.json 新增 id=5（status=1, priority=2）并将 max_id 升为 5。",
+    "sections_affected": []
+  },
+  "correction": null,
+  "comments": "本事件仅登记改进提案（Drafting），尚未实施；实施需待下个框架版本评审采纳，或用户指示立即执行。",
+  "recorded_by": "ai",
+  "event_id": 91,
+  "recorded_at": "2026-10-23T22:12:10.889182+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

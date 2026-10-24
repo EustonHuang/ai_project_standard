@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问如何全录 CodeBuddy session（prompt/回答/thinking/skill/文件/web/hook/输出）。按双录纪律写 questions/039.md 并追加本 qna_recorded 事件。"
+  },
+  "source": {
+    "user_prompt": "next I want you to ask a question, now I need to record everything in the codebuddy session including user's prompt, you answer and in your answer I want to record everything including 1.thinking 2.skill called 3.file written 4.web search 5.hook your output etc. basically record input/output of everything how can I achieve that please write in questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/039.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q39：框架当前只做结构化溯源、做不到全录；逐项区分可录/不可录，给出扩展 schema+PostToolUse trace 钩子的可行路径与 thinking 硬限。",
+    "sections_affected": [
+      "questions/039.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q39",
+      "question": "想在 CodeBuddy session 全录一切（用户 prompt、agent 回答、thinking、skill、写文件、web search、hook、输出）：怎么实现？",
+      "answer_summary": "框架当前只做结构化溯源，做不到全录。可录：prompt(verbatim)/文件/actor/时间/工具/版本快照；录不到：agent 回答全文(仅摘要)、thinking(硬限)、skill/web 需扩展 schema+PostToolUse 钩子轨迹。建议 per-turn trace 文件+钩子承接 tool-call，agent_response 可选开，thinking 只做标注式 reasoning 摘要，逐字转录交给 session export。",
+      "answer_location": "questions/039.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。thinking 为硬限制：无 hook 能捕获模型原始推理。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 87,
+  "recorded_at": "2026-10-23T21:40:19.346063+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

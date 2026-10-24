@@ -1,0 +1,52 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "按 architecture 009 §9 实施：daemon（session_recorder.py）+ feeder（recorder_feed.py）+ install-session-recorder skill + standard_ops 分发/保活合并/接线检查 + workflow/README 文档 + 本仓 dogfood 接线；跑通 §10 验收（全链路/普查/降级/缺口点名/生命周期），实测结果记 questions/047.md。"
+  },
+  "source": {
+    "user_prompt": "please implement 009.md",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/session_recorder.py",
+      "scripts/recorder_feed.py",
+      "skills/install-session-recorder/SKILL.md",
+      "scripts/standard_ops.py",
+      "references/workflow.md",
+      "README.md",
+      ".codebuddy/settings.json",
+      "questions/047.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "实现 architecture 009：session_recorder.py daemon（socket 唯一写入者/seq/spool 排水坏行跳过/.turn 普查 watcher/start-stop-status-doctor）+ recorder_feed.py feeder（stdin→socket→兜底拉起→spool，静默 exit 0）+ install-session-recorder skill + standard_ops（分发 skill、write_hooks 保留 recorder 接线、check-standard 未接线点名）+ workflow/README 注记 + 本仓 dogfood 四事件接线；验收通过，实测与降级记录 questions/047.md。",
+    "sections_affected": [
+      "scripts/session_recorder.py",
+      "scripts/recorder_feed.py",
+      "skills/install-session-recorder/SKILL.md",
+      "scripts/standard_ops.py",
+      "references/workflow.md",
+      "README.md",
+      ".codebuddy/settings.json",
+      "questions/047.md"
+    ]
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。009 仍为 planned→本事件为实施落地；implemented_version=9 与 standard_version=v0.9 待用户确认后经 set-implemented 发布链（commit+push+tag）执行。check-standard 警告路径因命令审批超时未实测，待补。daemon 已在本机运行（watcher 普查 9 个历史 session）。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 98,
+  "recorded_at": "2026-10-24T12:56:21.723395+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

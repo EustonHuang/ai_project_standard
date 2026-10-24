@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户质疑 Q42 设计：为何仍用 hook、为何看 .turn。写 questions/043.md 并追加本 qna_recorded 事件：澄清 hook 是 IDE 外部命令非 agent 自录（不构成死循环），.turn 是 turn_gate 持久化状态作 gate 副作用 ground truth。"
+  },
+  "source": {
+    "user_prompt": "in your design, you are still using hook? why? and you are saying the status of .turn why it's helpful",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/043.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q43：澄清设计仍用 hook 的原因（IDE 外部命令、结构化推送、可去若 transcript 完整）与 .turn 状态的帮助（turn_gate 持久化 declared/baseline，watcher 捕获 gate 副作用作 ground truth）。",
+    "sections_affected": [
+      "questions/043.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q43",
+      "question": "你的设计为何还在用 hook？以及为何看 .turn 状态有帮助？",
+      "answer_summary": "hook 是 IDE 外部命令而非 agent 自录，feeder 转发给 daemon socket 不构成死循环（非 agent 工具调用）；hook 是实时结构化推送源（prompt/工具 input/output），watcher 作被动交叉校验，若 CodeBuddy 有完整 transcript 可去掉 hook。.turn 是 turn_gate 持久化状态(.codebuddy/hooks/.turn/{session}.json)记 declared/baseline，watcher 观察它=把 gate 副作用作 ground truth 捕获，与 hook payload 送达无关。",
+      "answer_location": "questions/043.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。.turn 路径经代码核实：scripts/turn_gate.py L31 TURN_DIR=.codebuddy/hooks/.turn，L46 状态文件，L60 原子写。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 92,
+  "recorded_at": "2026-10-23T22:22:46.448311+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

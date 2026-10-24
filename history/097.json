@@ -1,0 +1,40 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户指示把 Q45/Q46 的增量并入 architecture。修订 009：粒度（单 daemon per 用户）+ §3.1 生命周期 + doctor 子命令 + watcher .turn 普查对账 + feeder 兜底拉起 + audit 接线检查 + §7 第 6 项实测 + 验收 7/8。"
+  },
+  "source": {
+    "user_prompt": "please include questions 045.md and 046.md into the architecture",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/009.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ],
+    "change_summary": "architecture 009 修订 r14：并入 Q45/Q46 增量——daemon 粒度（单实例 per 用户，session/answer 为记录粒度）、§3.1 生命周期（launchd 主路径/feeder 兜底拉起/SIGTERM 排空/崩溃 socket 探测恢复/坏行跳过）、doctor 覆盖对账、watcher .turn 普查（有 state 无 trace=缺口事件）、check-standard/audit 接线点名、§7 第 6 项实测（用户级 hooks）、验收新增覆盖可查与生命周期两条。",
+    "sections_affected": [
+      "architecture/009.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ]
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。本修订仍在 planned 状态；implemented_version 待执行后经 set-implemented 置 9。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 97,
+  "recorded_at": "2026-10-24T11:49:58.878182+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问 history 各字段填写来源与记录触发机制；按双录纪律写 questions/038.md 并追加本 qna_recorded 事件。"
+  },
+  "source": {
+    "user_prompt": "when you record the history json file like @history/085.json how do you record in details? like how do you record schema_version is 2.0, event_type is plan_modified, where are they from, what values they should be taken? I want to know every field how you record that? and typically how do you trigger the recording? via skill, via hook or via something else? record in questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/038.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q38：history 各字段来源/取值规则 + 记录触发机制（append_history.py 脚本手动跑 + turn_gate hook 硬门兜底 + always 规则纪律，非单独 skill）。",
+    "sections_affected": [
+      "questions/038.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q38",
+      "question": "history/NNN.json 每个字段怎么填（schema_version=2.0、event_type=plan_modified 从哪来/取什么值）？记录靠 skill/hook/还是别的触发？",
+      "answer_summary": "逐字段列来源表：schema_version 脚本常量2.0、event_type 枚举选 plan_modified、其余 agent 手填；standard_version 取自锁文件快照、recorded_at 脚本盖、model 取平台信号否则 unknown。触发=append_history.py 脚本手动跑 + turn_gate hook(Stop end)硬门兜底 + always规则纪律，非单独 skill。",
+      "answer_location": "questions/038.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 86,
+  "recorded_at": "2026-10-23T21:21:26.860024+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

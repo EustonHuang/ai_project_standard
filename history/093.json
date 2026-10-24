@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户精确追问 Q42/Q43：hook 是否 agent 动作第一步、hook 是否不被记录。写 questions/044.md 并追加本 qna_recorded 事件：澄清 hook 是 IDE 外部包装非 agent 步骤，且 hook 事件会被记录（纠正用户误判）。"
+  },
+  "source": {
+    "user_prompt": "agent 动作 → IDE 触发 hook 这个hook是agent 动作的第一步吗？然后这个hook本身是不会被记录的对吧？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/044.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q44：澄清 hook 是 IDE 在工具执行前后触发的外部包装（非 agent 步骤，PreToolUse 前/PostToolUse 后），并纠正用户——hook 事件会被记录成 {kind:hook,...}（含 payload 与 .turn 副作用），仅记录器自身管道不录以防死循环。",
+    "sections_affected": [
+      "questions/044.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q44",
+      "question": "agent 动作→IDE 触发 hook，这 hook 是 agent 动作第一步吗？hook 本身不会被记录对吧？",
+      "answer_summary": "hook 不是 agent 动作第一步——是 IDE 在工具执行前后触发的外部包装（PreToolUse 前/PostToolUse 后），agent 真正第一步是内部决策（非 hook）。纠正：hook 事件会被记录（feeder 发 {kind:hook,...} 入 trace，含 payload 与副作用 via .turn），因用户要 hooks-in-output；仅记录器自身管道(feeder 进程)不录以防死循环。",
+      "answer_location": "questions/044.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。本事件纠正用户误判：hook 事件在设计中是被记录的（hooks-in-output 要求），不被记录的仅是记录器自身管道。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 93,
+  "recorded_at": "2026-10-24T10:16:13.705241+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

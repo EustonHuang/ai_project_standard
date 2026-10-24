@@ -203,3 +203,17 @@ agent 调用 `append_history.py` 等工具前，临时事件文件（如 `event_
   `<feature>_index.json` + `<feature>_TOC.md`；其它 feature 一律不动（严禁过度操作）。
 - **留痕**：记录文件 + 该 feature 的 index + TOC 三者都要列进本轮 history 事件的
   `operation.target_files`，否则 Stop 时 turn_gate 拦截。
+
+## Session trace 与 history 的关系（architecture 009，opt-in）
+
+`scripts/session_recorder.py`（daemon）+ `recorder_feed.py`（hook feeder）提供一个
+**进程外全录器**：把每个 session 的一切 input/output（prompt、工具调用、hook 触发、
+`.turn` 副作用、可选的 agent 回答/推理自发射）追加进
+`~/.ai_project_standard/session_trace/<plan>/<session>.jsonl`。要点：
+
+- trace 在 **plan root 之外**：不经受管网关、不进 `audit`，history 事件可**引用**
+  trace 路径但不内嵌逐字正文（history 保持轻量溯源）。
+- agent 永不写 trace；agent 可选自发射也走 `recorder_feed --kind answer/reasoning`。
+- daemon 挂掉不丢事件（feeder 落 spool，重启排水）；`doctor` 子命令做覆盖对账
+  （`.turn` 有 state 而 trace 缺失 = 缺口）。
+- 安装是显式 opt-in：`install-session-recorder` skill；未安装项目零影响。

@@ -1,0 +1,40 @@
+{
+  "event_type": "plan_created",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户指示把会话全录器写成可实现的 architecture。按 Q39–Q44 收敛设计写 architecture/009.md（进程外 daemon + feeder hooks + 被动 watcher，opt-in，目标 v0.9），含设计决策、组件规范、第 0 步实测清单、实施步骤与验收标准。"
+  },
+  "source": {
+    "user_prompt": "now please write into a new architecture to record the details of realizing. Please note: this is something that you can implement based on, so please make sure the architecture contains the clear instructions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/009.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ],
+    "change_summary": "新增 architecture 009：会话全录器（session recorder）权威计划——进程外 daemon（Unix socket，trace 唯一写入者，落盘 plan root 之外）+ feeder hooks（4 事件追加 recorder_feed，与 turn_gate 并存，hook 触发本身入 trace）+ 被动 watcher（.turn 副作用 + 可选 transcript）；agent 从不写 trace 故无死循环；含第 0 步实测清单、降级路径、实施步骤与验收。opt-in 非 breaking，目标 v0.9，状态 planned。",
+    "sections_affected": [
+      "architecture/009.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ]
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。本事件为 architecture 009 的创建（planned）；implemented_version 待执行后经 set-implemented 置 9 并走发布链。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 94,
+  "recorded_at": "2026-10-24T10:19:49.496467+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7780ff651e80dae28e63a8d4e0e487e424773ea6190f57ed8237f29ddfb45142",
+    "plan_md_line_count": 176,
+    "source_doc": "architecture/009.md"
+  }
+}

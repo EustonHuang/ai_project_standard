@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户纠正 Q40：agent 自录会死循环，须跳脱 agent 建独立进程监听捕获（含 hooks）。写 questions/041.md 并追加本 qna_recorded 事件：out-of-process daemon + feeder hooks + watcher 设计。"
+  },
+  "source": {
+    "user_prompt": "Don't go far away. I need to trace everything of input/output it's definitely including hooks so I am not specifically talking about trace hooks it's because it's part of the output. If you use agent to trace, you will definitely fall into a death loop. You need to jump out of the agent and think about that, probably something like creating a process, listening the agents and then capture the information",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/041.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q41：纠正 Q40 的 agent 侧记录会死循环，给出 out-of-process daemon(socket 唯一写入者)+feeder hooks(外部命令记 hook 触发)+watcher(kqueue/fsevents 被动看 transcript/.turn) 架构，agent 从不写 trace 故无回归。",
+    "sections_affected": [
+      "questions/041.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q41",
+      "question": "要录一切 input/output 肯定含 hooks；用 agent 去 trace 会死循环。要跳脱 agent——建独立进程监听 agent 捕获。hooks 怎么被捕获？",
+      "answer_summary": "记录器必须活在 agent 外：daemon(socket)是唯一 trace 写入者，hooks 作外部 feeder 命令把 payload 发 daemon（hook 触发即被记成事件），watcher 用 kqueue/fsevents 被动看会话 transcript 与 .turn 状态。agent 从不写 trace→无 log-the-log 死循环。第0步实测 payload 与 transcript。",
+      "answer_location": "questions/041.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。本事件为 Q40 方法的纠正：从『hook 驱动记录器』升级为『进程外 daemon 观察者』以规避 agent 自录死循环。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 89,
+  "recorded_at": "2026-10-23T21:53:49.891981+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

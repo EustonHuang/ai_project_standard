@@ -89,3 +89,18 @@
 - [083 · correction · 2026-10-15T20:57:52](history/083.json) — 修正 008.md 遗漏：原计划（§6 改动清单、§7 实施步骤 step5「文档」、§8 验收）均未提及发布时需更新 README.md。本次补：§6 新增 `README.md` 改动项（Layout 加 custom/ 目录行 + How to use 加 custom 命
 - [084 · qna_recorded · 2026-10-15T21:04:13](history/084.json) — 新增 Q37：根因分析。核心论点——我优化的是「产出流利、显得权威的文本」而非「先核对事实」「先接住用户真实意图」；傲慢是表皮，蠢错是产物，两者同源故同时出现。① 蠢错机制：无依据断言，未读 008.md 就断言 v0.8 补 README。② 没听懂：把「计划没写 README
 - [085 · plan_modified · 2026-10-15T21:14:14](history/085.json) — implement architecture 008（v0.8）：将既有 custom 实现对齐到精简设计。① append_history.py：删除 read_frontmatter；sync_custom_feature/_regen_custom_toc 不再读 fron
+- [086 · qna_recorded · 2026-10-23T21:21:26](history/086.json) — 记录 Q38：history 各字段来源/取值规则 + 记录触发机制（append_history.py 脚本手动跑 + turn_gate hook 硬门兜底 + always 规则纪律，非单独 skill）。
+- [087 · qna_recorded · 2026-10-23T21:40:19](history/087.json) — 记录 Q39：框架当前只做结构化溯源、做不到全录；逐项区分可录/不可录，给出扩展 schema+PostToolUse trace 钩子的可行路径与 thinking 硬限。
+- [088 · qna_recorded · 2026-10-23T21:44:08](history/088.json) — 记录 Q40：纠正 Q39 错误框架，给出真正做成全录的方法=独立 hook 驱动 session recorder（UserPromptSubmit/PostToolUse/Stop 等事件捕 prompt/工具调用/回答，thinking 靠实测或 agent 自发射），tr
+- [089 · qna_recorded · 2026-10-23T21:53:49](history/089.json) — 记录 Q41：纠正 Q40 的 agent 侧记录会死循环，给出 out-of-process daemon(socket 唯一写入者)+feeder hooks(外部命令记 hook 触发)+watcher(kqueue/fsevents 被动看 transcript/.tur
+- [090 · qna_recorded · 2026-10-23T22:00:55](history/090.json) — 记录 Q42：收口 Q38–Q41，给出进程外 daemon+feeder hooks+watcher 的最终全录架构结论，含难点处理、与 history 框架关系、第0步实测项、产出形态。
+- [091 · plan_modified · 2026-10-23T22:12:10](history/091.json) — 新增 improvements/005.md（IMP-005）：指出 IMP-001 的真实需求仅为「编号连贯 + 禁止未编号浮动小节」，从未要求「必须从 0 起」；而 scripts/structure_lint.py:89 实现为 range(0, nums[-1]+1)，把
+- [092 · qna_recorded · 2026-10-23T22:22:46](history/092.json) — 记录 Q43：澄清设计仍用 hook 的原因（IDE 外部命令、结构化推送、可去若 transcript 完整）与 .turn 状态的帮助（turn_gate 持久化 declared/baseline，watcher 捕获 gate 副作用作 ground truth）。
+- [093 · qna_recorded · 2026-10-24T10:16:13](history/093.json) — 记录 Q44：澄清 hook 是 IDE 在工具执行前后触发的外部包装（非 agent 步骤，PreToolUse 前/PostToolUse 后），并纠正用户——hook 事件会被记录成 {kind:hook,...}（含 payload 与 .turn 副作用），仅记录器自身
+- [094 · plan_created · 2026-10-24T10:19:49](history/094.json) — 新增 architecture 009：会话全录器（session recorder）权威计划——进程外 daemon（Unix socket，trace 唯一写入者，落盘 plan root 之外）+ feeder hooks（4 事件追加 recorder_feed，与 tu
+- [095 · qna_recorded · 2026-10-24T11:36:31](history/095.json) — 记录 Q45：daemon 粒度=单实例 per 用户监控所有项目（trace 按 plan_slug/session_id 分文件，session/answer 是记录粒度非进程粒度）；生命周期=launchd KeepAlive 主路径 + feeder 兜底拉起 + 手动，
+- [096 · qna_recorded · 2026-10-24T11:46:04](history/096.json) — 记录 Q46：全覆盖保证=per-project 安装/per-session 自动（session_id 来自 hook env，turn_gate L39-42 已证）+ spool 兜底 + .turn 目录 session 全集普查对账（有 state 无 trace=缺
+- [097 · plan_modified · 2026-10-24T11:49:58](history/097.json) — architecture 009 修订 r14：并入 Q45/Q46 增量——daemon 粒度（单实例 per 用户，session/answer 为记录粒度）、§3.1 生命周期（launchd 主路径/feeder 兜底拉起/SIGTERM 排空/崩溃 socket 探测恢
+- [098 · plan_modified · 2026-10-24T12:56:21](history/098.json) — 实现 architecture 009：session_recorder.py daemon（socket 唯一写入者/seq/spool 排水坏行跳过/.turn 普查 watcher/start-stop-status-doctor）+ recorder_feed.py fe
+- [099 · qna_recorded · 2026-10-24T13:03:41](history/099.json) — 记录 Q48：tracing 需两步开启——引擎更新 v0.9 拿到脚本+skill（能力），运行 install-session-recorder 接线+起 daemon（开关）；旧版本零影响且无能力；更新但不跑 skill 依然不录；版本决定能不能开、opt-in 决定开不开
+- [100 · qna_recorded · 2026-10-24T13:04:58](history/100.json) — 记录 Q49：澄清两层不矛盾——产生事件 per-project（脚本+hooks 水龙头，未装不产生事件）、收集事件 per-user（daemon 单实例收所有已装项目）；session 落盘按 (plan_id,session_id) 分文件，共享进程不共享文件；全局一次安

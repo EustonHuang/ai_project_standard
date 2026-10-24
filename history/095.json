@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户精确化 architecture 009 的 daemon：粒度（per-project? per-session?）与完整生命周期（启动/退出/崩溃/重拉）。写 questions/045.md 并追加本 qna_recorded 事件：单 daemon per 用户 + 三路径启动 + SIGTERM 排空 + spool 兜底恢复链。"
+  },
+  "source": {
+    "user_prompt": "I have a question about the daemon process. 1. is it per-project? like one daemon process for one project or it's just one process that monitoring all the project's? if it's per-project, the daemon process is per session? or per answer or per else? I need to know the grain for that. 2. I need to know the life-cycle of daemon process, how is it getting launched, how getting exited, what if it failed or killed at some time, how to capture and re-launch? please record into questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/045.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q45：daemon 粒度=单实例 per 用户监控所有项目（trace 按 plan_slug/session_id 分文件，session/answer 是记录粒度非进程粒度）；生命周期=launchd KeepAlive 主路径 + feeder 兜底拉起 + 手动，SIGTERM 优雅排空，崩溃经 socket 残留探测清理 + spool 兜底不丢 + 重启排水。并给出对 architecture 009 §3/§4/§8 的三点增量。",
+    "sections_affected": [
+      "questions/045.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q45",
+      "question": "daemon 是 per-project 还是单进程监控所有项目？生命周期如何（启动/退出/被杀/重拉）？",
+      "answer_summary": "单 daemon per 用户监控所有项目（socket 全局唯一，事件自带 plan_id+session_id 路由分文件）；session/answer 是记录粒度非进程粒度。生命周期：launchd KeepAlive 保活（主）+ feeder 兜底拉起 + 手动；优雅退出 SIGTERM 排空删 socket；崩溃靠 socket 残留探测清理 + spool 兜底不丢事件 + 重启排水；kill -9 同崩溃路径。含对 architecture 009 的三点增量（坏行跳过/兜底拉起/plist 模板）。",
+      "answer_location": "questions/045.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。本问答产出对 architecture 009 的三点实施前增量，须在动手实现前并入。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 95,
+  "recorded_at": "2026-10-24T11:36:31.224944+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7780ff651e80dae28e63a8d4e0e487e424773ea6190f57ed8237f29ddfb45142",
+    "plan_md_line_count": 176,
+    "source_doc": "architecture/009.md"
+  }
+}

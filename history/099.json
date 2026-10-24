@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问 tracing 的版本门槛：是否所有采纳项目都须更新 v0.9 才能开、旧版是否无所谓。写 questions/048.md 并追加本 qna_recorded 事件：两步开启（更新=能力，跑 skill=开关），旧版零影响。"
+  },
+  "source": {
+    "user_prompt": "before implement, I have a question, does that mean all the projects that using this project standard need to update to v0.9 to open the function of tracing? or if they are using the old version it doesn't matter?",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/048.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q48：tracing 需两步开启——引擎更新 v0.9 拿到脚本+skill（能力），运行 install-session-recorder 接线+起 daemon（开关）；旧版本零影响且无能力；更新但不跑 skill 依然不录；版本决定能不能开、opt-in 决定开不开，各项目独立决策。",
+    "sections_affected": [
+      "questions/048.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q48",
+      "question": "采用本规范的项目都要更新到 v0.9 才能开 tracing 吗？旧版本无所谓吗？",
+      "answer_summary": "开 tracing 两步：①引擎更新 v0.9（能力）②运行 install-session-recorder（开关）。旧版本零影响且无能力；更新但不跑 skill 依然不录（opt-in 保证更新零行为变化）；版本决定能不能开、opt-in 决定开不开，各项目独立决策。",
+      "answer_location": "questions/048.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 99,
+  "recorded_at": "2026-10-24T13:03:41.879550+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

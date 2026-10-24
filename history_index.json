@@ -1,6 +1,6 @@
 {
-  "max_id": 85,
-  "revision": 85,
+  "max_id": 100,
+  "revision": 100,
   "briefs": [
     {
       "event_id": 1,
@@ -885,6 +885,171 @@
       "corrects_event_id": null,
       "standard_version": "v0.8",
       "file": "history/085.json"
+    },
+    {
+      "event_id": 86,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-23T21:21:26.860024+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q38：history 各字段来源/取值规则 + 记录触发机制（append_history.py 脚本手动跑 + turn_gate hook 硬门兜底 + always 规则纪律，非单独 skill）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/086.json"
+    },
+    {
+      "event_id": 87,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-23T21:40:19.346063+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q39：框架当前只做结构化溯源、做不到全录；逐项区分可录/不可录，给出扩展 schema+PostToolUse trace 钩子的可行路径与 thinking 硬限。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/087.json"
+    },
+    {
+      "event_id": 88,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-23T21:44:08.630445+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q40：纠正 Q39 错误框架，给出真正做成全录的方法=独立 hook 驱动 session recorder（UserPromptSubmit/PostToolUse/Stop 等事件捕 prompt/工具调用/回答，thinking 靠实测或 agent 自发射），trace 存 JSONL，history 引用路径。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/088.json"
+    },
+    {
+      "event_id": 89,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-23T21:53:49.891981+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q41：纠正 Q40 的 agent 侧记录会死循环，给出 out-of-process daemon(socket 唯一写入者)+feeder hooks(外部命令记 hook 触发)+watcher(kqueue/fsevents 被动看 transcript/.turn) 架构，agent 从不写 trace 故无回归。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/089.json"
+    },
+    {
+      "event_id": 90,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-23T22:00:55.524035+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q42：收口 Q38–Q41，给出进程外 daemon+feeder hooks+watcher 的最终全录架构结论，含难点处理、与 history 框架关系、第0步实测项、产出形态。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/090.json"
+    },
+    {
+      "event_id": 91,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-23T22:12:10.889182+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 improvements/005.md（IMP-005）：指出 IMP-001 的真实需求仅为「编号连贯 + 禁止未编号浮动小节」，从未要求「必须从 0 起」；而 scripts/structure_lint.py:89 实现为 range(0, nums[-1]+1)，把当时文档恰好从 0 起的『观察』硬编码成『规则』，导致编号 1..N 且完全连贯的文档被误判为『缺 0』，并倒逼作者添加多余的 ## 0. 前言章节（采纳方 euston-daily-collect 的 architecture/002.md 即因此被迫加 §0，用户明确反馈过载）。提案内容：① 守卫改为只校验连续（range(nums[0], ...)）并改写提示语；② 文档约定改为顶层章节从 §1 起编号，背景/前言并入 §1；③ 存量 architecture/001–008.md 与采纳方文档重编号并同步约 102 处 §N 交叉引用（003.md 占 53 处），须脚本化且逐篇 lint 验证；④ references/workflow.md 条文去 §0–§N 字样并补「从 1 起」约定。保留「未编号浮动小节」检测不变。improvement_index.json 新增 id=5（status=1, priority=2）并将 max_id 升为 5。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/091.json"
+    },
+    {
+      "event_id": 92,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-23T22:22:46.448311+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q43：澄清设计仍用 hook 的原因（IDE 外部命令、结构化推送、可去若 transcript 完整）与 .turn 状态的帮助（turn_gate 持久化 declared/baseline，watcher 捕获 gate 副作用作 ground truth）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/092.json"
+    },
+    {
+      "event_id": 93,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T10:16:13.705241+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q44：澄清 hook 是 IDE 在工具执行前后触发的外部包装（非 agent 步骤，PreToolUse 前/PostToolUse 后），并纠正用户——hook 事件会被记录成 {kind:hook,...}（含 payload 与 .turn 副作用），仅记录器自身管道不录以防死循环。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/093.json"
+    },
+    {
+      "event_id": 94,
+      "event_type": "plan_created",
+      "recorded_at": "2026-10-24T10:19:49.496467+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 architecture 009：会话全录器（session recorder）权威计划——进程外 daemon（Unix socket，trace 唯一写入者，落盘 plan root 之外）+ feeder hooks（4 事件追加 recorder_feed，与 turn_gate 并存，hook 触发本身入 trace）+ 被动 watcher（.turn 副作用 + 可选 transcript）；agent 从不写 trace 故无死循环；含第 0 步实测清单、降级路径、实施步骤与验收。opt-in 非 breaking，目标 v0.9，状态 planned。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/094.json"
+    },
+    {
+      "event_id": 95,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T11:36:31.224944+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q45：daemon 粒度=单实例 per 用户监控所有项目（trace 按 plan_slug/session_id 分文件，session/answer 是记录粒度非进程粒度）；生命周期=launchd KeepAlive 主路径 + feeder 兜底拉起 + 手动，SIGTERM 优雅排空，崩溃经 socket 残留探测清理 + spool 兜底不丢 + 重启排水。并给出对 architecture 009 §3/§4/§8 的三点增量。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/095.json"
+    },
+    {
+      "event_id": 96,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T11:46:04.851178+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q46：全覆盖保证=per-project 安装/per-session 自动（session_id 来自 hook env，turn_gate L39-42 已证）+ spool 兜底 + .turn 目录 session 全集普查对账（有 state 无 trace=缺口）+ doctor 可审计；per-project 覆盖理想=用户级 hooks、兜底=audit 点名未接线；诚实边界=未装项目机制外。含对 architecture 009 第二批增量（doctor 子命令、.turn 普查、audit 接线检查、第 6 项实测）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/096.json"
+    },
+    {
+      "event_id": 97,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-24T11:49:58.878182+08:00",
+      "actor_type": "ai",
+      "change_summary": "architecture 009 修订 r14：并入 Q45/Q46 增量——daemon 粒度（单实例 per 用户，session/answer 为记录粒度）、§3.1 生命周期（launchd 主路径/feeder 兜底拉起/SIGTERM 排空/崩溃 socket 探测恢复/坏行跳过）、doctor 覆盖对账、watcher .turn 普查（有 state 无 trace=缺口事件）、check-standard/audit 接线点名、§7 第 6 项实测（用户级 hooks）、验收新增覆盖可查与生命周期两条。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/097.json"
+    },
+    {
+      "event_id": 98,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-24T12:56:21.723395+08:00",
+      "actor_type": "ai",
+      "change_summary": "实现 architecture 009：session_recorder.py daemon（socket 唯一写入者/seq/spool 排水坏行跳过/.turn 普查 watcher/start-stop-status-doctor）+ recorder_feed.py feeder（stdin→socket→兜底拉起→spool，静默 exit 0）+ install-session-recorder skill + standard_ops（分发 skill、write_hooks 保留 recorder 接线、check-standard 未接线点名）+ workflow/README 注记 + 本仓 dogfood 四事件接线；验收通过，实测与降级记录 questions/047.md。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/098.json"
+    },
+    {
+      "event_id": 99,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T13:03:41.879550+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q48：tracing 需两步开启——引擎更新 v0.9 拿到脚本+skill（能力），运行 install-session-recorder 接线+起 daemon（开关）；旧版本零影响且无能力；更新但不跑 skill 依然不录；版本决定能不能开、opt-in 决定开不开，各项目独立决策。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/099.json"
+    },
+    {
+      "event_id": 100,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T13:04:58.088431+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q49：澄清两层不矛盾——产生事件 per-project（脚本+hooks 水龙头，未装不产生事件）、收集事件 per-user（daemon 单实例收所有已装项目）；session 落盘按 (plan_id,session_id) 分文件，共享进程不共享文件；全局一次安装唯有用户级 hooks（§7-6 待实测）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/100.json"
     }
   ]
 }

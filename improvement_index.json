@@ -1,6 +1,6 @@
 {
-  "max_id": 3,
-  "revision": 3,
+  "max_id": 5,
+  "revision": 5,
   "briefs": [
     {
       "id": 1,
@@ -28,6 +28,24 @@
       "in_architecture": "architecture/006.md",
       "implemented_in": "v0.6",
       "file": "improvements/003.md"
+    },
+    {
+      "id": 4,
+      "title": "受管文件夹文件堆积导致浏览过载：新增最新指针 + TOC 优先浏览",
+      "status": 1,
+      "priority": 2,
+      "in_architecture": null,
+      "implemented_in": null,
+      "file": "improvements/004.md"
+    },
+    {
+      "id": 5,
+      "title": "受管架构文档章节编号：守卫只校验「连续」，且约定从 1 起（去掉硬编码的 0 起点）",
+      "status": 1,
+      "priority": 2,
+      "in_architecture": null,
+      "implemented_in": null,
+      "file": "improvements/005.md"
     }
   ]
 }

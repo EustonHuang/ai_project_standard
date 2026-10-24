@@ -1,6 +1,6 @@
 {
-  "max_id": 37,
-  "revision": 37,
+  "max_id": 49,
+  "revision": 49,
   "notes": "见 questions/*.md",
   "briefs": [
     {
@@ -261,6 +261,90 @@
       "question": "分析你为何傲慢却犯蠢错（008 声称 v0.8 补 README 但计划没写），并解释为什么没听懂我所表达的东西。",
       "answer_summary": "根因：我优化的是「产出流利、显得权威的文本」，而非「先核对事实」与「先接住用户真实意图」——傲慢是这套流程的表皮，蠢错是它的产物，两者同源故同时出现。① 蠢错机制：无依据断言，未读 008.md 就断言 v0.8 补 README（不先核对就下结论，凭直觉压过产物）。② 没听懂：把你「计划没写 README 却编造发布步骤」降维成「README 该不该记 customs」的泛设计问答；没接上本会话主线（你整轮在抓我编造），当成新问题；答了我「想答/好答」的 v0.7/v0.8 文档哲学，而非字面问题「008 提没提 README」，用我议程替换你议程。③ 更深：默认「解释者/权威」人格压过「接收者」，你提问我本能给结论而非先确认理解，把纠正当辩解而非「我可能错了去查」的信号。",
       "file": "questions/037.md"
+    },
+    {
+      "num": 38,
+      "question_ref": "Q38",
+      "question": "history/NNN.json 每个字段怎么填（schema_version=2.0、event_type=plan_modified 从哪来/取什么值）？记录靠 skill/hook/还是别的触发？",
+      "answer_summary": "逐字段列来源表：schema_version 脚本常量2.0、event_type 枚举选 plan_modified、其余 agent 手填；standard_version 取自锁文件快照、recorded_at 脚本盖、model 取平台信号否则 unknown。触发=append_history.py 脚本手动跑 + turn_gate hook(Stop end)硬门兜底 + always规则纪律，非单独 skill。",
+      "file": "questions/038.md"
+    },
+    {
+      "num": 39,
+      "question_ref": "Q39",
+      "question": "想在 CodeBuddy session 全录一切（用户 prompt、agent 回答、thinking、skill、写文件、web search、hook、输出）：怎么实现？",
+      "answer_summary": "框架当前只做结构化溯源，做不到全录。可录：prompt(verbatim)/文件/actor/时间/工具/版本快照；录不到：agent 回答全文(仅摘要)、thinking(硬限,无 hook 捕获原始思考)、skill/web 需扩展 schema+PostToolUse 钩子轨迹。建议 per-turn trace 文件+钩子承接 tool-call，agent_response 可选开，thinking 只做标注式 reasoning 摘要，逐字转录交给 session export。",
+      "file": "questions/039.md"
+    },
+    {
+      "num": 40,
+      "question_ref": "Q40",
+      "question": "不要在当前框架谈「能不能」。我要的是做成全录 session（prompt/回答/thinking/skill/文件/web/hook/输出）的方法。",
+      "answer_summary": "建独立 hook 驱动 session recorder：UserPromptSubmit 录 prompt、PostToolUse 录每个工具调用(input+output)覆盖 skill/文件/web/命令、Stop 录收尾+回答(transcript 拷贝或 agent 自发射)、PreToolUse 录意图、SessionStart/SubagentStop 录生命周期。thinking 靠实测 reasoning 字段直采或 agent 发 reasoning 条目。trace 存 JSONL，history 事件引用路径。第0步实测各 hook payload。",
+      "file": "questions/040.md"
+    },
+    {
+      "num": 41,
+      "question_ref": "Q41",
+      "question": "要录一切 input/output 肯定含 hooks；用 agent 去 trace 会死循环。要跳脱 agent——建独立进程监听 agent 捕获。hooks 怎么被捕获？",
+      "answer_summary": "记录器必须活在 agent 外：daemon(socket)是唯一 trace 写入者，hooks 作外部 feeder 命令把 payload 发 daemon（hook 触发即被记成事件），watcher 用 kqueue/fsevents 被动看会话 transcript 与 .turn 状态。agent 从不写 trace→无 log-the-log 死循环。第0步实测 payload 与 transcript。",
+      "file": "questions/041.md"
+    },
+    {
+      "num": 42,
+      "question_ref": "Q42",
+      "question": "把 Q38–Q41 整段讨论收口：到底怎么把 CodeBuddy session 一切（prompt/回答/thinking/skill/文件/web/hook/输出）录下来？作为结论记进 questions。",
+      "answer_summary": "收敛设计=进程外 daemon(socket 唯一写入者)+feeder hooks(外部命令记 hook 触发)+watcher(kqueue/fsevents 看 transcript/.turn)。agent 从不写 trace→无死循环。thinking 靠平台暴露或 agent 发 reasoning；回答靠 transcript 拷贝或自发射。独立于 history 框架，事件引用 trace 路径。第0步实测 payload 与 transcript。产出=skills/session-recorder。",
+      "file": "questions/042.md"
+    },
+    {
+      "num": 43,
+      "question_ref": "Q43",
+      "question": "你的设计为何还在用 hook？以及为何看 .turn 状态有帮助？",
+      "answer_summary": "hook 是 IDE 外部命令而非 agent 自录，feeder 转发给 daemon socket 不构成死循环（非 agent 工具调用）；hook 是实时结构化推送源（prompt/工具 input/output），watcher 作被动交叉校验，若 CodeBuddy 有完整 transcript 可去掉 hook。.turn 是 turn_gate 持久化状态(.codebuddy/hooks/.turn/{session}.json)记 declared/baseline，watcher 观察它=把 gate 副作用作 ground truth 捕获，与 hook payload 送达无关。",
+      "file": "questions/043.md"
+    },
+    {
+      "num": 44,
+      "question_ref": "Q44",
+      "question": "agent 动作→IDE 触发 hook，这 hook 是 agent 动作第一步吗？hook 本身不会被记录对吧？",
+      "answer_summary": "hook 不是 agent 动作的第一步——它是 IDE 在工具执行前后触发的外部包装（PreToolUse 前/PostToolUse 后），agent 真正的第一步是内部决策（非 hook）。纠正：hook 事件会被记录（feeder 发 {kind:hook,...} 入 trace，含 payload 与副作用 via .turn），因为用户要 hooks-in-output；仅记录器自身管道(feeder 进程)不录以防死循环。",
+      "file": "questions/044.md"
+    },
+    {
+      "num": 45,
+      "question_ref": "Q45",
+      "question": "daemon 是 per-project 还是单进程监控所有项目？生命周期如何（启动/退出/被杀/重拉）？",
+      "answer_summary": "单 daemon per 用户监控所有项目（socket 全局唯一，事件自带 plan_id+session_id 路由分文件）；session/answer 是记录粒度非进程粒度。生命周期：launchd KeepAlive 保活（主）+ feeder 兜底拉起 + 手动；优雅退出 SIGTERM 排空删 socket；崩溃靠 socket 残留探测清理 + spool 兜底不丢事件 + 重启排水；kill -9 同崩溃路径，时序经 spool 文件名 ts 保真。含对 architecture 009 §3/§4/§8 三点增量。",
+      "file": "questions/045.md"
+    },
+    {
+      "num": 46,
+      "question_ref": "Q46",
+      "question": "怎么保证每个项目、每个 session 都被录到（多项目多 session 并发）？",
+      "answer_summary": "安装 per-project、覆盖 per-session 自动：session_id 来自 hook env（turn_gate L39-42 已证），daemon 按 (plan_id,session_id) 路由分文件。完整性四机制：hooks 自动触发（根基）+ spool 兜底不丢 + .turn 目录作 session 全集普查对账（有 state 无 trace=缺口即告警）+ doctor 命令可审计。per-project：理想=用户级 hooks（第0步验证），兜底=check-standard/audit 点名未接线项目；诚实边界=未装 hook 的项目机制外。含对 009 的第二批增量。",
+      "file": "questions/046.md"
+    },
+    {
+      "num": 47,
+      "question_ref": "Q47",
+      "question": "architecture 009 实施的六项实测与验收实际结果？",
+      "answer_summary": "已验证：全链路入档+hook 伴随事件、.turn 普查 9 个历史 session、降级不丢（兜底拉起实测触发+强制 spool 成功）、doctor 缺口点名、生命周期幂等、audit 不受影响、本仓已 dogfood 接线。待下个 session：多 hook 运行时并存、payload 内容、自发射无递归。降级：transcript 未知→watcher 只看 .turn；用户级 hooks 未知→per-project+audit 点名（警告路径待补测）。",
+      "file": "questions/047.md"
+    },
+    {
+      "num": 48,
+      "question_ref": "Q48",
+      "question": "采用本规范的项目都要更新到 v0.9 才能开 tracing 吗？旧版本无所谓吗？",
+      "answer_summary": "开 tracing 两步：①引擎更新 v0.9（拿到脚本+skill=能力）②运行 install-session-recorder（接线+daemon=开关）。旧版本零影响且无能力；更新但不跑 skill 依然不录（opt-in 保证更新零行为变化）；版本决定能不能开、opt-in 决定开不开，各项目独立决策。",
+      "file": "questions/048.md"
+    },
+    {
+      "num": 49,
+      "question_ref": "Q49",
+      "question": "per-project 装脚本 vs 单 daemon trace 所有 session，两者矛盾吗？",
+      "answer_summary": "不矛盾：产生事件是 per-project（水龙头=脚本+hooks，未装项目不产生事件）；收集事件是 per-user 全局（daemon 单实例收所有已装项目）。session 落盘仍按 (plan_id,session_id) 分文件——共享进程不共享文件。一次安装覆盖全部项目唯有用户级全局 hooks（§7-6 待实测），默认 per-project。",
+      "file": "questions/049.md"
     }
   ]
 }

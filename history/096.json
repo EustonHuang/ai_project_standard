@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问跨项目多 session 并发时如何保证全覆盖。写 questions/046.md 并追加本 qna_recorded 事件：覆盖模型（per-project 安装/per-session 自动）+ 完整性四机制（hooks 自动/spool 兜底/.turn 普查对账/doctor 可审计）+ per-project 覆盖路径与诚实边界。"
+  },
+  "source": {
+    "user_prompt": "another question to record, how do you make sure that every project, every session they all been recorded? Probably I am running multiple sessions in multiple projects how do you make sure",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/046.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q46：全覆盖保证=per-project 安装/per-session 自动（session_id 来自 hook env，turn_gate L39-42 已证）+ spool 兜底 + .turn 目录 session 全集普查对账（有 state 无 trace=缺口）+ doctor 可审计；per-project 覆盖理想=用户级 hooks、兜底=audit 点名未接线；诚实边界=未装项目机制外。含对 architecture 009 第二批增量（doctor 子命令、.turn 普查、audit 接线检查、第 6 项实测）。",
+    "sections_affected": [
+      "questions/046.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q46",
+      "question": "怎么保证每个项目、每个 session 都被录到（多项目多 session 并发）？",
+      "answer_summary": "安装 per-project、覆盖 per-session 自动：session_id 来自 hook env（turn_gate L39-42 已证），daemon 按 (plan_id,session_id) 路由分文件。完整性四机制：hooks 自动触发 + spool 兜底 + .turn 普查对账（有 state 无 trace=缺口）+ doctor 可审计。per-project：理想=用户级 hooks（第0步验证），兜底=audit 点名未接线项目；诚实边界=未装 hook 项目机制外。含对 009 第二批增量。",
+      "answer_location": "questions/046.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。Q45+Q46 两批增量须在实施 architecture 009 前并入。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 96,
+  "recorded_at": "2026-10-24T11:46:04.851178+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7780ff651e80dae28e63a8d4e0e487e424773ea6190f57ed8237f29ddfb45142",
+    "plan_md_line_count": 176,
+    "source_doc": "architecture/009.md"
+  }
+}

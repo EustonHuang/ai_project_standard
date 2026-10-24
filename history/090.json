@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户要求把 Q38–Q41 整段讨论收口记录进 questions。写 questions/042.md 并追加本 qna_recorded 事件：收敛为进程外 daemon+feeder hooks+watcher 的最终全录架构。"
+  },
+  "source": {
+    "user_prompt": "please record into questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/042.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q42：收口 Q38–Q41，给出进程外 daemon+feeder hooks+watcher 的最终全录架构结论，含难点处理、与 history 框架关系、第0步实测项、产出形态。",
+    "sections_affected": [
+      "questions/042.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q42",
+      "question": "把 Q38–Q41 整段讨论收口：到底怎么把 CodeBuddy session 一切（prompt/回答/thinking/skill/文件/web/hook/输出）录下来？作为结论记进 questions。",
+      "answer_summary": "收敛设计=进程外 daemon(socket 唯一写入者)+feeder hooks(外部命令记 hook 触发)+watcher(kqueue/fsevents 看 transcript/.turn)。agent 从不写 trace→无死循环。thinking 靠平台暴露或 agent 发 reasoning；回答靠 transcript 拷贝或自发射。独立于 history 框架，事件引用 trace 路径。第0步实测 payload 与 transcript。产出=skills/session-recorder。",
+      "answer_location": "questions/042.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。Q42 为 Q39–Q41 收敛结论，覆盖「全录 session」完整讨论弧。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 90,
+  "recorded_at": "2026-10-23T22:00:55.524035+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

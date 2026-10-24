@@ -41,6 +41,9 @@ ENGINE_FILES = ("README.md",)  # copied so the always-apply rule's README refere
 # (src inside the framework repo -> dest inside the adopting project).
 DISTRIBUTED_SKILLS = (
     ("skills/register-custom-feature", ".codebuddy/skills/register-custom-feature"),
+    # architecture 009: opt-in session recorder installer (hooks are only
+    # wired when the user runs the skill; distribution itself changes nothing).
+    ("skills/install-session-recorder", ".codebuddy/skills/install-session-recorder"),
 )
 HOOK_TIMEOUTS = {"UserPromptSubmit": 20, "PostToolUse": 20, "Stop": 30}
 RULE_DIR_NAME = "ai-project-standard"  # namespace for the always-apply rule under .codebuddy/rules/
@@ -200,7 +203,19 @@ def write_hooks(project, install_mode, engine_dest):
             settings = json.load(open(settings_path, "r", encoding="utf-8"))
         except Exception:
             settings = {}
-    settings["hooks"] = build_hooks(install_mode)["hooks"]
+    built = build_hooks(install_mode)["hooks"]
+    # architecture 009: preserve opt-in session-recorder wiring across
+    # reinstall/update — keep any existing hook group whose command uses
+    # recorder_feed, appending it after the turn_gate groups per event.
+    existing = settings.get("hooks")
+    if isinstance(existing, dict):
+        for event, groups in existing.items():
+            kept = [g for g in (groups or []) if any(
+                "recorder_feed" in h.get("command", "")
+                for h in g.get("hooks", []) if isinstance(h, dict))]
+            if kept and event in built:
+                built[event] = built[event] + kept
+    settings["hooks"] = built
     os.makedirs(settings_dir, exist_ok=True)
     with open(settings_path, "w", encoding="utf-8") as f:
         json.dump(settings, f, ensure_ascii=False, indent=2)
@@ -420,6 +435,16 @@ def cmd_check(args):
         idx = json.load(open(imp_idx, "r", encoding="utf-8"))
         n = sum(1 for b in idx.get("briefs", []) if int(b.get("status", 1)) < 3)
         print("未实施改进 (status<3): %d 条" % n)
+    # architecture 009: coverage check — turn_gate wired but recorder not.
+    settings_path = os.path.join(project, ".codebuddy", "settings.json")
+    if os.path.exists(settings_path):
+        try:
+            raw = open(settings_path, "r", encoding="utf-8").read()
+        except Exception:
+            raw = ""
+        if "turn_gate" in raw and "recorder_feed" not in raw:
+            print("session recorder: 未接线（opt-in）。运行 install-session-recorder "
+                  "可开始记录本项目全部 session（architecture 009）。")
 
 
 def main():
