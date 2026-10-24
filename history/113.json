@@ -1,0 +1,50 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户核对 CodeBuddy 实际数据后判定无需以新方式追踪 agent 行为，指示停止 v0.9 tracing 并回滚到上一版本。执行完整回滚：停 daemon（pid 57118）、删 socket/spool、删 scripts/session_recorder.py + scripts/recorder_feed.py + skills/install-session-recorder/、移除 .codebuddy/settings.json 四条 recorder_feed hook、standard_ops.py 移除三处 recorder 逻辑（分发/接线保留/覆盖点名）、删 README Session recorder 节与 workflow Session trace 节、删 architecture/009.md、architecture_index 回 implemented/latest=8、standard_version 降回 v0.8。"
+  },
+  "source": {
+    "user_prompt": "please stop the tracing for this v0.9 create a new version that roll back to the last version, because I checked the codebuddy data and I don't think it's necessary to have the tracing agent behavior in a new way",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (execute_command + replace_in_file + delete_file)"
+  },
+  "operation": {
+    "target_files": [
+      ".codebuddy/settings.json",
+      "scripts/standard_ops.py",
+      "README.md",
+      "references/workflow.md",
+      "architecture/009.md",
+      "scripts/session_recorder.py",
+      "scripts/recorder_feed.py",
+      "skills/install-session-recorder/",
+      "architecture_index.json",
+      "standard_version"
+    ],
+    "change_summary": "v0.9（session recorder）整体回滚到 v0.8：runtime 层停 daemon/清 socket 与 spool；代码层删 daemon/feeder/安装 skill 并还原 standard_ops.py 与 hooks 接线；文档层删 README/workflow recorder 节与 architecture/009.md；索引层 implemented_version=latest_version=8、versions 删 v9 条目、notes 删 v9 段、standard_version=v0.8。回滚动机：用户核对 CodeBuddy 数据后确认无需以新方式追踪 agent 行为。",
+    "sections_affected": [
+      "architecture/009.md",
+      "architecture_index.json",
+      "standard_version",
+      "scripts/standard_ops.py",
+      ".codebuddy/settings.json",
+      "README.md",
+      "references/workflow.md"
+    ]
+  },
+  "correction": null,
+  "comments": "删除 architecture/009.md 为末位章节，其后无编号需顺排。~/.ai_project_standard 下 session_trace 历史数据未删（用户级数据，是否清除待用户决定）。v0.9 曾以 commit abc99f8 + tag v0.9 发布；回滚的 commit/push 处置待用户确认（回滚非 implement 新 architecture，不新增版本 tag）。",
+  "schema_version": "2.0",
+  "event_id": 113,
+  "recorded_at": "2026-10-24T19:36:24.258346+08:00",
+  "standard_version": "v0.8",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "7f8ecde72df9c3ea5fc7da6d5d43114ee42e6d30542924f509d250e806b28e73",
+    "plan_md_line_count": 196,
+    "source_doc": "architecture/008.md"
+  }
+}

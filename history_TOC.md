@@ -104,3 +104,16 @@
 - [098 · plan_modified · 2026-10-24T12:56:21](history/098.json) — 实现 architecture 009：session_recorder.py daemon（socket 唯一写入者/seq/spool 排水坏行跳过/.turn 普查 watcher/start-stop-status-doctor）+ recorder_feed.py fe
 - [099 · qna_recorded · 2026-10-24T13:03:41](history/099.json) — 记录 Q48：tracing 需两步开启——引擎更新 v0.9 拿到脚本+skill（能力），运行 install-session-recorder 接线+起 daemon（开关）；旧版本零影响且无能力；更新但不跑 skill 依然不录；版本决定能不能开、opt-in 决定开不开
 - [100 · qna_recorded · 2026-10-24T13:04:58](history/100.json) — 记录 Q49：澄清两层不矛盾——产生事件 per-project（脚本+hooks 水龙头，未装不产生事件）、收集事件 per-user（daemon 单实例收所有已装项目）；session 落盘按 (plan_id,session_id) 分文件，共享进程不共享文件；全局一次安
+- [101 · plan_modified · 2026-10-24T13:05:47](history/101.json) — v0.9 发布落地：standard_version v0.8→v0.9；implemented_version=9；发布链 commit abc99f8 + push + tag v0.9 + push --tags 全部成功；audit 通过。
+- [102 · qna_recorded · 2026-10-24T13:12:13](history/102.json) — 记录 Q50：trace jsonl 阅读教程——每行 7 字段结构、9 种 kind 的 payload 速查表、一轮对话典型序列、4 条实用读取命令（tail -f/只看 prompt/单行格式化/列工具调用）、查看 agent 回答的两条路径（§6 自发射即刻可用 / tr
+- [103 · plan_modified · 2026-10-24T13:15:29](history/103.json) — 新增 trace_view.py（architecture 009 配套查看器）：人类可读时间线渲染，prompt 原文/工具调用明细/单事件下钻/实时跟随；随 ENGINE_DIRS 自动分发给采纳项目。
+- [104 · correction · 2026-10-24T13:17:35](history/104.json) — correction(r16)：architecture 009 §8 改动清单补录 scripts/trace_view.py（只读查看器，不改写入/网关行为）；索引 revision 15→16 并注明流程违规与追溯完成。
+- [105 · correction · 2026-10-24T13:23:32](history/105.json) — 按用户指令撤回：009 §8 删除 trace_view.py 补录条目；architecture_index revision 16→15、notes 删除 r16 句；删除 scripts/trace_view.py。r14（用户明确要求的 Q45/Q46 并入）与 v0.9
+- [106 · qna_recorded · 2026-10-24T14:52:03](history/106.json) — 记录 Q51：真实 turn 实例 seq215-218（prompt→hook 伴随→watcher turn_state→turn_end）逐行解释；确认用户模式理解正确；含工具调用 turn 的成对结构；真事件认 payload.hook_event_name；末条 pro
+- [107 · qna_recorded · 2026-10-24T15:06:04](history/107.json) — 记录 Q52 两个实际使用缺口：①回答正文未录（方案 A=§6 自发射、B=transcript 追读[推荐方向,先侦查正文文件]、可组合）；②trace 行缺版本戳（候选=行 schema 加 standard_version 快照字段，feeder 读锁文件打戳，旧行不回填）
+- [108 · qna_recorded · 2026-10-24T15:11:57](history/108.json) — 记录 Q53：实测 CodeBuddy 会话存储结构——index.json（消息索引）+messages/<id>.json（正文：user=prompt、assistant=回答全文+tool-call 全量 args、tool=结果）+assets；回答正文✅在此（Q52 
+- [109 · qna_recorded · 2026-10-24T15:16:09](history/109.json) — 记录 Q54：本 session 实测路径 Data/ef38475c…/CodeBuddyIDE/ef38475c…/history/8e40bbcc…/cc41ed41…/（三个 ID 含义）；find 须加 -path '*history/*'（plan-task 同名陷阱
+- [110 · qna_recorded · 2026-10-24T15:49:10](history/110.json) — 记录 Q55 勘误与结论：修正 Q53/Q54 浅层扫描错误（maxdepth 2 漏 messages/ 层）；正确口径实测 236 session 中 75 空壳、161 有内容（2~2171 条）；空壳=出生即空的弃用会话（打开即建骨架）而非清理痕迹，10-17 空壳至今健
+- [111 · qna_recorded · 2026-10-24T15:57:54](history/111.json) — 记录 Q56：集合=工作区/项目、会话=对话线程（实测 8e40bbcc 与本项目 9 个 trace session 逐一对应）；集合元数据 index/current/recent 三文件解析；全局 87 集合分布 1~63；发现 selectedModelId=hy3 平台
+- [112 · qna_recorded · 2026-10-24T16:12:03](history/112.json) — 记录 Q57：messages/ 一文件=一条消息（顺序在 index.json），双层结构（外层 role+message 字符串、内层 content 块）；user=text(+image)、assistant=reasoning/text/tool-call 任意组合（实
+- [113 · plan_modified · 2026-10-24T19:36:24](history/113.json) — v0.9（session recorder）整体回滚到 v0.8：runtime 层停 daemon/清 socket 与 spool；代码层删 daemon/feeder/安装 skill 并还原 standard_ops.py 与 hooks 接线；文档层删 README/w

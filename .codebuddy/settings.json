@@ -9,15 +9,6 @@
             "timeout": 20
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/recorder_feed.py\" --kind prompt",
-            "timeout": 5
-          }
-        ]
       }
     ],
     "PreToolUse": [
@@ -28,16 +19,6 @@
             "type": "command",
             "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/turn_gate.py\" prewrite",
             "timeout": 20
-          }
-        ]
-      },
-      {
-        "matcher": "write_to_file|replace_in_file|delete_file",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/recorder_feed.py\" --kind tool_intent --name PreToolUse",
-            "timeout": 5
           }
         ]
       }
@@ -52,16 +33,6 @@
             "timeout": 20
           }
         ]
-      },
-      {
-        "matcher": "write_to_file|replace_in_file|delete_file|Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/recorder_feed.py\" --kind tool_call --name PostToolUse",
-            "timeout": 5
-          }
-        ]
       }
     ],
     "Stop": [
@@ -71,15 +42,6 @@
             "type": "command",
             "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/turn_gate.py\" end",
             "timeout": 30
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "PLAN_HISTORY_ROOT=\"$CODEBUDDY_PROJECT_DIR\" python3 \"$CODEBUDDY_PROJECT_DIR/scripts/recorder_feed.py\" --kind turn_end",
-            "timeout": 5
           }
         ]
       }

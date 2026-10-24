@@ -1,6 +1,6 @@
 {
-  "max_id": 100,
-  "revision": 100,
+  "max_id": 113,
+  "revision": 113,
   "briefs": [
     {
       "event_id": 1,
@@ -1050,6 +1050,149 @@
       "corrects_event_id": null,
       "standard_version": "v0.8",
       "file": "history/100.json"
+    },
+    {
+      "event_id": 101,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-24T13:05:47.758141+08:00",
+      "actor_type": "ai",
+      "change_summary": "v0.9 发布落地：standard_version v0.8→v0.9；implemented_version=9；发布链 commit abc99f8 + push + tag v0.9 + push --tags 全部成功；audit 通过。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/101.json"
+    },
+    {
+      "event_id": 102,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T13:12:13.527499+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q50：trace jsonl 阅读教程——每行 7 字段结构、9 种 kind 的 payload 速查表、一轮对话典型序列、4 条实用读取命令（tail -f/只看 prompt/单行格式化/列工具调用）、查看 agent 回答的两条路径（§6 自发射即刻可用 / transcript_path 追读待接线）与今日即看的出处。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/102.json"
+    },
+    {
+      "event_id": 103,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-24T13:15:29.554182+08:00",
+      "actor_type": "ai",
+      "change_summary": "新增 trace_view.py（architecture 009 配套查看器）：人类可读时间线渲染，prompt 原文/工具调用明细/单事件下钻/实时跟随；随 ENGINE_DIRS 自动分发给采纳项目。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/103.json"
+    },
+    {
+      "event_id": 104,
+      "event_type": "correction",
+      "recorded_at": "2026-10-24T13:17:35.107101+08:00",
+      "actor_type": "ai",
+      "change_summary": "correction(r16)：architecture 009 §8 改动清单补录 scripts/trace_view.py（只读查看器，不改写入/网关行为）；索引 revision 15→16 并注明流程违规与追溯完成。",
+      "is_correction": true,
+      "corrects_event_id": 103,
+      "standard_version": "v0.9",
+      "file": "history/104.json"
+    },
+    {
+      "event_id": 105,
+      "event_type": "correction",
+      "recorded_at": "2026-10-24T13:23:32.913401+08:00",
+      "actor_type": "ai",
+      "change_summary": "按用户指令撤回：009 §8 删除 trace_view.py 补录条目；architecture_index revision 16→15、notes 删除 r16 句；删除 scripts/trace_view.py。r14（用户明确要求的 Q45/Q46 并入）与 v0.9 发布（用户明确授权）保留不变。",
+      "is_correction": true,
+      "corrects_event_id": 104,
+      "standard_version": "v0.9",
+      "file": "history/105.json"
+    },
+    {
+      "event_id": 106,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T14:52:03.450533+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q51：真实 turn 实例 seq215-218（prompt→hook 伴随→watcher turn_state→turn_end）逐行解释；确认用户模式理解正确；含工具调用 turn 的成对结构；真事件认 payload.hook_event_name；末条 prompt 无 turn_end 属正常。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/106.json"
+    },
+    {
+      "event_id": 107,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T15:06:04.954003+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q52 两个实际使用缺口：①回答正文未录（方案 A=§6 自发射、B=transcript 追读[推荐方向,先侦查正文文件]、可组合）；②trace 行缺版本戳（候选=行 schema 加 standard_version 快照字段，feeder 读锁文件打戳，旧行不回填）。仅记录分析，均未实施，待用户选定授权。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/107.json"
+    },
+    {
+      "event_id": 108,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T15:11:57.442278+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q53：实测 CodeBuddy 会话存储结构——index.json（消息索引）+messages/<id>.json（正文：user=prompt、assistant=回答全文+tool-call 全量 args、tool=结果）+assets；回答正文✅在此（Q52 方案 B 的读侧解法），hook/副作用❌在 trace；两存储互补，session_id 三处同 ID 互证；给出无需工具的阅读路引。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/108.json"
+    },
+    {
+      "event_id": 109,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T15:16:09.073185+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q54：本 session 实测路径 Data/ef38475c…/CodeBuddyIDE/ef38475c…/history/8e40bbcc…/cc41ed41…/（三个 ID 含义）；find 须加 -path '*history/*'（plan-task 同名陷阱）；读取流程 index→messages/<id>.json→内层 message 再 json.loads；三个坑（<user_query> 包裹真实提问、isComplete 对 assistant 不可信、本 session index 338 条实测走通）。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/109.json"
+    },
+    {
+      "event_id": 110,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T15:49:10.540399+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q55 勘误与结论：修正 Q53/Q54 浅层扫描错误（maxdepth 2 漏 messages/ 层）；正确口径实测 236 session 中 75 空壳、161 有内容（2~2171 条）；空壳=出生即空的弃用会话（打开即建骨架）而非清理痕迹，10-17 空壳至今健在反证无激进清理器；保留策略仍无官方承诺，归档别依赖；附 plan-task/history 空壳速判口诀与扫描深度方法论教训。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/110.json"
+    },
+    {
+      "event_id": 111,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T15:57:54.808200+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q56：集合=工作区/项目、会话=对话线程（实测 8e40bbcc 与本项目 9 个 trace session 逐一对应）；集合元数据 index/current/recent 三文件解析；全局 87 集合分布 1~63；发现 selectedModelId=hy3 平台元数据可作 Q52 模型打戳硬信号源；空壳 5a61e7ce 再证 Q55。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/111.json"
+    },
+    {
+      "event_id": 112,
+      "event_type": "qna_recorded",
+      "recorded_at": "2026-10-24T16:12:03.670487+08:00",
+      "actor_type": "ai",
+      "change_summary": "记录 Q57：messages/ 一文件=一条消息（顺序在 index.json），双层结构（外层 role+message 字符串、内层 content 块）；user=text(+image)、assistant=reasoning/text/tool-call 任意组合（实测六种组合）、tool=tool-result 按 toolCallId 配对；重大发现 assistant 含 reasoning 块=思考已被 CodeBuddy 记录（96/194 条），Q52 方案 B 简化为直读 messages/。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.9",
+      "file": "history/112.json"
+    },
+    {
+      "event_id": 113,
+      "event_type": "plan_modified",
+      "recorded_at": "2026-10-24T19:36:24.258346+08:00",
+      "actor_type": "ai",
+      "change_summary": "v0.9（session recorder）整体回滚到 v0.8：runtime 层停 daemon/清 socket 与 spool；代码层删 daemon/feeder/安装 skill 并还原 standard_ops.py 与 hooks 接线；文档层删 README/workflow recorder 节与 architecture/009.md；索引层 implemented_version=latest_version=8、versions 删 v9 条目、notes 删 v9 段、standard_version=v0.8。回滚动机：用户核对 CodeBuddy 数据后确认无需以新方式追踪 agent 行为。",
+      "is_correction": false,
+      "corrects_event_id": null,
+      "standard_version": "v0.8",
+      "file": "history/113.json"
     }
   ]
 }
