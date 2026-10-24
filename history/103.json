@@ -1,0 +1,36 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户反馈原始 jsonl 在编辑器里不可读，要一个清晰查看工具。新增 scripts/trace_view.py：默认时间线（隐藏 hook 噪音）、--full SEQ 下钻、--prompts 原文、--tools 入参明细、--tail/--follow，并在本 session trace 上演示验证。"
+  },
+  "source": {
+    "user_prompt": "I wanna have a tool that can help me read jsonl in a clear way or at least I can view it by wrapping the code if possible. If it's like that I can hardly get the point",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "scripts/trace_view.py"
+    ],
+    "change_summary": "新增 trace_view.py（architecture 009 配套查看器）：人类可读时间线渲染，prompt 原文/工具调用明细/单事件下钻/实时跟随；随 ENGINE_DIRS 自动分发给采纳项目。",
+    "sections_affected": [
+      "scripts/trace_view.py"
+    ]
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。小工具增量，不改变 009 已发布行为（读取侧便利，v0.9 已 tag）。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 103,
+  "recorded_at": "2026-10-24T13:15:29.554182+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

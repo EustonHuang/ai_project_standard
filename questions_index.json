@@ -1,6 +1,6 @@
 {
-  "max_id": 49,
-  "revision": 49,
+  "max_id": 57,
+  "revision": 57,
   "notes": "见 questions/*.md",
   "briefs": [
     {
@@ -345,6 +345,62 @@
       "question": "per-project 装脚本 vs 单 daemon trace 所有 session，两者矛盾吗？",
       "answer_summary": "不矛盾：产生事件是 per-project（水龙头=脚本+hooks，未装项目不产生事件）；收集事件是 per-user 全局（daemon 单实例收所有已装项目）。session 落盘仍按 (plan_id,session_id) 分文件——共享进程不共享文件。一次安装覆盖全部项目唯有用户级全局 hooks（§7-6 待实测），默认 per-project。",
       "file": "questions/049.md"
+    },
+    {
+      "num": 50,
+      "question_ref": "Q50",
+      "question": "怎么读 trace jsonl？结构和各信息含义？有了回答怎么看到？",
+      "answer_summary": "JSONL 每行一事件（seq/ts/kind/plan_id/session_id/payload），kind 速查表（prompt=消息原文、tool_intent/tool_call=工具入参、turn_end、hook 伴随、watcher、lifecycle、answer/reasoning 默认未开）。4 条实用命令：tail -f、只看 prompt、sed+json.tool 看单行、列工具调用。看回答两条路：§6 自发射 --kind answer（立刻可用）或配置 transcript_path 追读（§7-4 已证实存在）；今天看回答直接打开 payload.transcript_path 指向的 CodeBuddy 会话存储。",
+      "file": "questions/050.md"
+    },
+    {
+      "num": 51,
+      "question_ref": "Q51",
+      "question": "一个 turn 是 prompt 开始、hook+turn_end 结束吗？抓个真实实例讲讲生命周期？",
+      "answer_summary": "理解正确（结尾多一条 hook 伴随行）。实例 seq215-218 纯问答 turn：prompt(你回车→UserPromptSubmit 推原文)→hook(伴随标记)→watcher turn_state(turn_gate begin 副作用)→turn_end(Stop)。含工具则中间插入 tool_intent+hook+tool_call+hook 成对组。模式=prompt+{N×工具对}+watcher*+turn_end+伴随。真事件认 payload.hook_event_name；末条 prompt 无 turn_end 属正常（本轮未结束）。",
+      "file": "questions/051.md"
+    },
+    {
+      "num": 52,
+      "question_ref": "Q52",
+      "question": "回答正文完全没录（可能抓到吗）？trace 每行缺版本戳（升级后不知道当时版本）？",
+      "answer_summary": "两缺口确认。回答正文：A=§6 自发射 --kind answer（立刻可用、精确、依赖合规）；B=transcript 追读（transcript_path 已实测，先侦查正文文件再配 config.json，全自动；推荐方向）；可 A+B 组合。版本戳：trace 行加 standard_version 快照字段（feeder 读锁文件打戳，记录时快照语义与 history 同构；旧行不回填）。均未实施，待用户选定授权。",
+      "file": "questions/052.md"
+    },
+    {
+      "num": 53,
+      "question_ref": "Q53",
+      "question": "CodeBuddy 本来就把 session 信息记录在那个文件夹里了吗？想看一切（prompt/tool-call/hook/answer）都能在那找到吗？",
+      "answer_summary": "实测确认：history/<集合>/<session>/ 下 index.json=消息索引（id/role 顺序），messages/<id>.json=正文（user=prompt 原文、assistant=text 回答全文+tool-call 全量 args、tool=结果），assets=附件。回答正文✅在此（Q52 缺口 1 的读侧解法）；hook/turn_gate 副作用❌不在此（在 trace）。两存储互补：CodeBuddy=对话内容，trace=管线事件。三处 session_id 同 ID 可互证。阅读路引：index→messages/<id>.json→内层 message 字符串再 json.loads。",
+      "file": "questions/053.md"
+    },
+    {
+      "num": 54,
+      "question_ref": "Q54",
+      "question": "本 session 的 uuid 在哪？在 CodeBuddy 存储里怎么一步步拿到信息？",
+      "answer_summary": "实测路径 Data/ef38475c…/CodeBuddyIDE/ef38475c…/history/8e40bbcc…/cc41ed41…/（工作区UUID/实例UUID/会话集合/session_id）。找法：find -path '*history/*/<sid>'（plan-task/ 有同名目录陷阱）。读取：index.json 顺序→messages/<id>.json→外层 message 字符串再 json.loads→content 里 text=提问/回答、tool-call=工具全参。坑：真实提问包在 <user_query> 标签里；isComplete 对 assistant 不可信；本 session index 338 条实测走通。",
+      "file": "questions/054.md"
+    },
+    {
+      "num": 55,
+      "question_ref": "Q55",
+      "question": "CodeBuddy 存储会被清理吗？history/ 里明明有空 messages 的会话文件夹？",
+      "answer_summary": "勘误 Q53/Q54（上轮 -maxdepth 2 浅扫漏了 messages/ 层）。修正口径实测：236 session 中 75 个空壳（messages 空或 index 0 条）、161 有内容（2~2171 条）。结论：空壳=出生即空的弃用会话（打开即建骨架），非清理痕迹——10-17 的空壳至今健在反证无激进清理器；目前只增不删；保留策略仍无官方承诺，归档别依赖它。速判：plan-task 空壳=没用过任务功能，history 空壳=零消息弃用会话。",
+      "file": "questions/055.md"
+    },
+    {
+      "num": 56,
+      "question_ref": "Q56",
+      "question": "会话和会话集合怎么组织？同一项目的会话是否都在一个集合文件夹下？",
+      "answer_summary": "实测确认：集合=工作区/项目（8e40bbcc 与本项目 9 个 trace session 逐一对应），会话=一次对话线程；集合含 index.json（标题/时间/selectedModelId）/current.json（活跃指针）/recent.json（活跃时间表）。全局 87 集合、session 数 1~63。意外收获：selectedModelId=hy3 是平台元数据，可作 Q52 模型打戳的硬信号源。空壳 5a61e7ce 再证 Q55。",
+      "file": "questions/056.md"
+    },
+    {
+      "num": 57,
+      "question_ref": "Q57",
+      "question": "messages/ 下的 json 都代表什么？user/assistant/tool 三种 role 什么意思？一个 json 文件代表什么？",
+      "answer_summary": "一文件=对话流一条消息（顺序在 index.json）。双层结构：外层 role+message 字符串，内层 content 块数组。user=text(原文+注入上下文,贴图有 image 块)；assistant=reasoning(思考)+text(回答)+tool-call(全参)任意组合，实测 194 条六种组合；tool=tool-result 按 toolCallId 与 tool-call 配对。重大发现：assistant 含 reasoning 块=思考已被记录，Q52 方案 B 简化为直读 messages/，全录只差 hook 事件。",
+      "file": "questions/057.md"
     }
   ]
 }

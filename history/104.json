@@ -1,0 +1,44 @@
+{
+  "event_type": "correction",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户指出违规：trace_view.py 是新引擎文件，创建前未纳入任何 architecture 的改动清单（先实现后补设计，违反项目标准）。本事件完成架构追溯：009 §8 补录该文件（r16），并把流程教训写入 comments。"
+  },
+  "source": {
+    "user_prompt": "I didn't let you do this, you know now you are creating chaos. Because you need to follow the project standard ok? now you write a new file but it's not getting traced by any architecture",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "architecture/009.md",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ],
+    "change_summary": "correction(r16)：architecture 009 §8 改动清单补录 scripts/trace_view.py（只读查看器，不改写入/网关行为）；索引 revision 15→16 并注明流程违规与追溯完成。",
+    "sections_affected": [
+      "architecture/009.md",
+      "architecture_index.json"
+    ],
+    "correction_detail": "违反纪律点：新引擎文件先创建、后补架构覆盖。正确顺序应为：先修订 architecture（§8 改动清单+必要时设计决策），再创建文件，同一轮内完成。教训已内化：之后任何 scripts/skills/references 下的新文件，创建前必须先有对应 architecture 条目。"
+  },
+  "correction": {
+    "corrects_event_id": 103,
+    "reason": "事件 103 创建了新引擎文件 scripts/trace_view.py，但未先将其纳入任何 architecture 的改动清单，脱离架构留痕体系；用户指出后补录 009 §8（r16）完成追溯。",
+    "detail": "文件保留（用户确曾要求查看工具），但架构覆盖补齐；顺序违规作为流程教训记录在案。"
+  },
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 104,
+  "recorded_at": "2026-10-24T13:17:35.107101+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "9eb11218e4d67b92b362615723978ecd7398949fbb29d5a12309315cb77423da",
+    "plan_md_line_count": 188,
+    "source_doc": "architecture/009.md"
+  }
+}

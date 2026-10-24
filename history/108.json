@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问 CodeBuddy 会话存储目录是否已含一切（prompt/tool-call/hook/answer）并要求导读。只读侦查后写 questions/053.md 并追加本 qna_recorded 事件：index.json+messages/ 实测结构、回答正文在 assistant text 块、hook 不在该存储、两存储互补、阅读路引。"
+  },
+  "source": {
+    "user_prompt": "wait you mentioned ~/Library/Application Support/CodeBuddyExtension/Data/…/history/<会话>/<session>/index.json so basically CodeBuddy has already record session related information under certain folder right? can you guide me? If I want to see everything happens in the session including prompt, tool-call, hook, answer etc, can I find all the information under this specific folder? record into questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command 只读侦查)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/053.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q53：实测 CodeBuddy 会话存储结构——index.json（消息索引）+messages/<id>.json（正文：user=prompt、assistant=回答全文+tool-call 全量 args、tool=结果）+assets；回答正文✅在此（Q52 方案 B 的读侧解法），hook/副作用❌在 trace；两存储互补，session_id 三处同 ID 互证；给出无需工具的阅读路引。",
+    "sections_affected": [
+      "questions/053.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q53",
+      "question": "CodeBuddy 本来就把 session 信息记录在那个文件夹里了吗？想看一切都能在那找到吗？",
+      "answer_summary": "是。index.json=消息索引，messages/<id>.json=正文（prompt/回答全文/工具调用全参），assets=附件；hook 与 turn_gate 副作用不在该存储（在 trace）。两存储互补；session_id 同 ID 可互证。阅读：index→messages/<id>.json→内层 message 再 json.loads。",
+      "answer_location": "questions/053.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。侦查为只读操作；Q52 方案 B 据此简化为读侧方案，实施仍待授权。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 108,
+  "recorded_at": "2026-10-24T15:11:57.442278+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

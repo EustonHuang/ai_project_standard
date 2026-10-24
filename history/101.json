@@ -1,0 +1,39 @@
+{
+  "event_type": "plan_modified",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户授权执行 set-implemented --version 9：framework 自身 standard_version 升 v0.9，implemented_version=9，走 IMP-002 发布链 commit+push+tag v0.9+push --tags（abc99f8，PUBLISH OK）。"
+  },
+  "source": {
+    "user_prompt": "OK then please set implement",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "standard_version",
+      "architecture_index.json",
+      "architecture_TOC.md"
+    ],
+    "change_summary": "v0.9 发布落地：standard_version v0.8→v0.9；implemented_version=9；发布链 commit abc99f8 + push + tag v0.9 + push --tags 全部成功；audit 通过。",
+    "sections_affected": [
+      "standard_version",
+      "architecture_index.json"
+    ]
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。发布链由 set-implemented 触发（IMP-002 唯一 commit/push/tag 入口）；本事件为发布后记账，随下次发布入库。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 101,
+  "recorded_at": "2026-10-24T13:05:47.758141+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

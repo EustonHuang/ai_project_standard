@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户抓到反例（history 下空 messages/ 的会话）质疑清理结论。写 questions/055.md 勘误 Q53/Q54 的浅层扫描（-maxdepth 2 漏查 messages/ 层），修正口径重测：236 中 75 空壳、161 有内容；结论=空壳是出生即空的弃用会话而非清理痕迹，目前只增不删，保留策略无官方承诺。"
+  },
+  "source": {
+    "user_prompt": "are you fucking sure? why /Users/euston/Library/Application Support/CodeBuddyExtension/Data/…/history/2be0b7e7c1ba3b5ede1d8f759daef946/899a2f47f7af44fc8880eb7febea4a51/messages this is empty folder. what is this session about? … please write the conclusions into questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command 只读侦查)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/055.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q55 勘误与结论：修正 Q53/Q54 浅层扫描错误（maxdepth 2 漏 messages/ 层）；正确口径实测 236 session 中 75 空壳、161 有内容（2~2171 条）；空壳=出生即空的弃用会话（打开即建骨架）而非清理痕迹，10-17 空壳至今健在反证无激进清理器；保留策略仍无官方承诺，归档别依赖；附 plan-task/history 空壳速判口诀与扫描深度方法论教训。",
+    "sections_affected": [
+      "questions/055.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q55",
+      "question": "CodeBuddy 存储会被清理吗？history/ 里明明有空 messages 的会话文件夹？",
+      "answer_summary": "勘误：上轮扫描深度不足。正确口径：236 中 75 空壳（出生即空的弃用会话）、161 有内容。空壳非清理痕迹（10-17 空壳健在=无激进清理器）；只增不删；保留无官方承诺，归档别依赖。",
+      "answer_location": "questions/055.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。本问答勘误 Q53/Q54 的浅层扫描结论。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 110,
+  "recorded_at": "2026-10-24T15:49:10.540399+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户确认对 turn 模式的理解（prompt 开始、hook+turn_end 结束）并要求抓真实实例讲解生命周期。写 questions/051.md（实例 seq215-218 逐行解释）并追加本 qna_recorded 事件。"
+  },
+  "source": {
+    "user_prompt": "now I see the pattern, I see one answer begins with kind prompt and end with hook and name turn_end. I don't know if I understand correctly. please grab one example of cc41...jsonl from prompt to turn_end in the life-cycle and explain to me what happens. record in questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/051.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q51：真实 turn 实例 seq215-218（prompt→hook 伴随→watcher turn_state→turn_end）逐行解释；确认用户模式理解正确；含工具调用 turn 的成对结构；真事件认 payload.hook_event_name；末条 prompt 无 turn_end 属正常。",
+    "sections_affected": [
+      "questions/051.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q51",
+      "question": "一个 turn 是 prompt 开始、hook+turn_end 结束吗？抓个真实实例讲讲生命周期？",
+      "answer_summary": "理解正确。实例 seq215-218：prompt(消息原文)→hook(伴随)→watcher turn_state(.turn 副作用)→turn_end(Stop)。含工具则插入 tool_intent+hook+tool_call+hook 成对组。真事件认 payload.hook_event_name；末条 prompt 无 turn_end 属正常。",
+      "answer_location": "questions/051.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 106,
+  "recorded_at": "2026-10-24T14:52:03.450533+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

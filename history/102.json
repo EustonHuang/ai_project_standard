@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户要 jsonl trace 阅读教程（结构/含义/如何看回答）并记入 questions。写 questions/050.md 并追加本 qna_recorded 事件。"
+  },
+  "source": {
+    "user_prompt": "can you guide me how to read this jsonl? what is the structure and what does these information about? and once there is an answer, how to see. can you provide me a tutorial for that? please write in questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/050.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q50：trace jsonl 阅读教程——每行 7 字段结构、9 种 kind 的 payload 速查表、一轮对话典型序列、4 条实用读取命令（tail -f/只看 prompt/单行格式化/列工具调用）、查看 agent 回答的两条路径（§6 自发射即刻可用 / transcript_path 追读待接线）与今日即看的出处。",
+    "sections_affected": [
+      "questions/050.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q50",
+      "question": "怎么读 trace jsonl？结构和各信息含义？有了回答怎么看到？",
+      "answer_summary": "JSONL 每行一事件（seq/ts/kind/payload 等 7 字段），kind 速查表，一轮对话=prompt+工具对+turn_end。实用命令 4 条。看回答：①§6 自发射 --kind answer 立刻可用；②transcript_path 追读待接线（§7-4 已证实存在）；今天看回答直接打开 payload.transcript_path 指向的 CodeBuddy 会话存储。",
+      "answer_location": "questions/050.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 102,
+  "recorded_at": "2026-10-24T13:12:13.527499+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

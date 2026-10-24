@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户要求找到本 session 的 uuid 并导读 CodeBuddy 存储取信息。只读侦查走通后写 questions/054.md 并追加本 qna_recorded 事件：实际路径与三个 ID、find 正确姿势（history 过滤防 plan-task 撞名）、index→messages 读取流程与三个坑。"
+  },
+  "source": {
+    "user_prompt": "let's say I want to see this session's content, can you find the uuid for this session and guide me in codebuddy storage how to get the information",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command 只读侦查)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/054.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q54：本 session 实测路径 Data/ef38475c…/CodeBuddyIDE/ef38475c…/history/8e40bbcc…/cc41ed41…/（三个 ID 含义）；find 须加 -path '*history/*'（plan-task 同名陷阱）；读取流程 index→messages/<id>.json→内层 message 再 json.loads；三个坑（<user_query> 包裹真实提问、isComplete 对 assistant 不可信、本 session index 338 条实测走通）。",
+    "sections_affected": [
+      "questions/054.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q54",
+      "question": "本 session 的 uuid 在哪？CodeBuddy 存储里怎么一步步拿信息？",
+      "answer_summary": "路径三段 ID 已实测；find 加 history 过滤防撞名；index→messages 两次 json.loads；text=提问/回答全文、tool-call=全参。与 trace 分工：对话内容看此处，管线事件看 trace。",
+      "answer_location": "questions/054.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。侦查为只读操作。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 109,
+  "recorded_at": "2026-10-24T15:16:09.073185+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

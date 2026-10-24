@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户实际使用后指出两个缺口：回答正文完全没录、trace 行缺版本戳。写 questions/052.md 记录缺口与候选方案（自发射/transcript 追读；standard_version 快照字段），均未实施，待授权。"
+  },
+  "source": {
+    "user_prompt": "But I didn't get anything about your answer right? ... I need your these kind of answers but there is nothing recorded. This is not what I want. is it possible to catch that? meanwhile you didn't record the version which is v0.9 for each row, otherwise when it's getting upgraded you don't know which version you are using right? please record this in the new questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/052.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q52 两个实际使用缺口：①回答正文未录（方案 A=§6 自发射、B=transcript 追读[推荐方向,先侦查正文文件]、可组合）；②trace 行缺版本戳（候选=行 schema 加 standard_version 快照字段，feeder 读锁文件打戳，旧行不回填）。仅记录分析，均未实施，待用户选定授权。",
+    "sections_affected": [
+      "questions/052.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q52",
+      "question": "回答正文完全没录（可能抓到吗）？trace 每行缺版本戳？",
+      "answer_summary": "两缺口确认。回答：A=自发射（立刻可用）、B=transcript 追读（推荐方向）、可组合。版本戳：行加 standard_version 快照字段（与 history 同构，旧行不回填）。均未实施，待用户选定并授权。",
+      "answer_location": "questions/052.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。按 execution-gate：实现须待用户选定方案并明确授权。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 107,
+  "recorded_at": "2026-10-24T15:06:04.954003+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

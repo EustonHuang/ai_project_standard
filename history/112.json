@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问 messages/ 下 json 的含义与三种 role。只读全量解剖（388 文件）后写 questions/057.md 并追加本 qna_recorded 事件：一文件=一消息、三种 role 含义与块类型、toolCallId 配对、reasoning 块重大发现（思考已被记录，升级 Q52 方案空间）。"
+  },
+  "source": {
+    "user_prompt": "然后比如本对话 …/cc41ed41287f45a8af8c392a5e721748 这个下面的 messages folder 下面的 json 到底都代表着什么他有 role tool, role user, role assistant 等等等等都是什么意思？一个 json 文件代表着什么意思？",
+    "prompt_language": "zh",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command 只读解剖)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/057.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q57：messages/ 一文件=一条消息（顺序在 index.json），双层结构（外层 role+message 字符串、内层 content 块）；user=text(+image)、assistant=reasoning/text/tool-call 任意组合（实测六种组合）、tool=tool-result 按 toolCallId 配对；重大发现 assistant 含 reasoning 块=思考已被 CodeBuddy 记录（96/194 条），Q52 方案 B 简化为直读 messages/。",
+    "sections_affected": [
+      "questions/057.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q57",
+      "question": "messages/ 下的 json 都代表什么？三种 role 什么意思？一个 json 文件代表什么？",
+      "answer_summary": "一文件=一条消息；user=text(+image)、assistant=reasoning/text/tool-call 组合、tool=tool-result（toolCallId 配对）。重大发现：reasoning 块=思考已被记录，全录只差 hook 事件。",
+      "answer_location": "questions/057.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。解剖为只读操作；Q52 方案空间据此更新，实施仍待授权。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 112,
+  "recorded_at": "2026-10-24T16:12:03.670487+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

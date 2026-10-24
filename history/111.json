@@ -1,0 +1,46 @@
+{
+  "event_type": "qna_recorded",
+  "actor": {
+    "type": "ai",
+    "identity": "CodeBuddy agent",
+    "detail": "用户问会话与集合的组织方式（同项目是否同集合）。只读实测后写 questions/056.md 并追加本 qna_recorded 事件：集合=工作区/项目（与 9 个 trace session 逐一对应）、会话=对话线程、集合元数据三文件解析、selectedModelId 平台信号发现。"
+  },
+  "source": {
+    "user_prompt": "how does the sessions and sessions set be arranged, for example under one project e.g ai_project_standard, everything will be under one folder of the tracing in codebuddy? … record in questions",
+    "prompt_language": "en",
+    "model": "unknown",
+    "model_confidence": "unknown",
+    "tool": "CodeBuddy (write_to_file + replace_in_file + execute_command 只读侦查)"
+  },
+  "operation": {
+    "target_files": [
+      "questions/056.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "change_summary": "记录 Q56：集合=工作区/项目、会话=对话线程（实测 8e40bbcc 与本项目 9 个 trace session 逐一对应）；集合元数据 index/current/recent 三文件解析；全局 87 集合分布 1~63；发现 selectedModelId=hy3 平台元数据可作 Q52 模型打戳硬信号源；空壳 5a61e7ce 再证 Q55。",
+    "sections_affected": [
+      "questions/056.md",
+      "questions_index.json",
+      "questions_TOC.md"
+    ],
+    "qna": {
+      "question_ref": "Q56",
+      "question": "会话和会话集合怎么组织？同一项目的会话是否都在一个集合文件夹下？",
+      "answer_summary": "是。集合=工作区/项目，会话=对话线程；集合含 index/current/recent 元数据；87 集合分布 1~63；selectedModelId 平台元数据可作模型打戳硬信号。",
+      "answer_location": "questions/056.md"
+    }
+  },
+  "correction": null,
+  "comments": "source.model 取平台可信信号失败（env CODEBUDDY_MODEL 缺失）→ unknown + model_confidence=unknown，按 Q18 禁止 agent 自报 Hy3。侦查为只读操作；selectedModelId 发现与 Q18/Q52 的模型溯源议题相关，后续实施待授权。",
+  "recorded_by": "ai",
+  "schema_version": "2.0",
+  "event_id": 111,
+  "recorded_at": "2026-10-24T15:57:54.808200+08:00",
+  "standard_version": "v0.9",
+  "plan_state_snapshot": {
+    "plan_md_sha256": "4f2113e3b3c24b7afd8c53c754ff7e5b6b54cc5852cd94a6686b9222112c57a0",
+    "plan_md_line_count": 187,
+    "source_doc": "architecture/009.md"
+  }
+}

@@ -53,3 +53,11 @@
 - [Q47](questions/047.md) — architecture 009 实施的六项实测与验收实际结果？
 - [Q48](questions/048.md) — 采用本规范的项目都要更新到 v0.9 才能开 tracing 吗？旧版本无所谓吗？
 - [Q49](questions/049.md) — per-project 装脚本 vs 单 daemon trace 所有 session，两者矛盾吗？
+- [Q50](questions/050.md) — 怎么读 trace jsonl？结构和各信息含义？有了回答怎么看到？
+- [Q51](questions/051.md) — 一个 turn 是 prompt 开始、hook+turn_end 结束吗？抓个真实实例讲讲生命周期？
+- [Q52](questions/052.md) — 回答正文完全没录（可能抓到吗）？trace 每行缺版本戳（升级后不知道当时版本）？
+- [Q53](questions/053.md) — CodeBuddy 本来就把 session 信息记录在那个文件夹里了吗？想看一切（prompt/tool-call/hook/answer）都能在那找到吗？
+- [Q54](questions/054.md) — 本 session 的 uuid 在哪？在 CodeBuddy 存储里怎么一步步拿到信息？
+- [Q55](questions/055.md) — CodeBuddy 存储会被清理吗？history/ 里明明有空 messages 的会话文件夹？
+- [Q56](questions/056.md) — 会话和会话集合怎么组织？同一项目的会话是否都在一个集合文件夹下？
+- [Q57](questions/057.md) — messages/ 下的 json 都代表什么？user/assistant/tool 三种 role 什么意思？一个 json 文件代表什么？
